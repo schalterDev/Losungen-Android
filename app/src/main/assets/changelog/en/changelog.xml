@@ -1,4 +1,7 @@
 ﻿<XML>
+    <appversion version="13" versionNice="1.2.2">
+        <change important="false">Fixed some bugs in the german version</change>
+    </appversion>
     <appversion version="12" versionNice="1.2.1.4">
         <change important="true">You can choose your color in the settings</change>
         <change important="false">The existing widgets can be edited in the APP without removing and adding them to the home screen</change>

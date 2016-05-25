@@ -23,8 +23,9 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
     public static final String ACTION_RESUME = "RESUME";
     public static final String ACTION_CLOSE = "CLOSE";
 
+    private boolean running = false;
+
     private String mUrl;
-    private static AudioService mInstance = null;
 
     private AudioNotification audioNotification;
     private NotificationManager notificationManager;
@@ -44,6 +45,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onCompletion(MediaPlayer mp) {
         stopForeground(true);
+        elements.cancel();
     }
 
     // indicates the state our service:
@@ -68,22 +70,27 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public class MyBinder extends Binder {
-        AudioService getService() {
+        public AudioService getService() {
             return AudioService.this;
         }
     }
 
     @Override
-    public void onCreate() {
-        mInstance = this;
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
+        if(running)
+            firstStart(intent.getAction());
+
+        running = true;
+
+        return START_STICKY;
+    }
+
+    public void firstStart(String action) {
         try {
-            if (intent.getAction().equals(ACTION_PLAY)) {
+            if (action.equals(ACTION_PLAY)) {
                 audioNotification = new AudioNotification(getApplicationContext(), title, subtitle);
 
                 //Set color and icon
@@ -109,20 +116,18 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
                 mMediaPlayer.setOnCompletionListener(this);
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 initMediaPlayer();
-            } else if (intent.getAction().equals(ACTION_RESUME)) {
+            } else if (action.equals(ACTION_RESUME)) {
                 if (mState.equals(State.Paused)) {
                     startMusic();
                 } else if (mState.equals(State.Playing)) {
                     pauseMusic();
                 }
-            } else if (intent.getAction().equals(ACTION_CLOSE)) {
+            } else if (action.equals(ACTION_CLOSE)) {
                 closeMusic();
             }
         } catch(Exception e) {
             e.printStackTrace();
         }
-
-        return START_STICKY;
     }
 
     private void initMediaPlayer() {
@@ -139,7 +144,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         }
         mState = State.Preparing;
 
-        elements.init(mMediaPlayer.getDuration());
+        elements.init(this, mMediaPlayer.getDuration());
     }
 
     public void restartMusic() {
@@ -162,6 +167,10 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
     public boolean onError(MediaPlayer mp, int what, int extra) {
         stopForeground(true);
         return false;
+    }
+
+    @Override
+    public void onCreate() {
     }
 
     @Override
@@ -230,10 +239,6 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         // Seek music to pos
         mMediaPlayer.seekTo(pos);
         elements.seekedTo(pos);
-    }
-
-    public static AudioService getInstance() {
-        return mInstance;
     }
 
     public void setSong(String url, String newTitle, String newSubtitle) {
@@ -311,4 +316,6 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
     public void setElements(ControlElements elements) {
         this.elements = elements;
     }
+
+
 }

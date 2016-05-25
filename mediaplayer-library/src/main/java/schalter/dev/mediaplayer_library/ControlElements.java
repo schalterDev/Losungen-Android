@@ -7,7 +7,7 @@ public interface ControlElements {
 
     //is called when a new song is loaded
     //duration is the length in milli seconds
-    public void init(int duration);
+    public void init(AudioService audioService, int duration);
 
     public void songSet(String title, String subtitle);
 

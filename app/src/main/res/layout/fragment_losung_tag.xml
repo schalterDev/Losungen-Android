@@ -49,11 +49,23 @@
 
         </de.schalter.losungen.customViews.CardLosung>
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete|textMultiLine"
+                android:ems="10"
+                android:id="@+id/editText_notizen"
+                android:hint="@string/notes_hint"
+                android:gravity="top"
+                android:minLines="1" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/audio_relative"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:paddingTop="5dp"
+                android:paddingBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,19 +107,20 @@
                     android:src="@drawable/ic_media_play"
                     android:layout_gravity="center_horizontal"
                     android:layout_below="@+id/seekBar_audio"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:paddingBottom="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView_duration"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
             </RelativeLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textAutoComplete|textMultiLine"
-                android:ems="10"
-                android:id="@+id/editText_notizen"
-                android:hint="@string/notes_hint"
-                android:gravity="top"
-                android:minLines="1" />
 
 
         </LinearLayout>

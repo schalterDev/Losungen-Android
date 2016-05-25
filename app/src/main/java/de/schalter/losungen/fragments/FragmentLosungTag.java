@@ -1,11 +1,14 @@
 package de.schalter.losungen.fragments;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -61,9 +64,11 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     private RelativeLayout audio_relative;
     private TextView audio_title;
     private TextView audio_subtitle;
+    private TextView audio_duration;
     private ImageView play_audio;
     private ImageView close_audio;
     private SeekBar audio_seek_bar;
+    private String path_audio;
 
     /**
      * @param time which day is it
@@ -285,9 +290,20 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     }
 
     private void playFile(String path) {
-        if(audioService == null)
-            audioService = new AudioService();
 
+        Intent intent = new Intent(context, AudioService.class);
+        intent.setAction(AudioService.ACTION_PLAY);
+        context.startService(intent);
+
+        context.bindService(intent, serviceConnector, Context.BIND_AUTO_CREATE);
+
+        path_audio = path;
+
+        //Show control buttons
+        audio_relative.setVisibility(View.VISIBLE);
+    }
+
+    private void serviceReady(String path) {
         //Play audio with notification
         audioService.setElements(this);
         audioService.setSong(path, Losung.getFullDatumFromTime(losung.getDatum()), "ERF Wort zum Tag");
@@ -295,12 +311,8 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         audioService.setPrimarDarkColor(Colors.getColor(context, Colors.PRIMARYDARK));
         audioService.setIcon(R.mipmap.ic_launcher);
         audioService.setPendingActivity(mainActivity);
-        Intent intent = new Intent(context, AudioService.class);
-        intent.setAction(AudioService.ACTION_PLAY);
-        context.startService(intent);
 
-        //Show control buttons
-        audio_relative.setVisibility(View.VISIBLE);
+        audioService.firstStart(AudioService.ACTION_PLAY);
     }
 
     private void streamFile() {
@@ -376,6 +388,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         audio_relative = (RelativeLayout) view.findViewById(R.id.audio_relative);
         audio_title = (TextView) view.findViewById(R.id.textView_audio_title);
         audio_subtitle = (TextView) view.findViewById(R.id.textView_subtitile_audio);
+        audio_duration = (TextView) view.findViewById(R.id.textView_duration);
         audio_seek_bar = (SeekBar) view.findViewById(R.id.seekBar_audio);
         play_audio = (ImageView) view.findViewById(R.id.audio_play);
         close_audio = (ImageView) view.findViewById(R.id.audio_cancle);
@@ -505,44 +518,45 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         //TODO onBind
     }
 
+    private Handler handler = new Handler();
+    private Runnable moveSeekBarThread;
+
     @Override
-    public void init(int duration) { //in milliseconds
+    public void init(final AudioService audioService, int duration) { //in milliseconds
 
         // ---------------- SEEK BAR --------------------------
-        final AudioService mediaPlayer = audioService;
-        final Handler handler = new Handler();
 
-        Runnable moveSeekBarThread = new Runnable() {
+        moveSeekBarThread = new Runnable() {
 
             public void run() {
-                if(mediaPlayer.isPlaying()){
+                if(audioService.isPlaying()){
 
-                    int mediaPos_new = mediaPlayer.getCurrentPosition();
-                    int mediaMax_new = mediaPlayer.getMusicDuration();
-                    audio_seek_bar.setMax(mediaMax_new);
-                    audio_seek_bar.setProgress(mediaPos_new);
+                    try {
+                        int mediaPos_new = audioService.getCurrentPosition();
+                        int mediaMax_new = audioService.getMusicDuration();
+                        audio_seek_bar.setMax(mediaMax_new);
+                        audio_seek_bar.setProgress(mediaPos_new);
 
-                    handler.postDelayed(this, 100); //Looping the thread after 0.1 second
-                    // seconds
+                        //Set TextView audio duration
+
+                        String duration = getTimeFormat(mediaPos_new) + " / " + getTimeFormat(mediaMax_new);
+                        audio_duration.setText(duration);
+
+                        handler.postDelayed(this, 100); //Looping the thread after 0.1 second
+                        // seconds
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
-
-        int mediaPos = mediaPlayer.getCurrentPosition();
-        final int mediaMax = mediaPlayer.getMusicDuration();
-
-        audio_seek_bar.setMax(mediaMax); // Set the Maximum range of the
-        audio_seek_bar.setProgress(mediaPos);// set current progress to song's
-
-        handler.removeCallbacks(moveSeekBarThread);
-        handler.postDelayed(moveSeekBarThread, 100);
 
         audio_seek_bar.setMax(duration);
         audio_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if(fromUser) {
-                    mediaPlayer.seekMusicTo(progress);
+                    audioService.seekMusicTo(progress);
                 }
             }
 
@@ -563,11 +577,11 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         play_audio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mediaPlayer.isPlaying()) {
-                    mediaPlayer.pauseMusic();
+                if(audioService.isPlaying()) {
+                    audioService.pauseMusic();
                     play_audio.setImageDrawable(getResources().getDrawable(R.drawable.ic_media_play));
                 } else {
-                    mediaPlayer.startMusic();
+                    audioService.startMusic();
                     play_audio.setImageDrawable(getResources().getDrawable(R.drawable.ic_media_pause));
                 }
             }
@@ -577,13 +591,20 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         close_audio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.closeMusic();
+                audioService.closeMusic();
             }
         });
 
         //Text
-        audio_title.setText(mediaPlayer.getSongTitle());
-        audio_subtitle.setText(mediaPlayer.getSongSubtitle());
+        audio_title.setText(audioService.getSongTitle());
+        audio_subtitle.setText(audioService.getSongSubtitle());
+    }
+
+    private String getTimeFormat(int time) {
+        String duration = String.valueOf( (int) (time / 1000 / 60)) + ":" +
+                String.valueOf( (int) ((time / 1000) % 60));
+
+        return duration;
     }
 
     @Override
@@ -594,8 +615,12 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
 
     @Override
     public void play() {
+        audio_relative.setVisibility(View.VISIBLE);
+
         play_audio.setImageDrawable(getResources()
                 .getDrawable(R.drawable.ic_media_pause));
+        handler.removeCallbacks(moveSeekBarThread);
+        handler.postDelayed(moveSeekBarThread, 100);
     }
 
     @Override
@@ -610,6 +635,26 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
 
     @Override
     public void songSet(String title, String subtitle) {
-        //Nothing to do
+        audio_title.setText(title);
+        audio_subtitle.setText(subtitle);
     }
+
+    boolean isBound = false;
+
+    private ServiceConnection serviceConnector = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            AudioService.MyBinder binder = (AudioService.MyBinder) service;
+            audioService = binder.getService(); //<--------- from here on can access service!
+            serviceReady(path_audio);
+            isBound = true;
+        }
+
+        public void onServiceDisconnected(ComponentName arg0) {
+            serviceConnector = null;
+            isBound = false;
+        }
+
+    };
 }

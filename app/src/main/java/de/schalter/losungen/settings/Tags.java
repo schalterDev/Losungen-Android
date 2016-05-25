@@ -160,11 +160,11 @@ public class Tags {
         return "ESV";
     }
 
-    private static final String website_anfang = "http://www.erf.de/radio/erf-plus/mediathek/wort-zum-tag/73-";
+    private static final String website_anfang = "https://www.erf.de/radio/erf-plus/mediathek/wort-zum-tag/73-";
     private static final int website_01_01_2015 = 4073;
 
     private static final String audio_anfang = "";
-    private static final String audio_url_prefix = "http://ww.erf.de";
+    private static final String audio_url_prefix = "https://www.erf.de";
     private static final String audio_url_html_anfang = "class=\"erf-audio\" data-file=\"";
     private static final String audio_url_html_ende = "\"";
 

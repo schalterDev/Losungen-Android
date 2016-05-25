@@ -1,10 +1,7 @@
 package de.schalter.losungen.services;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -12,7 +9,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Smarti on 27.12.2015.
@@ -56,7 +54,8 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
         try {
             int count;
             URL url = new URL(this.url);
-            URLConnection connexion = url.openConnection();
+            HttpsURLConnection connexion = (HttpsURLConnection) url.openConnection();
+            //URLConnection connexion = url.openConnection();
             connexion.connect();
 
             int lenghtOfFile = connexion.getContentLength();
@@ -126,7 +125,7 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
 
     @Override
     protected void onCancelled(Void result){
-        mNotificationHelper.completed();
+        mNotificationHelper.error();
     }
 
     public String getAbsolutePath() {

@@ -1,4 +1,8 @@
 ﻿<XML>
+    <appversion version="13" versionNice="1.2.2">
+        <change important="true">Andacht kann nun wieder abgespielt werden</change>
+        <change important="false">Die Andacht kann nun vor- und zurückgespult werden</change>
+    </appversion>
     <appversion version="12" versionNice="1.2.1.4">
         <change important="true">In den Einstellungen kann nun eine andere Farbe gewählt werden</change>
         <change important="false">Option zum Löschen der Andachten nach x - Tagen hinzugefügt</change>
