@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_notifications_list_titles" >
+        <item>@string/notification_list_nt</item>
+        <item>@string/notification_list_ot</item>
+        <item>@string/notification_list_nt_ot</item>
+    </string-array>
+
+    <string-array name="pref_notifications_list_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="pref_language_list_titles" >
+        <item>@string/country_german</item>
+        <item>@string/country_english</item>
+        <item>@string/country_netherlands</item>
+    </string-array>
+
+    <string-array name="pref_language_list_values" translatable="false">
+        <item>de</item>
+        <item>en</item>
+        <item>nl</item>
+    </string-array>
+
+    <!-- Which verses to show -->
+    <string-array name="pref_which_vers_entries" >
+        <item>@string/losung_and_lehrtext</item>
+        <item>@string/losung</item>
+        <item>@string/lehrtext</item>
+    </string-array>
+
+    <string-array name="pref_which_vers_values" translatable="false">
+        <item>0</item> <!-- both -->
+        <item>1</item> <!-- only OT -->
+        <item>2</item> <!-- only NT -->
+    </string-array>
+
+    <string-array name="pref_open_list">
+        <item>@string/open_in_app_dialog</item>
+        <item>@string/open_in_browser_dialog</item>
+        <item>@string/open_in_always_ask</item>
+    </string-array>
+
+    <string-array name="pref_open_list_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="country_arrays">
+        <item>@string/country_german</item>
+        <item>@string/country_english</item>
+        <item>@string/country_netherlands</item>
+        <item>@string/country_spanish</item>
+        <item>@string/country_france</item>
+    </string-array>
+
+    <string-array name="country_values" translatable="false">
+        <item>de</item>
+        <item>en</item>
+        <item>nl</item>
+        <item>es</item>
+        <item>fr</item>
+    </string-array>
+
+    <!-- AUDIO -->
+    <string-array name="pref_audio_autodownload_network_entries" >
+        <item>@string/only_wifi</item>
+        <item>@string/all_network</item>
+    </string-array>
+
+    <string-array name="pref_audio_autodownload_network_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string name="country_netherlands">Dutch</string>
+    <string name="open_in_always_ask">Always ask</string>
+</resources>

@@ -1,0 +1,182 @@
+<resources>
+    <string name="app_name">Losungen</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="notes_hint">Notizen</string>
+    <string name="losung_default_title">Losung Titel</string>
+    <string name="losung_default_text">Ein Fehler ist aufgetreten…</string>
+    <string name="losung_default_vers">Losungsvers</string>
+    <string name="losung">Losung</string>
+    <string name="lehrtext">Lehrtext</string>
+    <string name="lehrtexte">Lehrtexte</string>
+    <string name="lehrtext_default_title">Lehrtext Titel</string>
+    <string name="lehrtext_default_vers">Lehrtext Vers</string>
+    <string name="losung_and_lehrtext">Losung und Lehrtext</string>
+    <string name="losung_from">Losung vom</string>
+    <string name="remove_fav">Von Favoriten entfernt</string>
+    <string name="add_fav">Zu Favoriten hinzugefügt</string>
+    <string name="mark">markieren</string>
+    <string name="appwidge_content">Inhalt</string>
+    <string name="title_activity_intro">Intro</string>
+    <string name="no_date">Datum nicht verfügbar</string>
+
+    <!-- TOOLBAR -->
+    <string name="choose_date">Datum wählen</string>
+    <string name="share">Teilen</string>
+    <string name="back">Zurück</string>
+    <string name="search">Suchen</string>
+    <string name="mark_favorite">Markieren</string>
+    <string name="open_in_browser">Im Browser öffnen</string>
+
+    <!-- WIDGET -->
+    <string name="widget_is_loading">Widget wird geladen…</string>
+    <string name="widget_activity_finish">Fertig</string>
+    <string name="widget_activity_textview">Textdarstellung</string>
+    <string name="widget_activity_fontsize">Textgröße</string>
+    <string name="widget_activity_fontcolor">Schriftfarbe</string>
+    <string name="widget_activity_background">Hintergrund</string>
+    <string name="widget_activity_previewSettings">Vorschau Einstellungen</string>
+    <string name="widget_activity_default_row">Reihen: 1</string>
+    <string name="widget_acitivity_default_columns">Spalten: 2</string>
+
+    <!-- NAVIGATION DRAWER -->
+    <string name="settings">Einstellungen</string>
+    <string name="losungen">Losungen</string>
+    <string name="rate">Bewerten</string>
+    <string name="feedback">Feedback / Fehler melden</string>
+    <string name="info">Info / Hilfe</string>
+    <string name="mail_senden">Sende mir eine Mail:</string>
+    <string name="search_results">Suchergebnisse</string>
+    <string name="favoriten">Markierte Verse</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_general">Allgemein</string>
+    <string name="pref_notifications">Benachrichtigungen</string>
+    <string name="pref_notification_art">Inhalt</string>
+    <string name="pref_time">Zeit</string>
+    <string name="pref_notes_title">Notizen anzeigen</string>
+    <string name="pref_ads_title">Werbung anzeigen</string>
+    <string name="pref_ads_summary">Wenn du diese APP unterstützen willst kannst du Werbung aktivieren. Dann wird ein kleiner Banner unten in der APP angezeigt (Neustart erforderlich)</string>
+    <string name="pref_google_title">Anonyme Statistiken senden</string>
+    <string name="pref_google_summary">Die APP sendet anonyme Nutzungsstatistiken um die APP weiter zu verbessern</string>
+
+    <!-- SUCHEN Dialog -->
+    <string name="suchen_dialog_title">Suchen</string>
+    <string name="suchen_dialog_positiv_button">los</string>
+    <string name="suchen_dialog_negative_button">Abbrechen</string>
+    <string name="suchen_dialog_textView">Suchen:</string>
+    <string name="suchen_dialog_hint">Bibelstelle, Bibelvers, …</string>
+    <string name="suchen_dialog_losungs_verse">Losungs Verse</string>
+    <string name="suchen_dialog_lehrtext_verse">Lehrtext Verse</string>
+    <string name="suchen_dialog_markierte">nur Markierte</string>
+    <string name="search_dialog_years">Jahre</string>
+
+    <!-- INFO Fragment -->
+    <string name="info_title">Losungen - Android APP</string>
+    <string name="info_autor">von Martin Schalter</string>
+    <string name="info_unterstuetzen_title">Wie kannst du diese App unterstützen?</string>
+    <string name="info_unterstuetzen_content">Du bist total begeistert von der Losungs-App? Sie läuft reibungslos, erfüllt absolut ihren Zweck und sieht dabei auch noch ziemlich gut aus. Wenn das deine Meinung ist: Freut mich zu hören! Fühl dich frei diese App zu bewerten und ein Kommentar zu hinterlassen.\n\nEines meiner nächsten Ziele ist es, diese App in noch mehr Sprachen verfügbar zu Machen. Du kannst mich beim Erreichen dieses Zieles und weiterer zukünftiger Verbesserungen unterstützen. Das geht ganz einfach: Aktiviere einfach die Werbung für diese App. Vielen Dank!</string>
+    <string name="info_entwickler_title">Über den Entwickler</string>
+    <string name="info_entwickler_content">Nach erfolgreichen Schulabschluss, machte ich mich zu einem Sozialen-Jahr im Ausland auf. Das bedeutet auch, dass ich ein Hobby-Programmierer bin. Das Entwickeln von Apps ist eine absolute Leidenschaft für mich. Es gibt aber eine Sache für mich, die wichtiger ist: Gott. Und seine Liebe. Uns persönlich zugesprochen durch Gottes Wort. Die Bibel. Mein letztes Projekt vereinte diese zwei Aspekte meines Lebens: Die Losungs App</string>
+    <string name="info_more_questions">Falls du weitere Hinweise oder Verbesserungsvorschlägen hast: Schreib mir einfach. Ich freue mich darauf von euch zu hören.</string>
+
+    <!-- INTRO -->
+    <string name="intro_notifications">Benachrichtigungen</string>
+    <string name="intro_notification_content">Gib Gottes Wort Raum in deinem Leben. Jeden Tag neu</string>
+    <string name="intro_notification_switch">Benachrichtigungen aktivieren</string>
+    <string name="intro_mark_title">Markieren und Notizen</string>
+    <string name="intro_mark_content">Verse markieren und Gedanken festhalten</string>
+    <string name="intro_mark_switch">Notizen aktiviern</string>
+    <string name="intro_developer_title">Entwickler unterstützen</string>
+    <string name="intor_developer_content">Mit der Aktivierung der Werbung, unterstützt du die Entwicklung dieser App</string>
+    <string name="intro_developer_switch">Werbung aktivieren</string>
+    <string name="intro_widgets_title">Widgets</string>
+    <string name="intro_widgets_content">Erstelle dein personalisiertes Widget, um Gottes Wort nie aus den Augen zu verlieren</string>
+    <string name="intro_change_in_settings">Kann in den Einstellungen geändert werden</string>
+
+    <!-- IMPORT -->
+    <string name="import_language">Sprache</string>
+    <string name="allready_imported">(schon importiert)</string>
+    <string name="haveTo_import">(muss importiert werden)</string>
+    <string name="importVerb">Importieren</string>
+    <string name="importString">Import</string>
+    <string name="import_onlyAT">Zurzeit wird nur das alte Testament unterstützt</string>
+    <string name="import_onlyNT">Zurzeit wird nur das neue Testament unterstützt</string>
+    <string name="import_restInEnglish">Der Rest wird in Englisch angezeigt</string>
+    <string name="import_maybeMistakes">Diese Übersetzung kann Fehler enthalten. Fehler bitte über die Feedback Funktion melden</string>
+
+    <!-- Arrays -->
+    <string name="notification_list_nt">Losung (AT)</string>
+    <string name="notification_list_ot">Lehrtext (NT)</string>
+    <string name="notification_list_nt_ot">Losung und Lehrtext</string>
+    <string name="country_german">Deutsch</string>
+    <string name="country_english">Englisch</string>
+    <string name="country_spanish">Spanisch</string>
+    <string name="importing">Importiere…</string>
+
+    <string name="needTranslation">Die Texte in dieser Sprache müssen noch übersetzt werden (die Losungen sind schon übersetzt). Wenn du mir helfen kannst sende mir eine Mail :)</string>
+    <string name="info_fragment_launcherIcon">Launcher Icon</string>
+    <string name="columns">Spalten</string>
+    <string name="rows">Reihen</string>
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="info_questions_title">Wohin mit Fragen, Problemen und Verbesserungsvorschlägen?</string>
+    <string name="info_questions_content">Obwohl diese App im Normalgebrauch mehr als reibungslos funktionieren sollte, eventuelle Fehler sind nie ausgeschlossen. Kontaktiere mich einfach über die Feedback Funktion</string>
+    <string name="country_france">Französisch</string>
+    <string name="pref_language">Sprache</string>
+    <string name="pref_language_summary">Das wird nur die Texte von Buttons und Textfeldern verändern. Die Losungen werden nicht geändert</string>
+    <string name="need_restart">Ein Neustart der APP ist erforderlich</string>
+    <string name="change_language">Import / Sprache ändern</string>
+    <string name="content_text">% fertig</string>
+    <string name="content_title">Lädt Andacht herunter</string>
+    <string name="download_ticker">Lädt Andacht herunter</string>
+    <string name="audio_download">Kurze Andacht abspielen (vom Internet)</string>
+    <string name="all_network">Alle Netzwerktypen</string>
+    <string name="only_wifi">Nur bei WIFI</string>
+    <string name="pref_audio">Audio</string>
+    <string name="pref_audio_autodownload_network_summary">Soll die Andacht nur bei einer aktiven WLAN - Verbindung heruntergeladen werden</string>
+    <string name="pref_audio_autodownload_network_title">Netzwerk-typ</string>
+    <string name="pref_audio_autodownload_summary_off">Der Download für die Andacht muss manuell gestartet werden</string>
+    <string name="pref_audio_autodownload_summary_on">Der Download für die kurze Andacht startet jeden Tag automatisch</string>
+    <string name="pref_audio_autodownload_title">Automatisches Herunterladen</string>
+    <string name="pref_audio_download_summary_off">Die Andacht wird direkt aus dem Internet gestreamt (eine aktive Internetverbindung wird vorrausgesetzt)</string>
+    <string name="pref_audio_download_summary_on">Die Andacht wird heruntergeladen, um sie auch ohne Internetverbindung anhören zu können</string>
+    <string name="pref_audio_download_title">Andacht Herunterladen (oder streamen)</string>
+    <string name="pref_audio_externalstorage_summary_off">Die Andachten werden im internen Speicher abgelegt</string>
+    <string name="pref_audio_externalstorage_summary_on">Die Andachten werden auf der SD-Karte abgelegt</string>
+    <string name="pref_audio_externalstorage_title">Auf SD-Karte speichern</string>
+    <string name="button_ok">OK</string>
+    <string name="changelog_title">Änderungen</string>
+    <string name="download_error">Ein unbekannter Fehler ist aufgetreten. Versuche es bitte erneut</string>
+    <string name="download_starting">Download startet…</string>
+    <string name="download_error_connection">Fehler beim Download, überprüfe dein Internetverbindung!</string>
+    <string name="still_in_external">Vorhandene Dateien werden nicht in den internen Speicher verschoben</string>
+    <string name="still_in_internal">Vorhandene Dateien werden nicht in den externen Speicher verschoben</string>
+    <string name="monthly_verses">Monats-, Wochensprüche</string>
+    <string name="pref_customize">Anpassen</string>
+    <string name="month_title">Monatsspruch</string>
+    <string name="audio_delete_audio_summary">Du kannst die zu löschenden Dateien auswählen</string>
+    <string name="audio_delete_audio_title">Alte Audio - Dateien löschen</string>
+    <string name="delete">Löschen</string>
+    <string name="delete_failed">Fehler beim Löschen der Audio - Datei</string>
+    <string name="open_in_app_failed">Konnte den Vers nicht in Quick Bible öffnen</string>
+    <string name="use_quick_bible">Verse in Quick Bible öffnen</string>
+    <string name="use_quick_bible_off">Beim Klick auf den Bibelvers wird nichts passieren</string>
+    <string name="use_quick_bible_on">Beim Klick auf den Bibelvers wird dieser in der APP geöffnet</string>
+    <string name="country_netherlands">Niederländisch</string>
+    <string name="invalid_number">Ungültige Zahl, bitte gebe eine gültige Zahl ein</string>
+    <string name="audio_delete_days_summary">Nicht favorisierte Dateien nach x Tagen löschen</string>
+    <string name="audio_delete_days_title">Audio Dateien automatisch löschen</string>
+    <string name="audio_download_download">Andacht vom %1$s herunterladen</string>
+    <string name="audio_download_downloaded">Andacht vom %1$s abspielen</string>
+    <string name="widget">Widgets konfigurieren</string>
+    <string name="open_in_app_dialog">Zeige Verse in Quick Bible (eine APP die im Google Play Store heruntergeladen werden kann)</string>
+    <string name="open_in_browser_dialog">Öffne Verse im Browser (bibleserver.com)</string>
+    <string name="open_verse">Öffne Verse in Quick-Bible oder Bibleserver</string>
+    <string name="pref_custom_color">Ändere Farbe</string>
+    <string name="default_open_verses">Stanard Aktion - Klick auf Vers</string>
+    <string name="open_in_always_ask">Immer nachfragen</string>
+    <string name="pref_which_vers_summary">Losung / Lehrtext verstecken</string>
+    <string name="pref_which_vers_title">Nur Losung bzw. Lehrtext anzeigen</string>
+    <string name="remember_my_decision">Merke meine Entscheidung</string>
+
+</resources>

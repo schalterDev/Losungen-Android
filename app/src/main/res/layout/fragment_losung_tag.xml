@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relLayout_losung_tag"
+    android:background="?colorBackground">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:scrollIndicators="none" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/linearLayout_losung"
+            android:focusableInTouchMode="true">
+
+            <de.schalter.losungen.customViews.CardLosung
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardLosung"
+                android:layout_marginBottom="5dp"
+                card_view:cardCornerRadius="4dp"
+                android:layout_margin="3dp"
+                android:clickable="true"
+                android:longClickable="true"
+                android:foreground="?selectableItemBackground"
+                android:background="?colorBackground">
+
+            </de.schalter.losungen.customViews.CardLosung>
+
+            <de.schalter.losungen.customViews.CardLosung
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardLehrtext"
+                android:layout_marginBottom="5dp"
+                card_view:cardCornerRadius="4dp"
+                android:layout_margin="3dp"
+                android:clickable="true"
+                android:longClickable="true"
+                android:foreground="?selectableItemBackground"
+                android:background="?colorBackground">
+
+        </de.schalter.losungen.customViews.CardLosung>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/audio_relative"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Title Audio"
+                    android:id="@+id/textView_audio_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Subtitle Audio"
+                    android:id="@+id/textView_subtitile_audio"
+                    android:layout_below="@+id/textView_audio_title" />
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar_audio"
+                    android:layout_below="@+id/textView_subtitile_audio"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/audio_cancle"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_action_cancel"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/audio_play"
+                    android:src="@drawable/ic_media_play"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_below="@+id/seekBar_audio"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete|textMultiLine"
+                android:ems="10"
+                android:id="@+id/editText_notizen"
+                android:hint="@string/notes_hint"
+                android:gravity="top"
+                android:minLines="1" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
+

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/appwidge_content"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/radiogroup_content">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/losung"
+                android:id="@+id/radioButton_Losung"
+                android:checked="false" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lehrtext"
+                android:id="@+id/radioButton_lehrtext"
+                android:checked="false" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/losung_and_lehrtext"
+                android:id="@+id/radioButton_both"
+                android:checked="true" />
+        </RadioGroup>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_activity_finish"
+            android:id="@+id/button_fertig"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/horizontalScrollView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/widget_activity_textview"
+            android:id="@+id/textView_settings_text"
+            android:layout_below="@+id/radiogroup_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar_fontSize"
+            android:layout_below="@+id/textView_textSize"
+            android:layout_alignLeft="@+id/textView_textSize"
+            android:layout_alignStart="@+id/textView_textSize"
+            android:indeterminate="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/widget_activity_fontsize"
+            android:id="@+id/textView_textSize"
+            android:layout_below="@+id/textView_settings_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_activity_fontcolor"
+            android:id="@+id/button_fontColor"
+            android:layout_below="@+id/seekBar_fontSize"
+            android:layout_alignLeft="@+id/seekBar_fontSize"
+            android:layout_alignStart="@+id/seekBar_fontSize" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_activity_background"
+            android:id="@+id/button_background"
+            android:layout_alignTop="@+id/button_fontColor"
+            android:layout_toRightOf="@+id/button_fontColor"
+            android:layout_toEndOf="@+id/textView_settings_text"
+            android:layout_marginStart="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/widget_activity_previewSettings"
+            android:id="@+id/textView_review_settings"
+            android:layout_below="@+id/button_fontColor"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+
+        <SeekBar
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar_rows"
+            android:layout_below="@+id/textView_review_settings"
+            android:layout_alignLeft="@+id/button_fontColor"
+            android:layout_alignStart="@+id/button_fontColor"
+            android:indeterminate="false" />
+
+        <SeekBar
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar_columns"
+            android:layout_below="@+id/textView_review_settings"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:indeterminate="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/widget_activity_default_row"
+            android:id="@+id/textView_rows"
+            android:layout_below="@+id/seekBar_rows"
+            android:layout_alignLeft="@+id/seekBar_rows"
+            android:layout_alignStart="@+id/seekBar_rows" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/widget_acitivity_default_columns"
+            android:id="@+id/textView_columns"
+            android:layout_below="@+id/seekBar_columns"
+            android:layout_alignLeft="@+id/seekBar_columns"
+            android:layout_alignStart="@+id/seekBar_columns" />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horizontalScrollView"
+            android:layout_below="@+id/textView_rows"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/drawable_background_image_preview">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/textView_rows"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/relative_layout_widget_activity"
+                    android:background="#555">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Small Text"
+                        android:id="@+id/textView_widget_preview"
+                        android:textColor="#fff"
+                        android:gravity="center" />
+                </RelativeLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- oder stream -->
+    <de.schalter.losungen.preferences.SwitchPreference
+        android:key="audio_download"
+        android:title="@string/pref_audio_download_title"
+        android:summaryOn="@string/pref_audio_download_summary_on"
+        android:summaryOff="@string/pref_audio_download_summary_off"
+        android:defaultValue="true" />
+
+    <!-- oder erst bei Nutzer interaktion -->
+    <de.schalter.losungen.preferences.SwitchPreference
+        android:key="audio_autodownload"
+        android:dependency="audio_download"
+        android:title="@string/pref_audio_autodownload_title"
+        android:summaryOn="@string/pref_audio_autodownload_summary_on"
+        android:summaryOff="@string/pref_audio_autodownload_summary_off"
+        android:defaultValue="true" />
+
+    <ListPreference
+        android:key="audio_autodownload_network"
+        android:dependency="audio_autodownload"
+        android:title="@string/pref_audio_autodownload_network_title"
+        android:defaultValue="0"
+        android:entries="@array/pref_audio_autodownload_network_entries"
+        android:entryValues="@array/pref_audio_autodownload_network_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <de.schalter.losungen.preferences.SwitchPreference
+        android:key="audio_external_storage"
+        android:dependency="audio_download"
+        android:title="@string/pref_audio_externalstorage_title"
+        android:summaryOff="@string/pref_audio_externalstorage_summary_off"
+        android:summaryOn="@string/pref_audio_externalstorage_summary_on"
+        android:defaultValue="false" />
+
+    <de.schalter.losungen.preferences.AudioDeletePreference
+        android:key="audio_delete_audio"
+        android:title="@string/audio_delete_audio_title"
+        android:summary="@string/audio_delete_audio_summary" />
+
+    <EditTextPreference
+        android:key="audio_delete_days"
+        android:title="@string/audio_delete_days_title"
+        android:summary="@string/audio_delete_days_summary"
+        android:defaultValue="0" />
+</PreferenceScreen>

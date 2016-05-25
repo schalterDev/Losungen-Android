@@ -1,0 +1,25 @@
+﻿<XML>
+    <appversion version="12" versionNice="1.2.1.4">
+        <change important="true">In den Einstellungen kann nun eine andere Farbe gewählt werden</change>
+        <change important="false">Option zum Löschen der Andachten nach x - Tagen hinzugefügt</change>
+        <change important="false">Die vorhandenen Widgets können nun in der APP neu gestaltet werden (Farbe, Schriftgröße, ...)</change>
+        <change important="false">Beim Klick auf die Losung kann man nun auswählen, ob der Vers im Browser oder in Quick-Bible geöffnet werden soll</change>
+    </appversion>
+    <appversion version="10" versionNice="1.2.1.3">
+        <change important="false">Absturz bei Klick auf die Losung behoben</change>
+    </appversion>
+    <appversion version="9" versionNice="1.2.1">
+        <change important="false">Verse können nun in der Bible App "Quick Bible" geöffnet werden</change>
+    </appversion>
+    <appversion version="7" versionNice="1.2.0">
+        <change important="true">Es kann nun direkt eine kleine Andacht zur heutigen Losung von ERF angehört werden. Diese wird jeden Tag automatisch heruntergeladen (kann in den Einstellungen deaktiviert werden)</change>
+        <change important="true">Jahres-, Monats- und Wochensprüche hinzugefügt (verfügbar im Navigation-Drawer)</change>
+        <change important="false">Changelog - Dialog hinzugefügt</change>
+        <change important="false">Niederländisch hinzugefügt</change>
+    </appversion>
+    <appversion version="6" versionNice="1.1.2">
+        <change important="true">Option für "Datum nicht verfügbar": In den Optionen "Sprache ändern" auswählen und gewünschte Sprache erneut importieren</change>
+        <change important="false">neue Sprachfunktionen (Ändern der Anzeige- und Losungssprache)</change>
+        <change important="false">Abstürze behoben</change>
+    </appversion>
+</XML>

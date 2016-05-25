@@ -1,0 +1,150 @@
+﻿<resources>
+    <string name="app_name">dagelijks woord</string>
+    <string name="title_activity_settings">Instellingen</string>
+    <string name="notes_hint">Aantekeningen</string>
+    <string name="losung_default_title">Losung Titel</string>
+    <string name="losung_default_text">Een fout is opgetreden…</string>
+    <string name="losung_default_vers">dagelijks woord vers</string>
+    <string name="losung">Losung</string>
+    <string name="lehrtext">Leertekst</string>
+    <string name="lehrtexte">Leertekst</string>
+    <string name="lehrtext_default_title">Leertekst Titel</string>
+    <string name="lehrtext_default_vers">Leertekst Vers</string>
+    <string name="losung_and_lehrtext">Daily word en leertekst</string>
+    <string name="losung_from">Daily word van</string>
+    <string name="remove_fav">Uit favorieten verwijderen</string>
+    <string name="add_fav">favorieten toevoegen</string>
+    <string name="mark">markeren</string>
+    <string name="appwidge_content">Inhoud</string>
+    <string name="title_activity_intro">Intro</string>
+    <string name="no_date">Datum niet beschikbaar</string>
+
+    <!-- TOOLBAR -->
+    <string name="choose_date">Datum kiezen</string>
+    <string name="share">Delen</string>
+    <string name="back">Terug</string>
+    <string name="search">Zoeken</string>
+    <string name="mark_favorite">Markeren</string>
+    <string name="open_in_browser">In het internet openen</string>
+
+    <!-- WIDGET -->
+    <string name="widget_is_loading">Widget wird geladen…</string>
+    <string name="widget_activity_finish">Klaar</string>
+    <string name="widget_activity_textview">Tekstvertegenwoordiging</string>
+    <string name="widget_activity_fontsize">Tekst grootte</string>
+    <string name="widget_activity_fontcolor">Tekst kleur</string>
+    <string name="widget_activity_background">Achtergrond</string>
+    <string name="widget_activity_previewSettings">Voorbeeld instellingen</string>
+    <string name="widget_activity_default_row">Rij: 1</string>
+    <string name="widget_acitivity_default_columns">Kolom: 2</string>
+
+    <!-- NAVIGATION DRAWER -->
+    <string name="settings">Instellingen</string>
+    <string name="losungen">Daly Words</string>
+    <string name="rate">Evalueren</string>
+    <string name="feedback">Feedback / Fout melden</string>
+    <string name="info">Info / Help</string>
+    <string name="mail_senden">Stuur mij een mail:</string>
+    <string name="search_results">Zoek resultaten</string>
+    <string name="favoriten">Gekozen verse</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_general">Algemeen</string>
+    <string name="pref_notifications">Bekendmakingenn</string>
+    <string name="pref_notification_art">Inhoud</string>
+    <string name="pref_time">Tijd</string>
+    <string name="pref_notes_title">Aantekeningen bekijken</string>
+    <string name="pref_ads_title">Reclame laten zien</string>
+    <string name="pref_ads_summary">Als je u deze APP wilt ondersteunen kun je de Reclame activeren. Dan word een kleine Banner onder in de APP toegevoegd.(Opnieuw starten nodig)</string>
+    <string name="pref_google_title">Anonyme statistiek sturen</string>
+    <string name="pref_google_summary">De APP stuurt anonyme gebruikstatistiken om de APP te verbeteren.</string>
+
+    <!-- SUCHEN Dialog -->
+    <string name="suchen_dialog_title">Zoeken</string>
+    <string name="suchen_dialog_positiv_button">Start</string>
+    <string name="suchen_dialog_negative_button">Annuleren</string>
+    <string name="suchen_dialog_textView">Zoeken:</string>
+    <string name="suchen_dialog_hint">Bijbelschrift, Bijbelvers, …</string>
+    <string name="suchen_dialog_losungs_verse">Daily Word Vers</string>
+    <string name="suchen_dialog_lehrtext_verse">Leertekst Vers</string>
+    <string name="suchen_dialog_markierte">alleen uitgezochte</string>
+    <string name="search_dialog_years">Jaar</string>
+
+    <!-- INFO Fragment -->
+    <string name="info_title">Daly Words - Android APP</string>
+    <string name="info_autor">van Martin Schalter</string>
+    <string name="info_unterstuetzen_title">Hoe kun je deze APP ondersteunen?</string>
+    <string name="info_unterstuetzen_content">Je bent helemaal gek van de Daily Word APP? Ze loopt zonder problemen, doet wat het moet doen en ziet er ook nog goed uit. Als dat je mening ist: Fijn om te horen! Voel je vrij deze APP te evalueren en een commentaar te achterlaten.\n\nEen doel van mij is het deze APP in verschillende talen uit te brengen. Je kunt mij helpen om dit doel en andere verbeteringen te verbeteren. Dat gaat heel makkelijk: Activeer de Reclame in de APP. Bedankt!</string>
+    <string name="info_entwickler_title">Over de ontwikkelaar</string>
+    <string name="info_entwickler_content">Na het afsluiten van school heb ik een jaar in het buitenland doorgebracht. Dat betekent dat ik ook een Hobby-Programmerer ben. Ik heb erg veel plezier apps te ontwikkelen. Er is alleen een ding belangrijker voor mij: God en zijn liefde. Het verbreiden van Gods woord, de Bijbel. Het laatste project verenigd deze aspecten in mijn leven: het dagelijks woord.</string>
+    <string name="info_more_questions">Als je nog tips of verbeteringen hebt, kun je me graag schrijven.Ik verheug me op reacties.</string>
+
+    <!-- INTRO -->
+    <string name="intro_notifications">Bekendmakingen</string>
+    <string name="intro_notification_content">Geef God plaats in je leven, elke dag weer</string>
+    <string name="intro_notification_switch">Bekendmakingen activeren</string>
+    <string name="intro_mark_title">Markeerte en aantekeningen</string>
+    <string name="intro_mark_content">Vers markeeren en gedachtes vasthouden</string>
+    <string name="intro_mark_switch">Aantekeningen activeren</string>
+    <string name="intro_developer_title">Ontwikkelaar ondersteunen</string>
+    <string name="intor_developer_content">Met de activering van reclame, ondersteund u de ontwikkeling van deze APP</string>
+    <string name="intro_developer_switch">Reclame activeren</string>
+    <string name="intro_widgets_title">Widgets</string>
+    <string name="intro_widgets_content">Maak je persoonlijke Widget, om Gods woord nooit te vergeten</string>
+    <string name="intro_change_in_settings">Kan in de instellingen gewijzigd worden</string>
+
+    <!-- IMPORT -->
+    <string name="import_language">Taal</string>
+    <string name="allready_imported">(al geimporteerd)</string>
+    <string name="haveTo_import">(moet geimporteerd worden)</string>
+    <string name="importVerb">importeren</string>
+    <string name="importString">import</string>
+    <string name="import_onlyAT">Op het moment word alleen het oude testament ondersteund</string>
+    <string name="import_onlyNT">Op het moment word alleen het nieuwe testament ondersteund</string>
+    <string name="import_restInEnglish">De rest word in het engels weergegeven</string>
+    <string name="import_maybeMistakes">Deze vertaling kan foute bevatten. Foute aub over de Feedback funktie doorgeven.</string>
+
+    <!-- Arrays -->
+    <string name="notification_list_nt">Daly Word (AT)</string>
+    <string name="notification_list_ot">Leertekst (NT)</string>
+    <string name="notification_list_nt_ot">Daly Word en Leertekst</string>
+    <string name="country_german">Duits</string>
+    <string name="country_english">Engels</string>
+    <string name="country_spanish">Spaans</string>
+    <string name="importing">Importeren…</string>
+
+    <string name="needTranslation">De tekst in deze taal moet nog vertaald worden(het dagelijks woord zijn al vertaald). Wie mij helpen wil kan me graag een email sturen :)</string>
+    <string name="info_fragment_launcherIcon">Start icoon</string>
+    <string name="columns">Kolom</string>
+    <string name="rows">Rijen</string>
+    <string name="save">Opslaan</string>
+    <string name="cancel">Afbreken</string>
+    <string name="info_questions_title">Waar zullen de vragen, problemen en verbeteringstips heen?</string>
+    <string name="info_questions_content">Hoewel deze App normaal glad loopt, kunnen foutmeldingen niet uitgesloten worden. Neem dan contact met mij op over de feedback functie.</string>
+    <string name="country_france">Frans</string>
+    <string name="pref_language">Taal</string>
+    <string name="pref_language_summary">Alleen de tekst en buttons worden veranderd. De Daily Word word niet veranderd.</string>
+    <string name="need_restart">App opnieuw starten nodig</string>
+    <string name="change_language">Taal van het dagelijks woord wijzigen</string>
+    <string name="content_text">% Klaar</string>
+    <string name="content_title">aanbidding laden</string>
+    <string name="download_ticker">aanbidding downloaden</string>
+    <string name="audio_download">Korte aanbidding afluisteren (over het internet)</string>
+    <string name="all_network">Alle Netwerken</string>
+    <string name="only_wifi">Alleen bij WIFI</string>
+    <string name="pref_audio">Audio</string>
+    <string name="pref_audio_autodownload_network_summary">Als de aanbidding alleen met een actief WIFI verbinding gedownload worden</string>
+    <string name="pref_audio_autodownload_network_title">Netwerk</string>
+    <string name="pref_audio_autodownload_summary_off">De aanbidding moet handmatig gedownload worden</string>
+    <string name="pref_audio_autodownload_summary_on">De download voor de korte aanbidding begint elke dag automatisch</string>
+    <string name="pref_audio_autodownload_title">Automatische download</string>
+    <string name="pref_audio_download_summary_off">De aanbidding word direct uit het internet gestreamt (een aktive Internetverbinding nodig)</string>
+    <string name="pref_audio_download_summary_on">De aanbidding word gedownload om het zonder internet te luisteren</string>
+    <string name="pref_audio_download_title">Aanbidding download (of streamen)</string>
+    <string name="pref_audio_externalstorage_summary_off">De aanbidding word in het intern geheugen opgeslaan</string>
+    <string name="pref_audio_externalstorage_summary_on">De aanbidding word in de SD-Kaart opgeslaan</string>
+    <string name="pref_audio_externalstorage_title">Op de SD-Kaart opslaan</string>
+    <string name="button_ok">OK</string>
+    <string name="country_netherlands">Nederlands</string>
+
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="which_vers_to_show"
+        android:title="@string/pref_which_vers_title"
+        android:summary="@string/pref_which_vers_summary"
+        android:entries="@array/pref_which_vers_entries"
+        android:entryValues="@array/pref_which_vers_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <schalter.dev.customizelibrary.DesignPref
+        android:key="color_custom_design"
+        android:title="@string/pref_custom_color"
+        android:defaultValue="2"
+        />
+
+
+</PreferenceScreen>

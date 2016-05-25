@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <de.schalter.losungen.preferences.SwitchPreference
+        android:key="show_notes"
+        android:title="@string/pref_notes_title"
+        android:defaultValue="true" />
+
+    <de.schalter.losungen.preferences.SwitchPreference
+        android:key="show_ads"
+        android:title="@string/pref_ads_title"
+        android:summary="@string/pref_ads_summary"
+        android:defaultValue="false"
+        />
+
+    <de.schalter.losungen.preferences.SwitchPreference
+        android:key="google_analytics"
+        android:title="@string/pref_google_title"
+        android:summary="@string/pref_google_summary"
+        android:defaultValue="true" />
+
+    <ListPreference
+        android:key="language"
+        android:title="@string/pref_language"
+        android:summary="@string/pref_language_summary"
+        android:entries="@array/pref_language_list_titles"
+        android:entryValues="@array/pref_language_list_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+
+    <ListPreference
+        android:key="open_verses_default"
+        android:title="@string/default_open_verses"
+        android:entries="@array/pref_open_list"
+        android:entryValues="@array/pref_open_list_values"
+        android:defaultValue="2"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"/>
+
+</PreferenceScreen>

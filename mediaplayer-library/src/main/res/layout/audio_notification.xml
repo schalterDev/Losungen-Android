@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="@color/colorPrimary"
+    android:id="@+id/audio_notification_layout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Title"
+        android:id="@+id/audio_notification_title"
+        android:textColor="#f1f1f1"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView2"
+        android:layout_toLeftOf="@+id/audio_notification_image"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentStart="false"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="8dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Subtitle"
+        android:id="@+id/audio_notification_subtitle"
+        android:textColor="#dfdfdf"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/imageView2"
+        android:layout_toLeftOf="@+id/audio_notification_image"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="10dp"
+        android:singleLine="true" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:id="@+id/audio_notification_image"
+        android:src="@drawable/ic_media_play"
+        android:padding="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/audio_notification_close"
+        android:layout_toStartOf="@+id/audio_notification_close"
+        android:tint="#555555"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_notification_play_balck"
+        android:padding="9dp"
+        android:background="@color/colorPrimaryDark"
+        android:adjustViewBounds="true" />
+
+    <ImageButton
+        android:layout_width="35dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/audio_notification_close"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/abc_ic_clear_mtrl_alpha"
+        android:background="#00ffffff"
+        android:focusable="true"
+        android:tint="#555555"/>
+
+</RelativeLayout>

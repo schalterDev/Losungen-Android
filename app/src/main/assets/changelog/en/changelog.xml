@@ -1,0 +1,22 @@
+﻿<XML>
+    <appversion version="12" versionNice="1.2.1.4">
+        <change important="true">You can choose your color in the settings</change>
+        <change important="false">The existing widgets can be edited in the APP without removing and adding them to the home screen</change>
+        <change important="false">If you click on the Daily Word you can choose to open the vers in Quick-Bible or in the browser</change>
+    </appversion>
+	<appversion version="10" versionNice="1.2.1.3">
+		<change important="false">Crashes fixed</change>
+	</appversion>
+    <appversion version="9" versionNice="1.2.1">
+        <change important="false">Now you can open the bible vers in the APP "Quick Bible"</change>
+    </appversion>
+    <appversion version="7" versionNice="1.2.0">
+        <change important="true">Added verses for year, month and weeks (available in Navigation-Drawer)</change>
+        <change important="false">added this changelog-dialog</change>
+    </appversion>
+    <appversion version="6" versionNice="1.1.2">
+        <change important="true">Option for "Date not available": Choose "Change language" in menu and import your language again</change>
+        <change important="false">new options for language (Change of GUI-language and also Daily-Words language)</change>
+        <change important="false">Fixed crashes</change>
+    </appversion>
+</XML>

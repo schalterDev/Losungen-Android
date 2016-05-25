@@ -1,0 +1,46 @@
+<resources>
+
+    <style name="BaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#EEEEEE</item>
+        <item name="colorPrimaryDark">#BDBDBD</item>
+        <item name="colorPrimaryLight">#FAFAFA</item>
+        <item name="colorAccent">#EC407A</item>
+        <item name="colorIconsToolbar">#616161</item>
+
+        <item name="colorFont">#292929</item>
+        <item name="colorFontDisabled">#9a292929</item>
+        <item name="colorSecondFont">#c8292929</item>
+
+        <item name="colorBackground">#FFFFFF</item>
+        <item name="colorSecondBackground">#EEEEEE</item>
+        <item name="colorWindowsBackground">#DDDDDD</item>
+
+        <!-- MaterialDrawer specific values -->
+        <item name="material_drawer_background">?colorBackground</item>
+        <item name="material_drawer_primary_text">?colorSecondFont</item>
+        <item name="material_drawer_primary_icon">?colorSecondFont</item>
+        <item name="material_drawer_secondary_text">?colorFontDisabled</item>
+        <item name="material_drawer_hint_text">?colorFontDisabled</item>
+        <item name="material_drawer_divider">?colorFont</item>
+        <item name="material_drawer_selected">?colorSecondBackground</item>
+        <item name="material_drawer_selected_text">?colorPrimary</item>
+        <item name="material_drawer_header_selection_text">?colorPrimary</item>
+    </style>
+
+    <style name="BaseDarkTheme" parent="@style/Theme.AppCompat.NoActionBar">
+        <!-- MaterialDrawer specific values -->
+        <item name="material_drawer_background">?colorBackground</item>
+        <item name="material_drawer_primary_text">?colorSecondFont</item>
+        <item name="material_drawer_primary_icon">?colorSecondFont</item>
+        <item name="material_drawer_secondary_text">?colorFontDisabled</item>
+        <item name="material_drawer_hint_text">?colorFontDisabled</item>
+        <item name="material_drawer_divider">?colorFont</item>
+        <item name="material_drawer_selected">?colorSecondBackground</item>
+        <item name="material_drawer_selected_text">?colorPrimary</item>
+        <item name="material_drawer_header_selection_text">?colorPrimary</item>
+    </style>
+
+    <style name="AppTheme_Light" parent="@style/BaseTheme">
+        <item name="material_drawer_selected_text">?colorFont</item>
+    </style>
+</resources>
