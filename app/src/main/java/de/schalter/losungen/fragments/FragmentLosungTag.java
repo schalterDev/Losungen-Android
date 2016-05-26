@@ -301,12 +301,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         path_audio = path;
 
         //Show control buttons
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            public void run() {
-                audio_relative.setVisibility(View.VISIBLE);
-            }
-        });
+        //Will be done when music starts
     }
 
     private void serviceReady(String path) {
