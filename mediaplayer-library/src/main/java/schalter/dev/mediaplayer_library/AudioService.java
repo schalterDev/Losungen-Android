@@ -275,7 +275,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
 
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
-        setBufferPosition(percent * getMusicDuration() / 100);
+        setBufferPosition(percent * mp.getMusicDuration() / 100);
     }
 
     /**
