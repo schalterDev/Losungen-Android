@@ -147,5 +147,6 @@
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
     <orderEntry type="module" module-name="mediaplayer-library" exported="" />
     <orderEntry type="module" module-name="customizelibrary" exported="" />
+    <orderEntry type="library" exported="" name="android-android-23" level="project" />
   </component>
 </module>
