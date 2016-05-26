@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -300,7 +301,12 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         path_audio = path;
 
         //Show control buttons
-        audio_relative.setVisibility(View.VISIBLE);
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            public void run() {
+                audio_relative.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void serviceReady(String path) {
@@ -609,23 +615,39 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
 
     @Override
     public void pause() {
-        play_audio.setImageDrawable(getResources()
-                .getDrawable(R.drawable.ic_media_play));
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                play_audio.setImageDrawable(getResources()
+                        .getDrawable(R.drawable.ic_media_play));
+            }
+        });
     }
 
     @Override
     public void play() {
-        audio_relative.setVisibility(View.VISIBLE);
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            public void run() {
+                audio_relative.setVisibility(View.VISIBLE);
+                play_audio.setImageDrawable(getResources()
+                        .getDrawable(R.drawable.ic_media_pause));
+            }
+        });
 
-        play_audio.setImageDrawable(getResources()
-                .getDrawable(R.drawable.ic_media_pause));
         handler.removeCallbacks(moveSeekBarThread);
         handler.postDelayed(moveSeekBarThread, 100);
     }
 
     @Override
     public void cancel() {
-        audio_relative.setVisibility(View.GONE);
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            public void run() {
+                audio_relative.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -634,9 +656,15 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     }
 
     @Override
-    public void songSet(String title, String subtitle) {
-        audio_title.setText(title);
-        audio_subtitle.setText(subtitle);
+    public void songSet(final String title, final String subtitle) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                audio_title.setText(title);
+                audio_subtitle.setText(subtitle);
+            }
+        });
     }
 
     boolean isBound = false;

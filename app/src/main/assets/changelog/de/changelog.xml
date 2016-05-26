@@ -1,4 +1,7 @@
 ﻿<XML>
+    <appversion version="14" versionNice="1.2.2.1">
+        <change important="true">Absturz beim Streamen der Andacht behoben</change>
+    </appversion>
     <appversion version="13" versionNice="1.2.2">
         <change important="true">Andacht kann nun wieder abgespielt werden</change>
         <change important="false">Die Andacht kann nun vor- und zurückgespult werden</change>
