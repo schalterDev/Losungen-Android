@@ -51,7 +51,7 @@ public class XmlWriter {
         XmlSerializer serializer = Xml.newSerializer();
         try {
             serializer.setOutput(fileos, "UTF-8");
-            serializer.startDocument("", true);
+            serializer.startDocument(null, true);
             serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
 
             for(int i = 0; i < tags.size(); i++) {
@@ -59,10 +59,10 @@ public class XmlWriter {
                 String value = values.get(i);
                 switch (key) {
                     case STARTTAG:
-                        serializer.startTag("", value);
+                        serializer.startTag(null, value);
                         break;
                     case ENDTAG:
-                        serializer.endTag("", value);
+                        serializer.endTag(null, value);
                         break;
                     case ATTRIBUTE:
                         String[] attribute = value.split("::");

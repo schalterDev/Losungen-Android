@@ -10,10 +10,9 @@
         android:title="@string/pref_notifications"
         android:icon="@drawable/ic_notifications_black_24dp" />
 
-    <!--
     <header android:fragment="de.schalter.losungen.SettingsActivity$CustomizePreferenceFragment"
         android:title="@string/pref_customize"
-        android:icon="@drawable/ic_image_palette" />-->
+        android:icon="@drawable/ic_image_palette" />
 
     <header android:fragment="de.schalter.losungen.SettingsActivity$AudioPreferenceFragment"
         android:title="@string/pref_audio"

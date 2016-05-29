@@ -164,4 +164,7 @@
     <string name="export">Export notes</string>
     <string name="exporting">Export notes to the SD-Card</string>
     <string name="exported_to">Exported to:</string>
+    <string name="import_failed">could not import file</string>
+    <string name="import_success">Everything imported</string>
+    <string name="import_notes">Import notes</string>
 </resources>

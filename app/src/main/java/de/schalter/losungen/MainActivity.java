@@ -1,14 +1,18 @@
 package de.schalter.losungen;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -29,11 +33,15 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +54,7 @@ import java.util.Locale;
 import de.schalter.losungen.changelog.Changelog;
 import de.schalter.losungen.dialogs.ChooseDialog;
 import de.schalter.losungen.files.DBHandler;
+import de.schalter.losungen.files.XmlNotesImport;
 import de.schalter.losungen.files.XmlWriter;
 import de.schalter.losungen.fragments.FragmentInfo;
 import de.schalter.losungen.fragments.FragmentLosung;
@@ -60,6 +69,8 @@ import schalter.dev.customizelibrary.CustomToolbar;
 
 public class MainActivity extends AppCompatActivity implements FragmentMonth.Callbacks {
 
+    private static final int FILE_CODE = 55;
+    private static final int IMPORT_CODE = 56;
     private Drawer navigationDrawer;
     private CoordinatorLayout coordinatorLayout;
     private AdView adview;
@@ -76,13 +87,18 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     private Tracker mTracker;
 
     private static MainActivity activity;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     public static MainActivity getInstance() {
         return activity;
     }
 
     private void analytics() {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
+        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
             // Obtain the shared Tracker instance.
             AnalyticsApplication application = (AnalyticsApplication) getApplication();
             mTracker = application.getDefaultTracker();
@@ -93,8 +109,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     }
 
     private void analytics(boolean fav) {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            if(fav)
+        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
+            if (fav)
                 mTracker.setScreenName("Fragment-Fav");
             else
                 mTracker.setScreenName("Fragment-Suchen");
@@ -104,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     }
 
     private void analytics(String category, String action) {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
+        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
             mTracker.send(new HitBuilders.EventBuilder()
                     .setCategory(category)
                     .setAction(action)
@@ -114,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
     private void langauge() {
         String lang = settings.getString(Tags.PREF_LANGUAGE, "---");
-        if(!lang.equals("---") && !lang.equals("0")) {
+        if (!lang.equals("---") && !lang.equals("0")) {
             Locale locale = new Locale(lang);
             Locale.setDefault(locale);
             Configuration config = new Configuration();
@@ -128,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         final Changelog changelog = new Changelog(this);
 
         //Wenn eine neue Version der APP installiert ist
-        if(changelog.isNewVersion(Tags.PREF_VERSIONCODE)) {
+        if (changelog.isNewVersion(Tags.PREF_VERSIONCODE)) {
             //Changelog
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             String[] changelogLanguages = Tags.CHANGELOG_LANGUAGES;
@@ -171,15 +187,15 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
             public void run() {
                 String daysString = settings.getString(Tags.PREF_AUDIO_DELETE_DAYS, "0");
                 int days = Integer.parseInt(daysString);
-                if(days > 0) {
+                if (days > 0) {
                     long timeLimit = System.currentTimeMillis() - days * 24l * 60l * 60l * 1000l;
                     DBHandler dbHandler = DBHandler.newInstance(MainActivity.this);
                     List<Long> allAudios = dbHandler.getAllAudios();
-                    for(int i = 0; i < allAudios.size(); i++) {
+                    for (int i = 0; i < allAudios.size(); i++) {
                         if (allAudios.get(i) < timeLimit) {
                             //If not marked
                             Losung losung = dbHandler.getLosung(allAudios.get(i));
-                            if(!losung.isMarkiert()) {
+                            if (!losung.isMarkiert()) {
                                 //DELTE AUDIO
                                 String path = dbHandler.getAudioLosungen(allAudios.get(i));
 
@@ -195,7 +211,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                     }
                 }
             }
-        }); delteAudios.start();
+        });
+        delteAudios.start();
 
     }
 
@@ -228,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         setSupportActionBar(toolbar);
 
-        if(firstStart()) {
+        if (firstStart()) {
             firstInit();
         }
 
@@ -239,12 +256,15 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         MainActivity.activity = this;
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void ads() {
         adview = (AdView) findViewById(R.id.adView);
 
-        if(settings.getBoolean(Tags.PREF_ADS, false)) {
+        if (settings.getBoolean(Tags.PREF_ADS, false)) {
             AdRequest adRequest = new AdRequest.Builder()
                     .addTestDevice("38D4E5DE97D0586BC967B91DA47A055B")
                     .addTestDevice("C0E595547EB0BEF935787005A0EE4148")
@@ -258,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
     public void snackbar(String titel, int duration, boolean fav) {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, titel, duration);
-        if(fav) {
+        if (fav) {
             View snackBarView = snackbar.getView();
             snackBarView.setBackgroundColor(Colors.getColor(this, Colors.ACCENT));
         }
@@ -269,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     private static Handler mHandler;
 
     public static void toast(final Context context, final String title, final int duration) {
-        if(mHandler == null) {
+        if (mHandler == null) {
             mHandler = new Handler(Looper.getMainLooper());
         }
 
@@ -284,8 +304,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     @Override
     protected void onResume() {
         super.onResume();
-        if(firstStart) {
-            if(firstStartResume) {
+        if (firstStart) {
+            if (firstStartResume) {
                 firstStart = !firstStart;
                 navigationDrawer.setSelection(itemLosung, true);
             } else
@@ -297,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -315,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         } /*else if(id == R.id.action_import) {
             dialogImport();
             return true;
-        }*/ else if(id == R.id.action_change_language) {
+        }*/ else if (id == R.id.action_change_language) {
             final ChooseDialog chooseDialog = new ChooseDialog();
 
             final Runnable restart = new Runnable() {
@@ -328,81 +348,20 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
             };
             chooseDialog.changeLanguage(this, restart, true);
             return true;
-        } else if(id == R.id.action_export) {
-            final ProgressDialog dialog = new ProgressDialog(this);
-            dialog.setMessage(getResources().getString(R.string.exporting));
-            dialog.show();
-
-            Thread export = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    DBHandler dbHandler = DBHandler.newInstance(MainActivity.this);
-                    ArrayList<String[]> map = dbHandler.getAllNotes();
-
-                    ArrayList<String> tags = new ArrayList<>();
-                    ArrayList<String> values = new ArrayList<>();
-
-                    tags.add(XmlWriter.STARTTAG);
-                    values.add("LosungenNotizen");
-                    for(int i = 0; i < map.size(); i++) {
-                        String key = String.valueOf(map.get(i)[0]);
-                        String value = String.valueOf(map.get(i)[1]);
-
-                        tags.add(XmlWriter.STARTTAG);
-                        values.add("Losungen");
-                        tags.add(XmlWriter.STARTTAG);
-                        values.add("Datum");
-                        tags.add(XmlWriter.TEXT);
-                        values.add(Losung.getDatumForXml(Long.valueOf(key)));
-                        tags.add(XmlWriter.ENDTAG);
-                        values.add("Datum");
-
-                        tags.add(XmlWriter.STARTTAG);
-                        values.add("Notizen");
-                        tags.add(XmlWriter.TEXT);
-                        values.add(value);
-                        tags.add(XmlWriter.ENDTAG);
-                        values.add("Notizen");
-                        tags.add(XmlWriter.ENDTAG);
-                        values.add("Losungen");
-                    }
-                    tags.add(XmlWriter.ENDTAG);
-                    values.add("LosungenNotizen");
-
-                    XmlWriter xmlWriter = new XmlWriter();
-                    xmlWriter.setData(tags, values);
-
-                    File sdCard = Environment.getExternalStorageDirectory();
-                    File dir = new File (sdCard.getAbsolutePath() + "/" +
-                            getResources().getString(R.string.app_name) + "/exported");
-                    dir.mkdirs();
-                    final File file = new File(dir, "notes.xml");
-
-                    xmlWriter.writeXml(file);
-
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.cancel();
-                            MainActivity.toast(MainActivity.this,
-                                    getResources().getString(R.string.exported_to) + file.getPath(),
-                                    Toast.LENGTH_LONG);
-                        }
-                    });
-                }
-            });
-            export.start();
+        } else if (id == R.id.action_export) {
+            exportNotes();
+        } else if (id == R.id.action_import) {
+            importNotes();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     public static void share(Context context, String title, String text) {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
 
         Intent finalIntent = Intent.createChooser(sharingIntent, context.getResources().getString(R.string.share));
         finalIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -436,15 +395,15 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         boolean importiert = !settings.getString(Tags.PREF_IMPORTS, "---").equals("---");
 
-        if(!(lastStart == 0 || !importiert)) {
+        if (!(lastStart == 0 || !importiert)) {
             List<String> years = Arrays.asList(Tags.getImport(settings.getString(Tags.SELECTED_LANGUAGE, "en")));
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
 
             List<String> schonImportiert = Arrays.asList(settings.getString(Tags.PREF_IMPORTS, " ").split(","));
 
-            if(!schonImportiert.contains(String.valueOf(year))) {
-                if(years.contains(String.valueOf(year))) {
+            if (!schonImportiert.contains(String.valueOf(year))) {
+                if (years.contains(String.valueOf(year))) {
                     dialogImport();
                 }
             }
@@ -489,7 +448,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         String imports = settings.getString(Tags.PREF_IMPORTS, " ");
         String[] importsArray = imports.split(",");
-        if(!(importsArray.length == 1 && importsArray[0].equals(" "))) {
+        if (!(importsArray.length == 1 && importsArray[0].equals(" "))) {
             for (String anImportsArray : importsArray) {
                 schonImport.add(itemsList.indexOf(anImportsArray));
             }
@@ -500,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         String yearString = String.valueOf(year);
         int yearPos = itemsList.indexOf(yearString);
 
-        if(!schonImport.contains(yearPos))
+        if (!schonImport.contains(yearPos))
             mussImport.add(yearPos);
 
         ChooseDialog dialog = new ChooseDialog();
@@ -607,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                             AppWidgetManager mAppWidgetManager = AppWidgetManager.getInstance(MainActivity.this);
                             int[] ids = mAppWidgetManager.getAppWidgetIds(new ComponentName(MainActivity.this, WidgetBroadcast.class));
 
-                            for(int i = 0; i < ids.length; i++) {
+                            for (int i = 0; i < ids.length; i++) {
                                 widgetIds.add(ids[i]);
                             }
 
@@ -670,7 +629,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
             navigationDrawer.getRecyclerView().getChildAt(i).
         }*/
 
-        if(!firstStart)
+        if (!firstStart)
             navigationDrawer.setSelection(itemLosung, true);
     }
 
@@ -681,4 +640,236 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                 .replace(R.id.fragment_content, FragmentMonth.newInstance(MainActivity.this))
                 .commit();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://de.schalter.losungen/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://de.schalter.losungen/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FILE_CODE && resultCode == Activity.RESULT_OK) {
+            if (data.getBooleanExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)) {
+                // For JellyBean and above
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    ClipData clip = data.getClipData();
+
+                    if (clip != null) {
+                        for (int i = 0; i < clip.getItemCount(); i++) {
+                            Uri uri = clip.getItemAt(i).getUri();
+                            exportNotes(uri);
+                        }
+                    }
+                    // For Ice Cream Sandwich
+                } else {
+                    ArrayList<String> paths = data.getStringArrayListExtra
+                            (FilePickerActivity.EXTRA_PATHS);
+
+                    if (paths != null) {
+                        for (String path : paths) {
+                            Uri uri = Uri.parse(path);
+                            exportNotes(uri);
+                        }
+                    }
+                }
+
+            } else {
+                Uri uri = data.getData();
+                exportNotes(uri);
+            }
+        } else if (requestCode == IMPORT_CODE && resultCode == Activity.RESULT_OK) {
+            if (data.getBooleanExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)) {
+                // For JellyBean and above
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    ClipData clip = data.getClipData();
+
+                    if (clip != null) {
+                        for (int i = 0; i < clip.getItemCount(); i++) {
+                            Uri uri = clip.getItemAt(i).getUri();
+                            importNotes(uri);
+                        }
+                    }
+                // For Ice Cream Sandwich
+                } else {
+                    ArrayList<String> paths = data.getStringArrayListExtra
+                            (FilePickerActivity.EXTRA_PATHS);
+
+                    if (paths != null) {
+                        for (String path : paths) {
+                            Uri uri = Uri.parse(path);
+                            importNotes(uri);
+                        }
+                    }
+                }
+
+            } else {
+                Uri uri = data.getData();
+                importNotes(uri);
+            }
+        }
+    }
+
+    private void exportNotes(final Uri uri) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage(getResources().getString(R.string.exporting));
+        dialog.show();
+
+        Thread export = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DBHandler dbHandler = DBHandler.newInstance(MainActivity.this);
+                ArrayList<String[]> map = dbHandler.getAllNotes();
+
+                ArrayList<String> tags = new ArrayList<>();
+                ArrayList<String> values = new ArrayList<>();
+
+                tags.add(XmlWriter.STARTTAG);
+                values.add("LosungenNotizen");
+                for (int i = 0; i < map.size(); i++) {
+                    String key = String.valueOf(map.get(i)[0]);
+                    String value = String.valueOf(map.get(i)[1]);
+
+                    tags.add(XmlWriter.STARTTAG);
+                    values.add("Losungen");
+                    tags.add(XmlWriter.STARTTAG);
+                    values.add("Datum");
+                    tags.add(XmlWriter.TEXT);
+                    values.add(Losung.getDatumForXml(Long.valueOf(key)));
+                    tags.add(XmlWriter.ENDTAG);
+                    values.add("Datum");
+
+                    tags.add(XmlWriter.STARTTAG);
+                    values.add("Notizen");
+                    tags.add(XmlWriter.TEXT);
+                    values.add(value);
+                    tags.add(XmlWriter.ENDTAG);
+                    values.add("Notizen");
+                    tags.add(XmlWriter.ENDTAG);
+                    values.add("Losungen");
+                }
+                tags.add(XmlWriter.ENDTAG);
+                values.add("LosungenNotizen");
+
+                XmlWriter xmlWriter = new XmlWriter();
+                xmlWriter.setData(tags, values);
+
+                File dir = new File(uri.getPath());
+
+                final File file = new File(dir, "notes.xml");
+
+                xmlWriter.writeXml(file);
+
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.cancel();
+                        MainActivity.toast(MainActivity.this,
+                                getResources().getString(R.string.exported_to) + file.getPath(),
+                                Toast.LENGTH_LONG);
+                    }
+                });
+            }
+        });
+        export.start();
+    }
+
+    private void exportNotes() {
+        // This always works
+        Intent i = new Intent(this, FilePickerActivity.class);
+        // This works if you defined the intent filter
+        // Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+
+        // Set these depending on your use case. These are the defaults.
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
+        i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
+
+        // Configure initial directory by specifying a String.
+        // You could specify a String like "/storage/emulated/0/", but that can
+        // dangerous. Always use Android's API calls to get paths to the SD-card or
+        // internal memory.
+        i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
+
+        startActivityForResult(i, FILE_CODE);
+    }
+
+    private void importNotes() {
+        // This always works
+        Intent i = new Intent(this, FilePickerActivity.class);
+        // This works if you defined the intent filter
+        // Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+
+        // Set these depending on your use case. These are the defaults.
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
+        i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
+
+        // Configure initial directory by specifying a String.
+        // You could specify a String like "/storage/emulated/0/", but that can
+        // dangerous. Always use Android's API calls to get paths to the SD-card or
+        // internal memory.
+        i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
+
+        startActivityForResult(i, IMPORT_CODE);
+    }
+
+    private void importNotes(final Uri uri) {
+        //TODO check if FILE is right parse FILE and update to database
+        File importFile = new File(uri.getPath());
+        XmlNotesImport xmlImport = new XmlNotesImport();
+        boolean success = xmlImport.parseXML(importFile);
+        if(!success)
+            MainActivity.toast(this, getResources().getString(R.string.import_failed),
+                    Toast.LENGTH_LONG);
+        else {
+            ArrayList<String[]> notes = xmlImport.getNotes();
+            DBHandler dbHandler = DBHandler.newInstance(this);
+            dbHandler.importNotes(notes, false);
+            MainActivity.toast(this, getResources().getString(R.string.import_success),
+                    Toast.LENGTH_LONG);
+
+            Intent refresh = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(refresh);
+            finish();
+        }
+    }
+
 }
+

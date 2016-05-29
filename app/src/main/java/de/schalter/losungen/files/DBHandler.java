@@ -784,4 +784,35 @@ public class DBHandler extends SQLiteOpenHelper {
 
         return values;
     }
+
+    /**
+     * import the notes to the database
+     * @param notes
+     * [date, note]
+     */
+    public void importNotes(ArrayList<String[]> notes, boolean override) {
+        Calendar calendar = Calendar.getInstance();
+        long timeOneDay = 1000l * 60l * 60l * 24l;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        for(int i = 0; i< notes.size(); i++) {
+            ContentValues cv = new ContentValues();
+            String[] array = notes.get(i);
+
+            calendar.setTimeInMillis(Long.parseLong(array[0]));
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+
+            //If notes are not empty
+            if(!array[1].equals("") || override) {
+                cv.put(KEY_NOTIZENLOSUNG, array[1]);
+                db.update(TABLE_LOSUNGEN, cv, KEY_DATUM + " > " +
+                        calendar.getTimeInMillis() + " AND " + KEY_DATUM +
+                        " < " + (calendar.getTimeInMillis() + timeOneDay), null);
+            }
+        }
+    }
 }

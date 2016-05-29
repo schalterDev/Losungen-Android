@@ -9,8 +9,8 @@ android {
         applicationId "de.schalter.losungen"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 14
-        versionName "1.2.2.1"
+        versionCode 15
+        versionName "1.2.2.2"
     }
     buildTypes {
         release {
@@ -45,6 +45,7 @@ dependencies {
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
     compile 'com.github.paolorotolo:appintro:3.2.0'
     compile 'com.larswerkman:lobsterpicker:1.0.0'
+    compile 'com.nononsenseapps:filepicker:2.5.2'
     compile project(':mediaplayer-library')
     compile project(':customizelibrary')
 }
