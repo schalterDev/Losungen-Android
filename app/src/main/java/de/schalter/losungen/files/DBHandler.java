@@ -764,4 +764,24 @@ public class DBHandler extends SQLiteOpenHelper {
 
         db.rawQuery(update, null);
     }
+
+    public ArrayList<String[]> getAllNotes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String select = "SELECT " + KEY_DATUM + "," + KEY_NOTIZENLOSUNG + " from " +
+                TABLE_LOSUNGEN + " ORDER BY " + KEY_DATUM + ";";
+
+        Cursor c = db.rawQuery(select, null);
+
+        ArrayList<String[]> values = new ArrayList<>();
+
+        while(c.moveToNext()) {
+            String[] array = {String.valueOf(c.getLong(0)), c.getString(1)};
+            values.add(array);
+        }
+
+        c.close();
+
+        return values;
+    }
 }
