@@ -115,6 +115,22 @@ public class Losung {
         return df.format(date);
     }
 
+    public static String getDatumForXml(long time) {
+        //2016-01-01T00:00:00
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        Date date = calendar.getTime();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        String dateString = df.format(date);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(dateString);
+        stringBuilder.append("T00:00:00");
+
+        return stringBuilder.toString();
+    }
+
     public static void shareLosung(Losung losung, Context context) {
         String[] items = {context.getResources().getString(R.string.losung),
                 context.getResources().getString(R.string.lehrtext),
