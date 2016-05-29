@@ -1,6 +1,6 @@
 ﻿<XML>
-    <appversion version="15" versionNice="1.2.2.2">
-        <change important="false">Notizen können nun exportiert werden</change>
+    <appversion version="16" versionNice="1.2.2.3">
+        <change important="false">Notizen können nun in- und exportiert werden</change>
     </appversion>
     <appversion version="14" versionNice="1.2.2.1">
         <change important="true">Absturz beim Streamen der Andacht behoben</change>

@@ -1,6 +1,6 @@
 ﻿<XML>
-    <appversion version="15" versionNice="1.2.2.2">
-        <change important="false">You can export the notes now</change>
+    <appversion version="16" versionNice="1.2.2.3">
+        <change important="false">You can in- and export the notes now</change>
     </appversion>
     <appversion version="13" versionNice="1.2.2">
         <change important="false">Fixed some bugs in the german version</change>
