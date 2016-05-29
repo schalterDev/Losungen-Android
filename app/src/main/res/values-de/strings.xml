@@ -178,5 +178,8 @@
     <string name="pref_which_vers_summary">Losung / Lehrtext verstecken</string>
     <string name="pref_which_vers_title">Nur Losung bzw. Lehrtext anzeigen</string>
     <string name="remember_my_decision">Merke meine Entscheidung</string>
+    <string name="export">Exportiere Notizen</string>
+    <string name="exported_to">Exportiert nach:</string>
+    <string name="exporting">Speichere Notizen auf die SD-Karte</string>
 
 </resources>

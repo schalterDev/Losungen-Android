@@ -9,4 +9,9 @@
         android:icon="@drawable/ic_action_datum"
         app:showAsAction="ifRoom" />
 
+    <item android:id="@+id/action_export"
+        android:orderInCategory="1000"
+        android:title="@string/export"
+        app:showAsAction="never" />
+
 </menu>

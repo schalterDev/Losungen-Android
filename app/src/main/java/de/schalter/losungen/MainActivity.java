@@ -1,5 +1,6 @@
 package de.schalter.losungen;
 
+import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -44,6 +46,7 @@ import java.util.Locale;
 import de.schalter.losungen.changelog.Changelog;
 import de.schalter.losungen.dialogs.ChooseDialog;
 import de.schalter.losungen.files.DBHandler;
+import de.schalter.losungen.files.XmlWriter;
 import de.schalter.losungen.fragments.FragmentInfo;
 import de.schalter.losungen.fragments.FragmentLosung;
 import de.schalter.losungen.fragments.FragmentLosungenListe;
@@ -325,6 +328,71 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
             };
             chooseDialog.changeLanguage(this, restart, true);
             return true;
+        } else if(id == R.id.action_export) {
+            final ProgressDialog dialog = new ProgressDialog(this);
+            dialog.setMessage(getResources().getString(R.string.exporting));
+            dialog.show();
+
+            Thread export = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    DBHandler dbHandler = DBHandler.newInstance(MainActivity.this);
+                    ArrayList<String[]> map = dbHandler.getAllNotes();
+
+                    ArrayList<String> tags = new ArrayList<>();
+                    ArrayList<String> values = new ArrayList<>();
+
+                    tags.add(XmlWriter.STARTTAG);
+                    values.add("LosungenNotizen");
+                    for(int i = 0; i < map.size(); i++) {
+                        String key = String.valueOf(map.get(i)[0]);
+                        String value = String.valueOf(map.get(i)[1]);
+
+                        tags.add(XmlWriter.STARTTAG);
+                        values.add("Losungen");
+                        tags.add(XmlWriter.STARTTAG);
+                        values.add("Datum");
+                        tags.add(XmlWriter.TEXT);
+                        values.add(Losung.getDatumForXml(Long.valueOf(key)));
+                        tags.add(XmlWriter.ENDTAG);
+                        values.add("Datum");
+
+                        tags.add(XmlWriter.STARTTAG);
+                        values.add("Notizen");
+                        tags.add(XmlWriter.TEXT);
+                        values.add(value);
+                        tags.add(XmlWriter.ENDTAG);
+                        values.add("Notizen");
+                        tags.add(XmlWriter.ENDTAG);
+                        values.add("Losungen");
+                    }
+                    tags.add(XmlWriter.ENDTAG);
+                    values.add("LosungenNotizen");
+
+                    XmlWriter xmlWriter = new XmlWriter();
+                    xmlWriter.setData(tags, values);
+
+                    File sdCard = Environment.getExternalStorageDirectory();
+                    File dir = new File (sdCard.getAbsolutePath() + "/" +
+                            getResources().getString(R.string.app_name) + "/exported");
+                    dir.mkdirs();
+                    final File file = new File(dir, "notes.xml");
+
+                    xmlWriter.writeXml(file);
+
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.cancel();
+                            MainActivity.toast(MainActivity.this,
+                                    getResources().getString(R.string.exported_to) + file.getPath(),
+                                    Toast.LENGTH_LONG);
+                        }
+                    });
+                }
+            });
+            export.start();
         }
 
         return super.onOptionsItemSelected(item);

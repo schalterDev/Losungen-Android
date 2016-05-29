@@ -161,4 +161,7 @@
     <string name="default_open_verses">Default action - click on vers</string>
     <string name="pref_which_vers_title">Show only NT / OT</string>
     <string name="pref_which_vers_summary">Hide OT or NT</string>
+    <string name="export">Export notes</string>
+    <string name="exporting">Export notes to the SD-Card</string>
+    <string name="exported_to">Exported to:</string>
 </resources>
