@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -812,10 +813,14 @@ public class DBHandler extends SQLiteOpenHelper {
 
             //If notes are not empty
             if(!array[1].equals("") || override) {
-                cv.put(KEY_NOTIZENLOSUNG, array[1]);
-                db.update(TABLE_LOSUNGEN, cv, KEY_DATUM + " > " +
+                String where = KEY_DATUM + " >= " +
                         calendar.getTimeInMillis() + " AND " + KEY_DATUM +
-                        " < " + (calendar.getTimeInMillis() + timeOneDay), null);
+                        " <= " + (calendar.getTimeInMillis() + timeOneDay);
+
+                cv.put(KEY_NOTIZENLOSUNG, array[1]);
+                db.update(TABLE_LOSUNGEN, cv, where, null);
+
+                Log.d("Losungen", "SQL: " + where);
             }
         }
     }
