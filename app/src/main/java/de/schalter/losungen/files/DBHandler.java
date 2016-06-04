@@ -769,7 +769,8 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String select = "SELECT " + KEY_DATUM + "," + KEY_NOTIZENLOSUNG + " from " +
-                TABLE_LOSUNGEN + " ORDER BY " + KEY_DATUM + ";";
+                TABLE_LOSUNGEN + " WHERE (" + KEY_NOTIZENLOSUNG + " IS NOT NULL)" +
+                " ORDER BY " + KEY_DATUM + ";";
 
         Cursor c = db.rawQuery(select, null);
 
@@ -777,7 +778,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
         while(c.moveToNext()) {
             String[] array = {String.valueOf(c.getLong(0)), c.getString(1)};
-            values.add(array);
+
+            //Only add if it isnt empty
+            if(!(array[0].equals("") & array[1].equals("")))
+                values.add(array);
         }
 
         c.close();
