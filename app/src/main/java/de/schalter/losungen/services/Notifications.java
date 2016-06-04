@@ -247,12 +247,13 @@ public class Notifications extends Service {
                     String url = Tags.getAudioUrl(calendar);
 
                     //set Path
-                    String path = "audio/" + getApplicationContext().getString(R.string.app_name) + "_" + Losung.getDatumLongFromTime(datum) + ".mp3";
+                    String folder = "audio";
+                    String fileName = Notifications.this.getString(R.string.app_name) + "_" + Losung.getDatumLongFromTime(datum) + ".mp3";
 
                     //use internal or external storage
                     boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
 
-                    final DownloadTask downloadTask = new DownloadTask(getApplicationContext(), url, path, internal);
+                    final DownloadTask downloadTask = new DownloadTask(getApplicationContext(), url, folder, fileName, internal);
 
                     //When finished
                     Runnable finished = new Runnable() {

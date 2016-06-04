@@ -2,25 +2,28 @@ package de.schalter.losungen.services;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import de.schalter.losungen.MainActivity;
+import de.schalter.losungen.R;
+import de.schalter.losungen.files.Files;
+
 /**
- * Created by Smarti on 27.12.2015.
+ * Created by Smarti on 27.12.2015
  */
 public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
     private DownloadNotificationHelper mNotificationHelper;
 
     private Context context;
     private String url;
-    private String path;
+    private String folder;
+    private String fileName;
     private String absolutePath;
     private boolean internal;
     private int progress;
@@ -28,9 +31,11 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
     private Runnable finished;
     private Runnable onUpdate;
 
-    public DownloadTask(Context context, String url, String path, boolean internal){
+    public DownloadTask(Context context, String url, String folder,
+                        String fileName, boolean internal){
         this.context = context;
-        this.path = path;
+        this.folder = folder;
+        this.fileName = fileName;
         this.url = url;
         this.internal = internal;
         mNotificationHelper = new DownloadNotificationHelper(context);
@@ -51,44 +56,46 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
 
     @Override
     protected Void doInBackground(Integer... integers) {
+        final Files files = new Files();
+        Runnable progressRunnable = new Runnable() {
+            @Override
+            public void run() {
+                publishProgress(files.getProgress());
+            }
+        };
+        files.setOnProgress(progressRunnable);
+
         try {
-            int count;
             URL url = new URL(this.url);
             HttpsURLConnection connexion = (HttpsURLConnection) url.openConnection();
             //URLConnection connexion = url.openConnection();
             connexion.connect();
 
-            int lenghtOfFile = connexion.getContentLength();
+            files.setLenghtOfFile(connexion.getContentLength());
 
             InputStream input = new BufferedInputStream(url.openStream());
-            File file;
             //Write to internal storage
             if(internal) {
-                file = new File(context.getFilesDir(), path);
-                //Create directorys
-                new File(context.getFilesDir(), path.substring(0,path.lastIndexOf("/"))).mkdirs();
+                absolutePath = files.writeToPrivateStorage(context, input, folder, fileName);
             } else { //Write to external storage
-                file = new File(context.getExternalFilesDir(null), path);
-                //Create directorys
-                boolean success = new File(context.getExternalFilesDir(null), path.substring(0,path.lastIndexOf("/"))).mkdirs();
+                absolutePath = files.writeToRealExternalCacheStorage(context, input,
+                        folder, fileName);
+
+                if(absolutePath == null) {
+                    //couldn't write to external sd-card, try internal sd-card
+                    absolutePath = files.writeToExternalPrivateStorage(input, fileName, folder);
+                }
+
+                if(absolutePath == null) {
+                    //Error writing to external resource
+                    MainActivity.toast(context,
+                            context.getResources().getString(R.string.failed_external),
+                            Toast.LENGTH_LONG);
+
+                    mNotificationHelper.error();
+                    cancel(true);
+                }
             }
-
-            absolutePath = file.getAbsolutePath();
-
-            OutputStream output = new FileOutputStream(file);
-            byte data[] = new byte[1024];
-
-            long total = 0;
-
-            while ((count = input.read(data)) != -1) {
-                total += count;
-                publishProgress((int)((total*100)/lenghtOfFile));
-                output.write(data, 0, count);
-            }
-
-            output.flush();
-            output.close();
-            input.close();
 
         } catch (Exception e) {
             e.printStackTrace();

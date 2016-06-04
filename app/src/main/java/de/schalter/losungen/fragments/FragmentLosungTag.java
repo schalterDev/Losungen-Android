@@ -230,12 +230,14 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                     String url = Tags.getAudioUrl(calendar);
 
                     //set Path
-                    String path = "audio/" + context.getString(R.string.app_name) + "_" + Losung.getDatumLongFromTime(losung.getDatum()) + ".mp3";
+                    String folder = "audio";
+                    String fileName = context.getString(R.string.app_name) + "_" +
+                            Losung.getDatumLongFromTime(losung.getDatum()) + ".mp3";
 
                     //use internal or external storage
                     boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
 
-                    final DownloadTask downloadTask = new DownloadTask(context, url, path, internal);
+                    final DownloadTask downloadTask = new DownloadTask(context, url, folder, fileName, internal);
 
                     //When finished
                     Runnable finished = new Runnable() {
@@ -270,7 +272,6 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
             if(file.exists()) {
                 playFile(pathAudioLosung);
             } else {
-                //TODO audio download (ask user) and notify user
                 //Only if users want to download
                 if(stream) {
                     streamFile();
