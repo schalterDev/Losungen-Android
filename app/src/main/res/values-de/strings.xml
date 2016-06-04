@@ -181,5 +181,7 @@
     <string name="export">Exportiere Notizen</string>
     <string name="exported_to">Exportiert nach:</string>
     <string name="exporting">Speichere Notizen auf die SD-Karte</string>
+    <string name="import_notes">Importiere Notizen</string>
+    <string name="import_success">Alles importiert</string>
 
 </resources>
