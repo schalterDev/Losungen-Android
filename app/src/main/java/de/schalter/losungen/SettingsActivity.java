@@ -1,12 +1,15 @@
 package de.schalter.losungen;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -24,10 +27,15 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import de.schalter.losungen.files.DBHandler;
+import de.schalter.losungen.files.Files;
 import de.schalter.losungen.services.Notifications;
 import de.schalter.losungen.settings.Tags;
 import schalter.dev.customizelibrary.Colors;
@@ -300,11 +308,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         //SD-Card change
         if(key.equals(Tags.PREF_AUDIO_EXTERNAL_STORGAE)) {
             boolean sd_card = sharedPreferences.getBoolean(key, false);
-
-            if(sd_card)
-                MainActivity.toast(this, this.getString(R.string.still_in_internal), Toast.LENGTH_LONG);
-            else
-                MainActivity.toast(this, this.getString(R.string.still_in_external), Toast.LENGTH_LONG);
+            moveSermons(sd_card);
         }
 
         //Audio delete days change
@@ -329,6 +333,79 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         }
     }
 
+    private void moveSermons(final boolean sdcard) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+
+        if(sdcard)//move to sd-card
+            dialog.setMessage(this.getString(R.string.moving_to_sdcard));
+        else //move to internal storage
+            dialog.setMessage(this.getString(R.string.moving_to_internal));
+
+        dialog.show();
+
+        Thread moveSermons = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int success = 0;
+                int failed = 0;
+
+                //Get all sermons
+                DBHandler dbHandler = DBHandler.newInstance(SettingsActivity.this);
+                List<Long> idSermons = dbHandler.getAllAudios();
+
+                Files files = new Files();
+
+                String path = "";
+                String newPath;
+                File sermon;
+                for(int i = 0; i < idSermons.size(); i++) {
+                    path = dbHandler.getAudioLosungen(idSermons.get(i));
+                    sermon = new File(path);
+                    try {
+                        InputStream inputSermon = Files.getInputStreamFromFile(sermon);
+
+                        if(sdcard) { //move to sd-card
+                            newPath = files.writeToRealExternalCacheStorage(SettingsActivity.this, inputSermon, "audio",
+                                    path.substring(path.lastIndexOf("/"), path.length() - 1));
+                        } else {
+                            newPath = files.writeToPrivateStorage(SettingsActivity.this, inputSermon, "audio",
+                                    path.substring(path.lastIndexOf("/"), path.length() - 1));
+                        }
+
+                        if(newPath != null) {
+                            dbHandler.addAudioLosungen(idSermons.get(i), newPath);
+                            sermon.delete();
+                            success++;
+                        } else {
+                            Log.w("Losungen", "Failed to move sermon, path: " + path);
+                            failed++;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        failed++;
+                    }
+                }
+
+                Handler handler = new Handler(Looper.getMainLooper());
+                final int finalSuccess = success;
+                final int finalFailed = failed;
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.cancel();
+                        MainActivity.toast(SettingsActivity.this,
+                                SettingsActivity.this.getString(R.string.successful) +
+                                        ": " + finalSuccess +
+                                        ", " + SettingsActivity.this.getString(R.string.failed) +
+                                        ": " + finalFailed,
+                                Toast.LENGTH_LONG);
+                    }
+                });
+            }
+        });
+        moveSermons.start();
+
+    }
     /**
      * This fragment shows general preferences only. It is used when the
      * activity is showing a two-pane settings UI.
