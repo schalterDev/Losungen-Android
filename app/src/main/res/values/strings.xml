@@ -48,7 +48,7 @@
     <string name="pref_notes_title">Show Notes</string>
     <string name="pref_notification_art">Content</string>
     <string name="pref_notifications">Notifications</string>
-    <string name="pref_time">Time</string>
+    <string name="pref_time">Time for download</string>
     <string name="rate">Rate</string>
     <string name="remove_fav">Removed from favorites</string>
     <string name="rows">Rows</string>
@@ -149,7 +149,7 @@
     <string name="only_wifi">Only with WIFI</string>
     <string name="invalid_number">Invalid number...</string>
     <string name="audio_delete_days_title">Delte audio files automatically</string>
-    <string name="audio_delete_days_summary">Delete not favored sermons after x days</string>
+    <string name="audio_delete_days_summary">Delete not favored sermons after x days (0 to deaktivate)</string>
     <string name="audio_download_downloaded">Play audio file from %1$s</string>
     <string name="audio_download_download">Download audio file from %1$s</string>
     <string name="widget">Configure widgets</string>
@@ -167,4 +167,11 @@
     <string name="import_failed">could not import file</string>
     <string name="import_success">Everything imported</string>
     <string name="import_notes">Import notes</string>
+    <string name="failed_internal">Failed to write into internal storage</string>
+    <string name="failed_external">Failed to write to external storage</string>
+    <string name="moving_to_sdcard">Moving sermons to SD-Card, please wait...</string>
+    <string name="moving_to_internal">Moving sermons to internal storage please wait...</string>
+    <string name="successfull">Successful</string>
+    <string name="failed">Failed</string>
+    <string name="successful">Successful</string>
 </resources>

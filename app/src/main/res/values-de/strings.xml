@@ -52,7 +52,7 @@
     <string name="pref_general">Allgemein</string>
     <string name="pref_notifications">Benachrichtigungen</string>
     <string name="pref_notification_art">Inhalt</string>
-    <string name="pref_time">Zeit</string>
+    <string name="pref_time">Zeit für den automatischen Download</string>
     <string name="pref_notes_title">Notizen anzeigen</string>
     <string name="pref_ads_title">Werbung anzeigen</string>
     <string name="pref_ads_summary">Wenn du diese APP unterstützen willst kannst du Werbung aktivieren. Dann wird ein kleiner Banner unten in der APP angezeigt (Neustart erforderlich)</string>
@@ -164,7 +164,7 @@
     <string name="use_quick_bible_on">Beim Klick auf den Bibelvers wird dieser in der APP geöffnet</string>
     <string name="country_netherlands">Niederländisch</string>
     <string name="invalid_number">Ungültige Zahl, bitte gebe eine gültige Zahl ein</string>
-    <string name="audio_delete_days_summary">Nicht favorisierte Dateien nach x Tagen löschen</string>
+    <string name="audio_delete_days_summary">Nicht favorisierte Dateien nach x Tagen löschen (0 um sie nie zu löschen)</string>
     <string name="audio_delete_days_title">Audio Dateien automatisch löschen</string>
     <string name="audio_download_download">Andacht vom %1$s herunterladen</string>
     <string name="audio_download_downloaded">Andacht vom %1$s abspielen</string>
@@ -173,7 +173,7 @@
     <string name="open_in_browser_dialog">Öffne Verse im Browser (bibleserver.com)</string>
     <string name="open_verse">Öffne Verse in Quick-Bible oder Bibleserver</string>
     <string name="pref_custom_color">Ändere Farbe</string>
-    <string name="default_open_verses">Stanard Aktion - Klick auf Vers</string>
+    <string name="default_open_verses">Standart Aktion - Klick auf Vers</string>
     <string name="open_in_always_ask">Immer nachfragen</string>
     <string name="pref_which_vers_summary">Losung / Lehrtext verstecken</string>
     <string name="pref_which_vers_title">Nur Losung bzw. Lehrtext anzeigen</string>
@@ -183,5 +183,13 @@
     <string name="exporting">Speichere Notizen auf die SD-Karte</string>
     <string name="import_notes">Importiere Notizen</string>
     <string name="import_success">Alles importiert</string>
+    <string name="failed_external">Fehler beim Schreiben auf die SD-Karte</string>
+    <string name="failed_internal">Fehler beim Schreiben in den internen Speicher</string>
+    <string name="import_failed">konnte Datei nicht importieren</string>
+    <string name="failed">Fehlgeschlagen</string>
+    <string name="moving_to_internal">Verschiebe die Andachten in den internen Speicher, bitte warten...</string>
+    <string name="moving_to_sdcard">Verschiebe die Andachten auf dei SD-Karte, bitte warten...</string>
+    <string name="successful">Erfolgreich</string>
+    <string name="successfull">Erfolgreich</string>
 
 </resources>

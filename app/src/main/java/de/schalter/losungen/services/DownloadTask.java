@@ -45,7 +45,7 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
         finished = runnable;
     }
 
-    public void onProgressUpdateListener(Runnable runnable) {
+    public void setOnProgressUpdateListener(Runnable runnable) {
         onUpdate = runnable;
     }
 

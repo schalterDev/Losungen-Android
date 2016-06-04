@@ -48,4 +48,5 @@ dependencies {
     compile 'com.nononsenseapps:filepicker:2.5.2'
     compile project(':mediaplayer-library')
     compile project(':customizelibrary')
+    compile 'org.jetbrains:annotations-java5:15.0'
 }

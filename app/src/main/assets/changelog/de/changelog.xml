@@ -1,6 +1,8 @@
 ﻿<XML>
     <appversion version="16" versionNice="1.2.2.3">
         <change important="false">Notizen können nun in- und exportiert werden</change>
+        <change important="false">Anachten können jetzt auch auf der externen SD-Karte gespeichert werden</change>
+        <change important="false">Anachten werden nun auf die SD-Karte / in den internen Speicher verschoben, sobald die Einstellung geändert wird</change>
     </appversion>
     <appversion version="14" versionNice="1.2.2.1">
         <change important="true">Absturz beim Streamen der Andacht behoben</change>

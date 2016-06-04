@@ -5,7 +5,10 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -287,6 +290,15 @@ public class Files {
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    /**
+     * Return inputstream needed for other methods from file
+     * @param file
+     * @return
+     */
+    public static InputStream getInputStreamFromFile(File file) throws FileNotFoundException {
+        return new BufferedInputStream(new FileInputStream(file));
     }
 
     /**
