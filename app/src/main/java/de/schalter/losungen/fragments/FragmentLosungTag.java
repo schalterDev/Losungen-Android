@@ -500,7 +500,8 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                 public void afterTextChanged(Editable s) {
                     //Safe changes to files
                     try {
-                        dbHandler.editLosungNotiz(losung.getDatum(), s.toString());
+                        if(dbHandler != null)
+                            dbHandler.editLosungNotiz(losung.getDatum(), s.toString());
                     } catch (Exception e) {
                         Log.d("Losungen", "Fehler: " + e.getMessage());
                         e.printStackTrace();
