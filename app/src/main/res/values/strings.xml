@@ -174,4 +174,5 @@
     <string name="successfull">Successful</string>
     <string name="failed">Failed</string>
     <string name="successful">Successful</string>
+    <string name="cant_parse_number">Could not parse bible vers</string>
 </resources>
