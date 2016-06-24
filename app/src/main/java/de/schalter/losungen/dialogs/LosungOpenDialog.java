@@ -76,10 +76,13 @@ public class LosungOpenDialog {
                 bibleDialog.loadVers(losung.getLosungsvers());
             else
                 bibleDialog.loadVers(losung.getLehrtextVers());
-            bibleDialog.openDialog();
+            bibleDialog.openApp();
         } catch (IOException | ActivityNotFoundException e) {
             MainActivity.toast(context, context.getResources().getString(R.string.open_in_app_failed),
                     Toast.LENGTH_SHORT);
+        } catch (NumberFormatException e) {
+            MainActivity.toast(context, context.getResources().getString(R.string.cant_parse_number),
+                    Toast.LENGTH_LONG);
         }
     }
 

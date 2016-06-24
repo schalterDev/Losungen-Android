@@ -203,7 +203,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                         try {
                             BibleDialog bibleDialog = new BibleDialog(context);
                             bibleDialog.loadVers(String.valueOf(losungsvers.getText()));
-                            bibleDialog.openDialog();
+                            bibleDialog.openApp();
                         } catch (IOException | ActivityNotFoundException e) {
                             MainActivity.toast(context, context.getResources().getString(R.string.open_in_app_failed),
                                     Toast.LENGTH_SHORT);

@@ -91,18 +91,20 @@ public class FragmentIntroSwitch extends Fragment {
         switch_pref.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putBoolean(prefTag, isChecked);
-                editor.apply();
+                if(prefTag != null) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean(prefTag, isChecked);
+                    editor.apply();
 
-                if (prefTag.equals(Tags.PREF_NOTIFICATION)) {
-                    if (isChecked)
-                        Notifications.setNotifications(FragmentIntroSwitch.this.getContext(), 7 * 60 * 60 * 1000);
-                    else
-                        Notifications.removeNotifications(FragmentIntroSwitch.this.getContext());
+                    if (prefTag.equals(Tags.PREF_NOTIFICATION)) {
+                        if (isChecked)
+                            Notifications.setNotifications(FragmentIntroSwitch.this.getContext(), 7 * 60 * 60 * 1000);
+                        else
+                            Notifications.removeNotifications(FragmentIntroSwitch.this.getContext());
+                    }
+
+                    analytics("Settings", "Intro: " + prefTag + ", " + isChecked);
                 }
-
-                analytics("Settings", "Intro: " + prefTag + ", " + isChecked);
             }
         });
 

@@ -37,6 +37,29 @@ public class BibleDialog {
         books_language = getBooks(language);
     }
 
+    public void openApp() {
+        String intentExtra = "a:";
+        for(int i = 0; i < final_verses.size(); i++) {
+            intentExtra += String.valueOf(final_verses.get(i));
+            if(final_connectors.size() > (i)) { //Wenn noch ein connector vorhanden ist
+                if(final_connectors.get(i).equals("."))
+                    intentExtra += ",";
+                else
+                    intentExtra += final_connectors.get(i);
+            }
+        }
+
+        Intent intent = new Intent("yuku.alkitab.action.SHOW_VERSES_DIALOG");
+        //Intent intent = new Intent("yuku.alkitab.action.VIEW");
+        intent.putExtra("target", intentExtra);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+    }
+
     public void openDialog() throws ActivityNotFoundException{
         String intentExtra = "a:";
         for(int i = 0; i < final_verses.size(); i++) {
