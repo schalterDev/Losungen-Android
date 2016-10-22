@@ -15,6 +15,7 @@ import java.util.List;
 
 import de.schalter.losungen.Losung;
 import de.schalter.losungen.R;
+import de.schalter.losungen.log.CustomLog;
 
 /**
  * Created by marti on 27.10.2015.
@@ -73,6 +74,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         db.execSQL(createDB);
 
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_DB, createDB));
+
         createDB = "create table if not exists " + TABLE_MONTH + " ( " +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 KEY_LOSUNGSTEXT + " TEXT, " +
@@ -84,6 +87,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 KEY_MONTH_TITLE + " INTEGER);";
 
         db.execSQL(createDB);
+
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_DB, createDB));
     }
 
     @Override
@@ -108,6 +113,8 @@ public class DBHandler extends SQLiteOpenHelper {
                     KEY_MONTH_TITLE + " INTEGER);";
 
             db.execSQL(createDB);
+
+            CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_DB, createDB));
         } else if (oldVersion == 2) {
             String createDB = "create table if not exists " + TABLE_MONTH + " ( " +
                     KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -120,6 +127,8 @@ public class DBHandler extends SQLiteOpenHelper {
                     KEY_MONTH_TITLE + " INTEGER);";
 
             db.execSQL(createDB);
+
+            CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_DB, createDB));
         }
     }
 
@@ -624,6 +633,8 @@ public class DBHandler extends SQLiteOpenHelper {
         String select = "Select * from " + TABLE_LOSUNGEN +
                 " where( " + where + " );";
 
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_DB, select));
+
         Cursor c = db.rawQuery(select, null);
 
         while(c.moveToNext()) {
@@ -656,6 +667,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         cv.put(KEY_NOTIZENLOSUNG, notiz);
         db.update(TABLE_LOSUNGEN, cv, KEY_DATUM + " = " + datum, null);
+
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_DB, "Date: " + datum + ", note: " + notiz + ", cv: " + cv.toString()));
     }
 
     //Is not in use, because LehrtextNotizen is not used until now
