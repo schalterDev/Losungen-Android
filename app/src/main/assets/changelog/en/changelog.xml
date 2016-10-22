@@ -1,4 +1,8 @@
 ﻿<XML>
+    <appversion version="17" versionNice="1.2.3">
+        <change important="true">Widget is working again</change>
+        <change important="false">Added developer options</change>
+    </appversion>
     <appversion version="16" versionNice="1.2.2.3">
         <change important="false">You can in- and export the notes now</change>
     </appversion>
