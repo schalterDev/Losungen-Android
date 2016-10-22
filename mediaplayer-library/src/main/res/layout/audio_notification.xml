@@ -65,7 +65,6 @@
         android:id="@+id/audio_notification_close"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/abc_ic_clear_mtrl_alpha"
         android:background="#00ffffff"
         android:focusable="true"
         android:tint="#555555"/>
