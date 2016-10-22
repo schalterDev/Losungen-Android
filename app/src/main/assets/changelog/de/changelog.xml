@@ -2,7 +2,6 @@
     <appversion version="17" versionNice="1.2.3">
         <change important="true">Widget-Fehler behoben</change>
         <change important="false">Entwickleroptionen hinzugefügt</change>
-        <change important="false">Die Andacht kann nun über das Menü geteilt / versendet werden</change>
     </appversion>
     <appversion version="16" versionNice="1.2.2.3">
         <change important="false">Notizen können nun in- und exportiert werden</change>
