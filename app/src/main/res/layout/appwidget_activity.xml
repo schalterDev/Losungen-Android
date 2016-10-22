@@ -112,85 +112,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/widget_activity_previewSettings"
+            android:text="@string/widget_activity_preview"
             android:id="@+id/textView_review_settings"
             android:layout_below="@+id/button_fontColor"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp" />
 
-        <SeekBar
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/seekBar_rows"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/horizontalScrollView"
+            android:background="@drawable/drawable_background_image_preview"
             android:layout_below="@+id/textView_review_settings"
             android:layout_alignLeft="@+id/button_fontColor"
             android:layout_alignStart="@+id/button_fontColor"
-            android:indeterminate="false" />
+            android:fillViewport="false" >
 
-        <SeekBar
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/seekBar_columns"
-            android:layout_below="@+id/textView_review_settings"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:indeterminate="false" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/widget_activity_default_row"
-            android:id="@+id/textView_rows"
-            android:layout_below="@+id/seekBar_rows"
-            android:layout_alignLeft="@+id/seekBar_rows"
-            android:layout_alignStart="@+id/seekBar_rows" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/widget_acitivity_default_columns"
-            android:id="@+id/textView_columns"
-            android:layout_below="@+id/seekBar_columns"
-            android:layout_alignLeft="@+id/seekBar_columns"
-            android:layout_alignStart="@+id/seekBar_columns" />
-
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/horizontalScrollView"
-            android:layout_below="@+id/textView_rows"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/drawable_background_image_preview">
-
-            <LinearLayout
-                android:orientation="vertical"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/relative_layout_widget_activity"
+                android:background="#555"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
 
-                <RelativeLayout
-                    android:layout_width="110dp"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/textView_rows"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textView_widget_preview"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/relative_layout_widget_activity"
-                    android:background="#555">
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Small Text"
-                        android:id="@+id/textView_widget_preview"
-                        android:textColor="#fff"
-                        android:gravity="center" />
-                </RelativeLayout>
-            </LinearLayout>
-        </HorizontalScrollView>
+        </RelativeLayout>
 
     </RelativeLayout>
 </ScrollView>

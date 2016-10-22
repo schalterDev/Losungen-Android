@@ -59,7 +59,8 @@ public class ColorDialog {
         //To enable to color feedback use
         lobsterPicker.setColorHistoryEnabled(true);
         lobsterPicker.addDecorator(shadeSlider);
-        shadeSlider.addDecorator(opacitySlider);
+        lobsterPicker.addDecorator(opacitySlider);
+        //shadeSlider.addDecorator(opacitySlider);
 
         shadeSlider.addOnColorListener(new OnColorListener() {
             @Override

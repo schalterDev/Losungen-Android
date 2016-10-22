@@ -15,6 +15,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp" />
 
+    <TextView
+        android:text="@string/opacity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView9"
+        android:textSize="18sp"
+        android:textAlignment="center" />
+
     <com.larswerkman.lobsterpicker.sliders.LobsterOpacitySlider
         android:id="@+id/opacityslider"
         android:layout_width="wrap_content"

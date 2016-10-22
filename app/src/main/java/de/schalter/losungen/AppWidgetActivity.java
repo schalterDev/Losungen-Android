@@ -32,6 +32,7 @@ import de.schalter.losungen.settings.Tags;
  * Created by marti on 04.11.2015.
  */
 public class AppWidgetActivity extends Activity {
+
     public static final String COLOR = "color";
     public static final String BACKGROUND = "background";
     public static final String FONTSIZE = "fontSize";
@@ -44,8 +45,6 @@ public class AppWidgetActivity extends Activity {
     private ColorDialog dialog;
 
     private TextView textViewWidget;
-    private TextView textViewRows;
-    private TextView textViewColumns;
     private TextView textViewFontSize;
     private RelativeLayout relWidget;
 
@@ -53,13 +52,9 @@ public class AppWidgetActivity extends Activity {
     private Calendar calendar;
 
     private final int min_fontSize = 10;
-    private final int min_rows = 1;
-    private final int min_columns = 2;
     private final int default_font_color = Color.BLACK;
     private final int default_background = Color.WHITE;
 
-    private int rows = min_rows;
-    private int columns = min_columns;
     private int schriftgroesse = min_fontSize;
     private int font_color = default_font_color;
     private int background_color = default_background;
@@ -101,13 +96,18 @@ public class AppWidgetActivity extends Activity {
                 background_color = background;
                 schriftgroesse = fontSize;
             } catch (Exception ignored) {
-                //Falls die extras nicht verfügbar sind
+                //If extras are unavailable
+                font_color = Color.BLACK;
+                background_color = Color.WHITE;
+                schriftgroesse = 15;
             }
+
+            if(font_color == 0)
+                font_color = -16777216; //Black
         }
 
         init();
         radioButtons();
-        groesseRelLayout();
         schriftgroesse();
         colors();
 
@@ -122,72 +122,18 @@ public class AppWidgetActivity extends Activity {
 
     private void init() {
         textViewWidget = (TextView) findViewById(R.id.textView_widget_preview);
-        textViewColumns = (TextView) findViewById(R.id.textView_columns);
         textViewFontSize = (TextView) findViewById(R.id.textView_textSize);
-        textViewRows = (TextView) findViewById(R.id.textView_rows);
 
         relWidget = (RelativeLayout) findViewById(R.id.relative_layout_widget_activity);
-
-        setRelLayoutSize(rows, columns);
 
         dbHandler = DBHandler.newInstance(this);
         calendar = Calendar.getInstance();
         upateText(contentRadio);
     }
 
-    private void groesseRelLayout() {
-        SeekBar seek_columns = (SeekBar) findViewById(R.id.seekBar_columns);
-        SeekBar seek_rows = (SeekBar) findViewById(R.id.seekBar_rows);
-
-        seek_columns.setMax(4);
-        seek_rows.setMax(4);
-
-        seek_columns.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textViewColumns.setText(getResources().getString(R.string.columns) + ": " + (min_columns + progress));
-                columns = min_columns + progress;
-
-                setRelLayoutSize(rows, columns);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        seek_rows.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textViewRows.setText(getResources().getString(R.string.rows) + ": " + (min_rows + progress));
-                rows = min_rows + progress;
-
-                setRelLayoutSize(rows, columns);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-    }
-
     private void colors() {
         Button btn_font = (Button) findViewById(R.id.button_fontColor);
         Button btn_background = (Button) findViewById(R.id.button_background);
-
-        setColors(font_color, background_color);
 
         btn_font.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,6 +198,8 @@ public class AppWidgetActivity extends Activity {
                 dialog.show();*/
             }
         });
+
+        setColors(font_color, background_color);
     }
 
     private void schriftgroesse() {
@@ -278,6 +226,9 @@ public class AppWidgetActivity extends Activity {
 
             }
         });
+
+        fontSizeSeek.setProgress(1);
+
     }
 
     private void radioButtons() {
@@ -405,24 +356,6 @@ public class AppWidgetActivity extends Activity {
     private void setColors(int font_color, int background) {
         relWidget.setBackgroundColor(background);
         textViewWidget.setTextColor(font_color);
-    }
-
-    private void setRelLayoutSize(int rows, int columns) {
-        int sizeRows = convertDpIntoPx(70) * rows - convertDpIntoPx(30);
-        int sizeColumns = convertDpIntoPx(70) * columns - convertDpIntoPx(30);
-
-        sizeColumns *= 2;
-        sizeRows *= 2;
-
-        Log.d("Losungen", "Rows: " + sizeRows + ", Columns: " + sizeColumns);
-
-        /*LinearLayout.LayoutParams rel_btn = new LinearLayout.LayoutParams(
-                convertDpIntoPx(sizeColumns), convertDpIntoPx(sizeRows));
-        relWidget.setLayoutParams(rel_btn);*/
-
-        relWidget.getLayoutParams().height = sizeRows;  // replace 100 with your dimensions
-        relWidget.getLayoutParams().width = sizeColumns;
-        relWidget.requestLayout();
     }
 
     private int convertDpIntoPx(int dp) {
