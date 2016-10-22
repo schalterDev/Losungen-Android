@@ -220,6 +220,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             }
         }
 
+        //Add 'Developer' preference, and a corresponding header
+        PreferenceCategory fakeHeaderDeveloper = new PreferenceCategory(this);
+        fakeHeaderDeveloper.setTitle(getResources().getString(R.string.pref_debug));
+        getPreferenceScreen().addPreference(fakeHeaderDeveloper);
+        addPreferencesFromResource(R.xml.pref_developer);
+
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
@@ -447,6 +453,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_customize);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class DeveloperPreferenceFragment extends  PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstaceState) {
+            super.onCreate(savedInstaceState);
+            addPreferencesFromResource(R.xml.pref_developer);
         }
     }
 }

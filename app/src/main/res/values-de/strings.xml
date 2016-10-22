@@ -191,5 +191,11 @@
     <string name="moving_to_sdcard">Verschiebe die Andachten auf dei SD-Karte, bitte warten...</string>
     <string name="successful">Erfolgreich</string>
     <string name="successfull">Erfolgreich</string>
+    <string name="cant_parse_number">Konnte die Bibelstelle nicht interpretieren</string>
+    <string name="opacity">Transparent</string>
+    <string name="pref_debug">Entwickler-optionen</string>
+    <string name="pref_debug_summary">Enthält Daten von privaten Notizen</string>
+    <string name="pref_debug_title">Speichere Log-Dateien</string>
+    <string name="widget_activity_preview">Vorschau</string>
 
 </resources>

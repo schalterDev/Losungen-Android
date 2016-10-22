@@ -14,4 +14,8 @@
         android:title="@string/pref_customize"
         android:icon="@drawable/ic_image_palette" />
 
+    <header android:fragment="de.schalter.losungen.SettingsActivity$DeveloperPreferenceFragment"
+        android:title="@string/pref_debug" />
+        /> <!-- TODO add ICON for developer -->
+
 </preference-headers>

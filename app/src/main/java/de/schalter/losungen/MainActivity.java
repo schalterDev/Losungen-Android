@@ -62,6 +62,7 @@ import de.schalter.losungen.fragments.FragmentLosungenListe;
 import de.schalter.losungen.fragments.FragmentMonth;
 import de.schalter.losungen.fragments.FragmentWidgets;
 import de.schalter.losungen.intro.MyIntro;
+import de.schalter.losungen.log.CustomLog;
 import de.schalter.losungen.services.WidgetBroadcast;
 import de.schalter.losungen.settings.Tags;
 import schalter.dev.customizelibrary.Colors;
@@ -70,6 +71,7 @@ import schalter.dev.customizelibrary.CustomToolbar;
 public class MainActivity extends AppCompatActivity implements FragmentMonth.Callbacks {
 
     private static final int FILE_CODE = 55;
+    public static final int LOG_CODE = 57;
     private static final int IMPORT_CODE = 56;
     private Drawer navigationDrawer;
     private CoordinatorLayout coordinatorLayout;
@@ -221,6 +223,9 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         super.onCreate(savedInstanceState);
 
         this.setTheme(Colors.getTheme(this));
+
+        //Logger
+        CustomLog.setPreference(this, Tags.PREF_DEBUG_LOG, false);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         langauge();
@@ -684,6 +689,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == LOG_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            CustomLog.exportLogToFile(this, uri);
+        }
+
         if (requestCode == FILE_CODE && resultCode == Activity.RESULT_OK) {
             if (data.getBooleanExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)) {
                 // For JellyBean and above

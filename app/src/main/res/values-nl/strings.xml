@@ -146,5 +146,6 @@
     <string name="pref_audio_externalstorage_title">Op de SD-Kaart opslaan</string>
     <string name="button_ok">OK</string>
     <string name="country_netherlands">Nederlands</string>
+    <string name="widget_activity_preview">Voorbeeld</string>
 
 </resources>

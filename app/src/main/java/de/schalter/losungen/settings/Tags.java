@@ -61,6 +61,8 @@ public class Tags {
     public static final String PREF_GOOGLEANALYTICS = "google_analytics";
     public static final String PREF_SHOWNOTES = "show_notes";
 
+    public static final String PREF_DEBUG_LOG = "debug_log";
+
     public static final int LOSUNG_NOTIFICATION = 0;
     public static final int LEHRTEXT_NOTIFICATION = 1;
     public static final int LOSUNG_UND_LEHRTEXT_NOTIFICATION = 2;
@@ -68,6 +70,7 @@ public class Tags {
 
     public static final String PREF_VERSIONCODE = "versioncode";
     public static final String PREF_IMPORTS = "imports";
+
     //For the daily words
     public static final String SELECTED_LANGUAGE = "selected_language";
 
