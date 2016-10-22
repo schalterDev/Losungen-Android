@@ -25,8 +25,8 @@ import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.dialogs.BibleDialog;
-import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.dialogs.ChooseDialog;
+import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.settings.Tags;
 
 /**
@@ -95,7 +95,8 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         holder.losungsvers.setText(losung.getLosungsvers());
         holder.lehrtext.setText(losung.getLehrtext());
         holder.lehrtextVers.setText(losung.getLehrtextVers());
-        holder.notizen.setText(losung.getNotizenLosung());
+        holder.setNotes(losung.getNotizenLosung());
+        //holder.notizen.setText(losung.getNotizenLosung());
         holder.datum = losung.getDatum();
         holder.markiert = losung.isMarkiert();
 
@@ -226,8 +227,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if(dbHandler != null)
-                            dbHandler.editLosungNotiz(datum, s.toString());
+                        if(ViewHolder.this.notesChanged()) {
+                            if (dbHandler != null)
+                                dbHandler.editLosungNotiz(datum, s.toString());
+                        } else {
+                            ViewHolder.this.notesAreChanged();
+                        }
                     }
                 });
             } else {
@@ -237,5 +242,21 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
 
         }
+
+        private boolean notesChanged = true;
+
+        public void setNotes(String note) {
+            notesChanged = false;
+            notizen.setText(note);
+        }
+
+        public boolean notesChanged() {
+            return notesChanged;
+        }
+
+        private void notesAreChanged() {
+            notesChanged = true;
+        }
+
     }
 }
