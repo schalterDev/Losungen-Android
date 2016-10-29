@@ -81,6 +81,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         //if(running)
+        if(intent != null)
             firstStart(intent.getAction());
 
         running = true;

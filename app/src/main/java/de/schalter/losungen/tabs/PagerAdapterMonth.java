@@ -128,7 +128,10 @@ public class PagerAdapterMonth extends android.support.v4.app.FragmentPagerAdapt
                 titles.add(getTitleByTime(time));
             }
 
-            this.notifyDataSetChanged();
+            //Error reported in Google-Play developer console
+            try {
+                this.notifyDataSetChanged();
+            } catch (Exception ignored) {}
         } else if(position < (1)) {
 
             for(int i = 0; i < ITEMSBEFOR; i++) {

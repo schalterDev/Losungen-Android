@@ -1,6 +1,5 @@
 package de.schalter.losungen.tabs;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -124,8 +123,12 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
                 titles.add(getTitleByTime(time));
             }
 
-            this.notifyDataSetChanged();
-        } else if(position < (1)) {
+            //Error reported in Google-Play developer console
+            try {
+                this.notifyDataSetChanged();
+            } catch (Exception ignored) {}
+
+        } else if(position < 1) {
 
             for(int i = 0; i < ITEMSBEFOR; i++) {
                 long time = times.get(0) - (1000 * 60 * 60 * 24);
@@ -133,7 +136,11 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
                 titles.add(0, getTitleByTime(time));
             }
 
-            this.notifyDataSetChanged();
+            //Error reported in Google-Play developer console
+            try {
+                this.notifyDataSetChanged();
+            } catch (Exception ignored) {}
+
             return position + ITEMSBEFOR;
         }
 
