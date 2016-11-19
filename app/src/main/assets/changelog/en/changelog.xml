@@ -1,4 +1,10 @@
 ﻿<XML>
+    <appversion version="19" versionNice="1.2.3.2">
+        <change important="false">Fixed some issues with the ads</change>
+    </appversion>
+    <appversion version="18" versionNice="1.2.3.1">
+        <change important="false">Fixed crashes reported from users</change>
+    </appversion>
     <appversion version="17" versionNice="1.2.3">
         <change important="true">Widget is working again</change>
         <change important="false">Added developer options</change>
