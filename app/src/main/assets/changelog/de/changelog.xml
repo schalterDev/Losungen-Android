@@ -1,4 +1,10 @@
 ﻿<XML>
+    <appversion version="19" versionNice="1.2.3.2">
+        <change important="false">Probleme mit der Werbung behoben</change>
+    </appversion>
+    <appversion version="18" versionNice="1.2.3.1">
+        <change important="false">Gemeldete Abstürze behoben</change>
+    </appversion>
     <appversion version="17" versionNice="1.2.3">
         <change important="true">Widget-Fehler behoben</change>
         <change important="false">Entwickleroptionen hinzugefügt</change>
