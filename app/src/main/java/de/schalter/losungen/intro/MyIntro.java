@@ -8,11 +8,6 @@ import android.preference.PreferenceManager;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-
 import de.schalter.losungen.R;
 import de.schalter.losungen.dialogs.ChooseDialog;
 import de.schalter.losungen.settings.Tags;
@@ -97,7 +92,7 @@ public class MyIntro extends AppIntro {
             mussImport.add(yearPos);
 
         ChooseDialog dialog = new ChooseDialog();
-        dialog.importLosungen(this, items, schonImport, mussImport, run);*/
+        dialog.importLosungenFromAssets(this, items, schonImport, mussImport, run);*/
     }
 
     public static void contentLoaded() {

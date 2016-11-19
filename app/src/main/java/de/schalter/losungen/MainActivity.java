@@ -306,6 +306,19 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         });
     }
 
+    public static void toast(final Context context, final int titleResource, final int duration) {
+        if(mHandler == null) {
+            mHandler = new Handler(Looper.getMainLooper());
+        }
+
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, titleResource, duration);
+            }
+        })
+    }
+
     @Override
     protected void onResume() {
         super.onResume();

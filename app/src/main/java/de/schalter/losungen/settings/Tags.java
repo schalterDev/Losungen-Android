@@ -21,7 +21,7 @@ import java.util.Locale;
 public class Tags {
 
     //Für Losungen, Wochen und Monatssprüche
-    private static final String[] IMPORT_LIST_DE = {"2015", "2016"};
+    private static final String[] IMPORT_LIST_DE = {"2015", "2016", "2017"};
     private static final String[] IMPORT_LIST_EN = {"2015", "2016"};
     private static final String[] IMPORT_LIST_ES = {"2015", "2016"};
     private static final String[] IMPORT_LIST_AR = {};
@@ -38,6 +38,8 @@ public class Tags {
     private static final String[] IMPORT_LIST_RO = {};
     private static final String[] IMPORT_LIST_BE = {};
     private static final String[] IMPORT_LIST_BG = {};
+
+    private static final String[] DOWNLOAD_LIST_DE = {"---", "---", "http://www.losungen.de/fileadmin/media-losungen/download/Losung_2017_XML.zip"};
 
     public static final String[] SUPPORTED_LANGUAGES = {"en", "de", "nl"}; //Das gilt für die Strings.xml
     public static final String[] CHANGELOG_LANGUAGES = {"en", "de"};
@@ -80,6 +82,29 @@ public class Tags {
     //SHARING
     public static final String OPEN_WITH_APP = "open_with_external_app";
     public static final String OPEN_WITH_DEFAULT = "open_verses_default";
+
+    public static boolean hasToBeDownloaded(String language, int year) {
+        if(language.equals("de")) {
+            int indexYearInImportArray = -1;
+            for(int i = 0; i < IMPORT_LIST_DE.length; i++) {
+                if(Integer.valueOf(IMPORT_LIST_DE[i]) == year) {
+                    indexYearInImportArray = i;
+                }
+            }
+
+            if(indexYearInImportArray == -1) {
+                return false;
+            }
+
+            if(DOWNLOAD_LIST_DE[indexYearInImportArray].equals("---")) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
     public static String[] getImport(String language) {
         switch (language) {
@@ -196,10 +221,8 @@ public class Tags {
         ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mMobile = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-        if(mMobile != null)
-            return mMobile.isConnected();
+        return mMobile != null && mMobile.isConnected();
 
-        return false;
     }
 
     public static String getAudioUrl(Calendar calendar) throws IOException {
@@ -236,7 +259,7 @@ public class Tags {
         return html;
     }
 
-    public static String getWebsiteUrl(Calendar calendar) {
+    private static String getWebsiteUrl(Calendar calendar) {
         Calendar calJanuar = Calendar.getInstance();
         calJanuar.set(Calendar.MONTH, Calendar.JANUARY);
         calJanuar.set(Calendar.YEAR, 2015);
