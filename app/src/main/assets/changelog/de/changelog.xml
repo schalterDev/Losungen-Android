@@ -1,4 +1,7 @@
 ﻿<XML>
+    <appversion version="20" versionNice="1.2.3.3">
+        <change important="true">Petition für das Vortsetzten dieser APP hinzugefügt</change>
+    </appversion>
     <appversion version="19" versionNice="1.2.3.2">
         <change important="false">Probleme mit der Werbung behoben</change>
     </appversion>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2270371481189370/5668516244</string>
-    <string name="info_version" translatable="false">1.2.3.2</string>
+    <string name="info_version" translatable="false">1.2.3.3</string>
 
     <string name="app_name">Daily words</string>
     <string name="add_fav">Added to favorites</string>
@@ -147,7 +147,7 @@
     <string name="open_in_app_failed">Failed to open vers in Quick Bible</string>
     <string name="all_network">All network types</string>
     <string name="only_wifi">Only with WIFI</string>
-    <string name="invalid_number">Invalid number...</string>
+    <string name="invalid_number">Invalid number…</string>
     <string name="audio_delete_days_title">Delte audio files automatically</string>
     <string name="audio_delete_days_summary">Delete not favored sermons after x days (0 to deaktivate)</string>
     <string name="audio_download_downloaded">Play audio file from %1$s</string>
@@ -169,8 +169,8 @@
     <string name="import_notes">Import notes</string>
     <string name="failed_internal">Failed to write into internal storage</string>
     <string name="failed_external">Failed to write to external storage</string>
-    <string name="moving_to_sdcard">Moving sermons to SD-Card, please wait...</string>
-    <string name="moving_to_internal">Moving sermons to internal storage please wait...</string>
+    <string name="moving_to_sdcard">Moving sermons to SD-Card, please wait…</string>
+    <string name="moving_to_internal">Moving sermons to internal storage please wait…</string>
     <string name="successfull">Successful</string>
     <string name="failed">Failed</string>
     <string name="successful">Successful</string>
@@ -180,4 +180,7 @@
     <string name="widget_activity_preview">Preview</string>
     <string name="opacity">opacity</string>
     <string name="pref_debug_summary">Will contain data about private notes</string>
+    <string name="petition">Sign petition</string>
+    <string name="petition_message">maybe you heard that I am not allowed to continue this APP. You can sign this petition to show that you want to continue this app. </string>
+    <string name="dont_show_again">don\'t show again</string>
 </resources>
