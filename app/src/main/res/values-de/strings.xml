@@ -197,5 +197,8 @@
     <string name="pref_debug_summary">Enthält Daten von privaten Notizen</string>
     <string name="pref_debug_title">Speichere Log-Dateien</string>
     <string name="widget_activity_preview">Vorschau</string>
+    <string name="petition">Petition unterschreiben</string>
+    <string name="petition_message">Vielleicht hast du schon mitbekommen, dass ich aufgefordert wurde diese APP einzustellen und keinen neuen Jahrgang hinzuzufügen. Du kannst diese Petition unterschreiben und damit zeigen, dass du für ein Fortbestehen dieser APP bist</string>
+    <string name="dont_show_again">Nicht wieder anzeigen</string>
 
 </resources>

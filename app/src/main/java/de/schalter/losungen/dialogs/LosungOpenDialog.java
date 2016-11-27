@@ -68,7 +68,7 @@ public class LosungOpenDialog {
 
     }
 
-    public void showInApp() {
+    private void showInApp() {
         //Open in Quick Bible on click
         try {
             BibleDialog bibleDialog = new BibleDialog(context);
@@ -86,7 +86,7 @@ public class LosungOpenDialog {
         }
     }
 
-    public void showInBrowser() {
+    private void showInBrowser() {
         //Get the right bible-translation for bibleserver.com
         String uebersetzung = Tags.getUebersetzung(settings.getString(Tags.SELECTED_LANGUAGE, "en"));
 
@@ -101,7 +101,7 @@ public class LosungOpenDialog {
         context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
-    public void showDialog() {
+    private void showDialog() {
         saveChoice = false;
 
         //CheckBox

@@ -53,6 +53,7 @@ import java.util.Locale;
 
 import de.schalter.losungen.changelog.Changelog;
 import de.schalter.losungen.dialogs.ChooseDialog;
+import de.schalter.losungen.dialogs.PetitionDialog;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.files.XmlNotesImport;
 import de.schalter.losungen.files.XmlWriter;
@@ -261,9 +262,20 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         MainActivity.activity = this;
 
+        petitionDialog();
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void petitionDialog() {
+        if(!settings.getBoolean(PetitionDialog.PREFERENCE_CHECKBOX, false)) {
+            PetitionDialog dialog = new PetitionDialog(this, R.string.petition, R.string.dont_show_again,
+                    R.string.petition_message, R.string.petition);
+
+            dialog.show();
+        }
     }
 
     private void ads() {
@@ -491,6 +503,10 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                 .withIconTintingEnabled(true)
                 .withIcon(R.drawable.ic_settings_white_24dp)
                 .withSelectable(false);
+        final PrimaryDrawerItem itemPetition = new PrimaryDrawerItem().withName(R.string.petition)
+                .withIconTintingEnabled(true)
+                .withIcon(R.drawable.ic_action_petition)
+                .withSelectable(false);
         final PrimaryDrawerItem itemBewerten = new PrimaryDrawerItem().withName(R.string.rate)
                 .withIconTintingEnabled(true)
                 .withIcon(R.drawable.ic_action_star)
@@ -514,6 +530,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                         itemWidget,
                         itemEinstellungen,
                         new DividerDrawerItem(),
+                        itemPetition,
                         itemBewerten,
                         itemFeedeback,
                         itemInfo
@@ -583,6 +600,17 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                         } else if (drawerItem.equals(itemEinstellungen)) {
 
                             startActivity(new Intent(view.getContext(), SettingsActivity.class));
+
+                        } else if (drawerItem.equals(itemPetition)) {
+
+                            analytics("Feedback", "Petition");
+
+                            Uri uri = Uri.parse("https://www.openpetition.de/petition/online/losungen-der-herrnhuter-bruedergemeine-apps-fuer-mobile-endgeraete");
+                            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                            try {
+                                startActivity(goToMarket);
+                            } catch (ActivityNotFoundException ignored) {
+                            }
 
                         } else if (drawerItem.equals(itemBewerten)) {
 
