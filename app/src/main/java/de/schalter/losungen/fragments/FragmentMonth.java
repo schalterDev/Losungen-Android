@@ -17,23 +17,18 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import java.util.Arrays;
 import java.util.Calendar;
 
 import de.schalter.losungen.AnalyticsApplication;
 import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
-import de.schalter.losungen.dialogs.ChooseDialog;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.settings.Tags;
 import de.schalter.losungen.tabs.PagerAdapter;
 import de.schalter.losungen.tabs.PagerAdapterMonth;
 import schalter.dev.customizelibrary.Colors;
 
-/**
- * Created by Smarti on 05.02.2016.
- */
 public class FragmentMonth extends Fragment {
 
     private Callbacks mCallbacks;
@@ -101,10 +96,12 @@ public class FragmentMonth extends Fragment {
                         }
                     };
 
-                    ChooseDialog chooseDialog = new ChooseDialog();
-                    chooseDialog.importMonatUndWoche(getContext(),
+                    //TODO update the commented thing
+
+                    /*
+                    ImportLosungenIntoDB.importMonthAndWeeks(getContext(),
                             settings.getString(Tags.SELECTED_LANGUAGE, "en"),
-                            Arrays.asList(years), restartFragment);
+                            Arrays.asList(years), restartFragment, false);*/
                 }
             /*}
         });
@@ -121,11 +118,8 @@ public class FragmentMonth extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_choose_date) {
-            return false;
-        }
+        return id != R.id.action_choose_date && super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -191,6 +185,6 @@ public class FragmentMonth extends Fragment {
     }
 
     public interface Callbacks {
-        public void refreshMonthFragment();
+        void refreshMonthFragment();
     }
 }

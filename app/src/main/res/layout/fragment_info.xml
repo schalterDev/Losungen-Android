@@ -151,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/info_questions_title"
-                        android:id="@+id/textView7" />
+                        android:id="@+id/text_before_spinner" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/info_questions_content"
                         android:id="@+id/textView8"
-                        android:layout_below="@+id/textView7" />
+                        android:layout_below="@+id/text_before_spinner" />
 
                 </RelativeLayout>
 

@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.schalter.losungen.changelog.Changelog;
-import de.schalter.losungen.dialogs.ChooseDialog;
+import de.schalter.losungen.dialogs.ImportLosungenDialog;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.files.XmlNotesImport;
 import de.schalter.losungen.files.XmlWriter;
@@ -314,9 +314,9 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(context, titleResource, duration);
+                Toast.makeText(context, titleResource, duration).show();
             }
-        })
+        });
     }
 
     @Override
@@ -354,8 +354,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
             dialogImport();
             return true;
         }*/ else if (id == R.id.action_change_language) {
-            final ChooseDialog chooseDialog = new ChooseDialog();
-
             final Runnable restart = new Runnable() {
                 @Override
                 public void run() {
@@ -364,7 +362,9 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                     finish();
                 }
             };
-            chooseDialog.changeLanguage(this, restart, true);
+
+            ImportLosungenDialog importLosungen = new ImportLosungenDialog(this, true, restart);
+            importLosungen.show();
             return true;
         } else if (id == R.id.action_export) {
             exportNotes();
@@ -438,50 +438,18 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
     }
 
-    private void firstDialogImport() {
-        ChooseDialog dialog = new ChooseDialog();
-        dialog.importLosungenMitSprache(this, new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
-    }
-
     private void dialogImport() {
-        Runnable run = new Runnable() {
+        final Runnable restart = new Runnable() {
             @Override
             public void run() {
-
+                Intent refresh = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(refresh);
+                finish();
             }
         };
 
-        List<Integer> schonImport = new ArrayList<>();
-        List<Integer> mussImport = new ArrayList<>();
-
-        String language = settings.getString(Tags.SELECTED_LANGUAGE, "en");
-        String[] items = Tags.getImport(language);
-
-        List<String> itemsList = Arrays.asList(items);
-
-        String imports = settings.getString(Tags.PREF_IMPORTS, " ");
-        String[] importsArray = imports.split(",");
-        if (!(importsArray.length == 1 && importsArray[0].equals(" "))) {
-            for (String anImportsArray : importsArray) {
-                schonImport.add(itemsList.indexOf(anImportsArray));
-            }
-        }
-
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        String yearString = String.valueOf(year);
-        int yearPos = itemsList.indexOf(yearString);
-
-        if (!schonImport.contains(yearPos))
-            mussImport.add(yearPos);
-
-        ChooseDialog dialog = new ChooseDialog();
-        dialog.importLosungen(this, items, schonImport, mussImport, run);
+        ImportLosungenDialog dialog = new ImportLosungenDialog(this, false, restart);
+        dialog.show();
     }
 
     private void setupNavigationDrawer() {
@@ -892,6 +860,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
             startActivity(refresh);
             finish();
         }
+    }
+
+    public static void runOnMainThread(Runnable run) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(run);
     }
 
 }

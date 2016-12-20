@@ -9,7 +9,7 @@ import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
 import de.schalter.losungen.R;
-import de.schalter.losungen.dialogs.ChooseDialog;
+import de.schalter.losungen.dialogs.ImportLosungenDialog;
 import de.schalter.losungen.settings.Tags;
 
 /**
@@ -66,8 +66,8 @@ public class MyIntro extends AppIntro {
             }
         };
 
-        ChooseDialog dialog = new ChooseDialog();
-        dialog.importLosungenMitSprache(this, run);
+        ImportLosungenDialog dialog = new ImportLosungenDialog(this, true, run);
+        dialog.show();
 
         /*List<Integer> schonImport = new ArrayList<>();
         List<Integer> mussImport = new ArrayList<>();
