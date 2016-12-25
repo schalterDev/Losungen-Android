@@ -237,7 +237,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                     //use internal or external storage
                     boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
 
-                    final DownloadTask downloadTask = new DownloadTask(context, url, folder, fileName, internal);
+                    final DownloadTask downloadTask = new DownloadTask(context, url, folder, fileName, internal, R.string.download_ticker, R.string.content_title);
 
                     //When finished
                     Runnable finished = new Runnable() {

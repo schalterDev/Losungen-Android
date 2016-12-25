@@ -28,8 +28,13 @@ public class DownloadNotificationHelper extends Service {
     private CharSequence tickerText;
     private long when;
 
-    public DownloadNotificationHelper(Context context) {
+    private int resourceTitle;
+    private int resourceSubTitle;
+
+    public DownloadNotificationHelper(Context context, int resourceTitle, int resourceSubTitle) {
         mContext = context;
+        this.resourceTitle = resourceTitle;
+        this.resourceSubTitle = resourceSubTitle;
     }
 
     /**
@@ -41,11 +46,11 @@ public class DownloadNotificationHelper extends Service {
 
         //create the notification
         icon = android.R.drawable.stat_sys_download;
-        tickerText = mContext.getString(R.string.download_ticker); //Initial text that appears in the status bar
+        tickerText = mContext.getString(resourceTitle); //Initial text that appears in the status bar
         when = System.currentTimeMillis();
 
         //create the content which is shown in the notification pulldown
-        mContentTitle = mContext.getString(R.string.content_title); //Full title of the notification in the pull down
+        mContentTitle = mContext.getString(resourceSubTitle); //Full title of the notification in the pull down
         CharSequence contentText = "0" + mContext.getString(R.string.content_text); //Text of the notification in the pull down
 
         //you have to set a PendingIntent on a notification to tell the system what you want it to do when the notification is selected

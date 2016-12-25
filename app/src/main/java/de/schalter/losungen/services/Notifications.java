@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -253,7 +251,7 @@ public class Notifications extends Service {
                     //use internal or external storage
                     boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
 
-                    final DownloadTask downloadTask = new DownloadTask(getApplicationContext(), url, folder, fileName, internal);
+                    final DownloadTask downloadTask = new DownloadTask(getApplicationContext(), url, folder, fileName, internal, R.string.download_ticker, R.string.content_title);
 
                     //When finished
                     Runnable finished = new Runnable() {

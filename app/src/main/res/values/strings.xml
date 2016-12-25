@@ -181,4 +181,8 @@
     <string name="opacity">opacity</string>
     <string name="pref_debug_summary">Will contain data about private notes</string>
     <string name="download">download</string>
+    <string name="wait_please">see notification for progress</string>
+    <string name="download_losung">Downloading Daily words</string>
+    <string name="xml_downloading">Daily words downloading</string>
+    <string name="copyright_losungen">This file is not provided by me. When you are downloading this file you accept the Terms of use from here: http://www.brueder-unitaet.de/download/Nutzungsbedingungen_11.2013.pdf Download-Link:</string>
 </resources>
