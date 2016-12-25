@@ -1,6 +1,7 @@
 ﻿<XML>
     <appversion version="21" versionNice="1.2.3.4">
         <change important="true">Losungen für 2017 können von der offiziellen Internetadresse von "Die Losungen" heruntergeladen und importiert werden. Dazu im Menü auf "Import / Sprache ändern" klicken</change>
+    </appversion>
     <appversion version="20" versionNice="1.2.3.3">
         <change important="true">Petition für das Vortsetzten dieser APP hinzugefügt</change>
     </appversion>
