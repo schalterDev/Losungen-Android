@@ -23,7 +23,7 @@ import java.util.Calendar;
 import de.schalter.losungen.AnalyticsApplication;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
-import de.schalter.losungen.dialogs.ChooseDialog;
+import de.schalter.losungen.dialogs.DateChooserDialog;
 import de.schalter.losungen.settings.Tags;
 import de.schalter.losungen.tabs.PagerAdapter;
 import schalter.dev.customizelibrary.Colors;
@@ -88,8 +88,8 @@ public class FragmentLosung extends Fragment {
                 }
             };
 
-            ChooseDialog dialog = new ChooseDialog();
-            dialog.chooseDateDialog(getContext(), calendar, listener);
+            DateChooserDialog dialog = new DateChooserDialog(getContext(), calendar, listener);
+            dialog.show();
             return true;
         }
 

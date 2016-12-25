@@ -68,7 +68,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                     boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
 
                     final DownloadTask downloadTask = new DownloadTask(context, url,
-                            folder, fileName, internal);
+                            folder, fileName, internal, R.string.download_ticker, R.string.content_title);
 
                     //When finished
                     Runnable finished = new Runnable() {

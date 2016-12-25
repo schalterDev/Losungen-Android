@@ -1,38 +1,24 @@
 package de.schalter.losungen.lists;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
 import de.schalter.losungen.AppWidgetActivity;
 import de.schalter.losungen.Losung;
-import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
-import de.schalter.losungen.dialogs.BibleDialog;
-import de.schalter.losungen.dialogs.ChooseDialog;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.settings.Tags;
 

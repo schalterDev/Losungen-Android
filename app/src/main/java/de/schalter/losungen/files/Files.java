@@ -95,6 +95,37 @@ public class Files {
     }
 
     /**
+     * Returns the external cache directory. There can be more than one if a sd-cards exists
+     * it always selects the cache on the sd-card if possible
+     * @param context application context
+     * @return returns the absolute path of the directory and null if no cache directory exists
+     */
+    public static String getExternalCacheDirectory(Context context) {
+        //External path is internal SD-Card or external SD-Card (if internal is not available)
+        String externalPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+        //All external directions (app specific)
+        File[] filesCacheDir = ContextCompat.getExternalCacheDirs(context);
+
+        File directory = null;
+
+        if(filesCacheDir.length > 1) {
+            for (File aFilesCacheDir : filesCacheDir) {
+                //Is not internal SD-Card
+                if (!aFilesCacheDir.getAbsolutePath().contains(externalPath)) {
+                    return aFilesCacheDir.getAbsolutePath();
+                }
+            }
+        } else if(filesCacheDir.length == 1) {
+            return filesCacheDir[0].getAbsolutePath();
+        } else {
+            return null;
+        }
+
+        return null;
+    }
+
+    /**
      * Try to write file to second external storage with subfolder. Since Kitkat its not
      * possible to write into every folder but into cache folder. Be sure that this files
      * will be deleted when the user deletes your application.

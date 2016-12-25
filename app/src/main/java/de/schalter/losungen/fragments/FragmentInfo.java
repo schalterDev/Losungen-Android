@@ -1,27 +1,18 @@
 package de.schalter.losungen.fragments;
 
-import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import java.util.Calendar;
-
 import de.schalter.losungen.AnalyticsApplication;
-import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
-import de.schalter.losungen.dialogs.ChooseDialog;
 import de.schalter.losungen.settings.Tags;
 
 /**

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2270371481189370/5668516244</string>
-    <string name="info_version" translatable="false">1.2.3.3</string>
-
+    <string name="info_version" translatable="false">1.2.3.4</string>
     <string name="app_name">Daily words</string>
     <string name="add_fav">Added to favorites</string>
     <string name="appwidge_content">Content</string>
@@ -180,6 +179,11 @@
     <string name="widget_activity_preview">Preview</string>
     <string name="opacity">opacity</string>
     <string name="pref_debug_summary">Will contain data about private notes</string>
+    <string name="download">download</string>
+    <string name="wait_please">see notification for progress</string>
+    <string name="download_losung">Downloading Daily words</string>
+    <string name="xml_downloading">Daily words downloading</string>
+    <string name="copyright_losungen">This file is not provided by me. When you are downloading this file you accept the Terms of use from here: http://www.brueder-unitaet.de/download/Nutzungsbedingungen_11.2013.pdf Download-Link:</string>
     <string name="petition">Sign petition</string>
     <string name="petition_message">maybe you heard that I am not allowed to continue this APP. You can sign this petition to show that you want to continue this app. </string>
     <string name="dont_show_again">don\'t show again</string>

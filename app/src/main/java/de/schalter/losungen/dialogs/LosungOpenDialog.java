@@ -20,12 +20,8 @@ import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.settings.Tags;
 
-/**
- * Created by martin on 15.04.16.
- */
 public class LosungOpenDialog {
 
-    private AlertDialog.Builder builder;
     private SharedPreferences settings;
 
     private Context context;
@@ -116,7 +112,7 @@ public class LosungOpenDialog {
         });
         checkBox.setText(context.getResources().getString(R.string.remember_my_decision));
 
-        builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getResources().getString(R.string.open_verse));
         builder.setCancelable(true);
         builder.setItems(items, new DialogInterface.OnClickListener() {

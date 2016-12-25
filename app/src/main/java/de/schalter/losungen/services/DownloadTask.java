@@ -7,8 +7,7 @@ import android.widget.Toast;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.net.URLConnection;
 
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
@@ -32,13 +31,13 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
     private Runnable onUpdate;
 
     public DownloadTask(Context context, String url, String folder,
-                        String fileName, boolean internal){
+                        String fileName, boolean internal, int resourceTitleNotification, int resourceSubtitleNotification){
         this.context = context;
         this.folder = folder;
         this.fileName = fileName;
         this.url = url;
         this.internal = internal;
-        mNotificationHelper = new DownloadNotificationHelper(context);
+        mNotificationHelper = new DownloadNotificationHelper(context, resourceTitleNotification, resourceSubtitleNotification);
     }
 
     public void onFinishedListener(Runnable runnable) {
@@ -67,7 +66,8 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
 
         try {
             URL url = new URL(this.url);
-            HttpsURLConnection connexion = (HttpsURLConnection) url.openConnection();
+
+            URLConnection connexion = url.openConnection();
             //URLConnection connexion = url.openConnection();
             connexion.connect();
 

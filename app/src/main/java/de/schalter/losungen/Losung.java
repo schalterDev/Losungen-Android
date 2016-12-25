@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import de.schalter.losungen.dialogs.ChooseDialog;
+import de.schalter.losungen.dialogs.ShareDialog;
 import de.schalter.losungen.settings.Tags;
 
 /**
@@ -145,8 +145,8 @@ public class Losung {
         inhalte[1] = String.valueOf(losung.getLehrtext() + System.getProperty("line.separator") + losung.getLehrtextVers());
         inhalte[2] = inhalte[0] + System.getProperty("line.separator") + System.getProperty("line.separator") + inhalte[1];
 
-        ChooseDialog dialog = new ChooseDialog();
-        dialog.openShareDialog(context, items, titles, inhalte);
+        ShareDialog dialog = new ShareDialog(context, items, titles, inhalte);
+        dialog.show();
     }
 
     public static void shareLosung(Losung losung, Context context, int type) {

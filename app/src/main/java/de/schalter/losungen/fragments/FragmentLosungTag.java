@@ -38,8 +38,8 @@ import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.customViews.CardLosung;
-import de.schalter.losungen.dialogs.ChooseDialog;
 import de.schalter.losungen.dialogs.LosungOpenDialog;
+import de.schalter.losungen.dialogs.OpenUrlDialog;
 import de.schalter.losungen.dialogs.SearchDialog;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.services.DownloadTask;
@@ -202,8 +202,8 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                     getResources().getString(R.string.lehrtext)};
 
             //Let the user choose what to show: new or old testament vers
-            ChooseDialog dialog = new ChooseDialog();
-            dialog.openUrlDialog(context, items, urls);
+            OpenUrlDialog dialog = new OpenUrlDialog(context, items, urls);
+            dialog.show();
 
             return true;
         } else if(id == R.id.action_share) {
@@ -237,7 +237,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                     //use internal or external storage
                     boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
 
-                    final DownloadTask downloadTask = new DownloadTask(context, url, folder, fileName, internal);
+                    final DownloadTask downloadTask = new DownloadTask(context, url, folder, fileName, internal, R.string.download_ticker, R.string.content_title);
 
                     //When finished
                     Runnable finished = new Runnable() {

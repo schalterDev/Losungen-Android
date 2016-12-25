@@ -25,7 +25,7 @@ import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.dialogs.BibleDialog;
-import de.schalter.losungen.dialogs.ChooseDialog;
+import de.schalter.losungen.dialogs.ShareDialog;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.settings.Tags;
 
@@ -178,20 +178,21 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                 @Override
                 public boolean onLongClick(View v) {
                     String[] items = {context.getResources().getString(R.string.losung),
-                            context.getResources().getString(R.string.lehrtext,
-                                    context.getResources().getString(R.string.losung_and_lehrtext)), context.getResources().getString(R.string.losung_and_lehrtext)};
+                            context.getResources().getString(R.string.lehrtext),
+                            context.getResources().getString(R.string.losung_and_lehrtext),
+                            context.getResources().getString(R.string.losung_and_lehrtext)};
 
                     String title = context.getResources().getString(R.string.losung_from) + " " + Losung.getDatumFromTime(datum);
 
                     String[] titles = {title, title, title};
-                    String[] inhalte = new String[3];
+                    String[] content = new String[3];
 
-                    inhalte[0] = String.valueOf(losungstext.getText() + System.getProperty("line.separator") + losungsvers.getText());
-                    inhalte[1] = String.valueOf(lehrtext.getText() + System.getProperty("line.separator") + lehrtextVers.getText());
-                    inhalte[2] = inhalte[0] + System.getProperty("line.separator") + System.getProperty("line.separator") + inhalte[1];
+                    content[0] = String.valueOf(losungstext.getText() + System.getProperty("line.separator") + losungsvers.getText());
+                    content[1] = String.valueOf(lehrtext.getText() + System.getProperty("line.separator") + lehrtextVers.getText());
+                    content[2] = content[0] + System.getProperty("line.separator") + System.getProperty("line.separator") + content[1];
 
-                    ChooseDialog dialog = new ChooseDialog();
-                    dialog.openShareDialog(context, items, titles, inhalte);
+                    ShareDialog dialog = new ShareDialog(context, items, titles, content);
+                    dialog.show();
                     return true;
                 }
             });
