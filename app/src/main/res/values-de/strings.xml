@@ -197,5 +197,10 @@
     <string name="pref_debug_summary">Enthält Daten von privaten Notizen</string>
     <string name="pref_debug_title">Speichere Log-Dateien</string>
     <string name="widget_activity_preview">Vorschau</string>
+    <string name="copyright_losungen">Diese Losungen werden nicht von mir angeboten. Wenn Sie diese Datei herunterladen akzeptieren Sie automatische die Nutzungsbedingungen von \"Die Losungen\": http://www.brueder-unitaet.de/download/Nutzungsbedingungen_11.2013.pdf ,Link zum herunterladen der Losung:</string>
+    <string name="download">Download</string>
+    <string name="download_losung">Lade Losungen herunter</string>
+    <string name="wait_please">Siehe Benachrichtigung für die Fortschrittsanzeige</string>
+    <string name="xml_downloading">Losungen herunterladen</string>
 
 </resources>

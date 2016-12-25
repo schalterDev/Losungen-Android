@@ -36,6 +36,8 @@ public class ImportLosungenDialog {
     private AlertDialog.Builder builder;
     private SharedPreferences settings;
 
+    private AlertDialog alertDialog;
+
     private  String[] itemsToDisplay;
     private boolean[] checkedItems;
     private List<Integer> indexAlreadyImported;
@@ -157,12 +159,6 @@ public class ImportLosungenDialog {
             }
         }
 
-        //check if the losungen have to be downloaded first
-                /*if(Tags.hasToBeDownloaded(selectedCountry[0], Integer.valueOf(itemsoriginal[position]))) {
-                    LosungenDownload losungenDownloadDialog = new LosungenDownload(Integer.valueOf(itemsoriginal[position]), selectedCountry[0]);
-                    losungenDownloadDialog.openDialog(context);
-                }*/
-
         initialCheckboxes(context, linearLayout, years, checkedItems, yearsHaveToImport,
                 new CheckboxChanged() {
                     @Override
@@ -173,37 +169,53 @@ public class ImportLosungenDialog {
     }
 
     public void show() {
-        builder.show();
+        alertDialog = builder.show();
     }
 
     /**
      * Will be called when the user accepted to import the losugnen for the selected years
      */
     private void importClick() {
-        List<String> importsArray = new ArrayList<>();
+        final List<String> importsArrayAssets = new ArrayList<>();
+        List<String> importsArrayStorage = new ArrayList<>();
         final List<String> years = new ArrayList<>();
         String imports = "";
         boolean first = true;
 
-        final List<Integer> indexUpdate = new ArrayList<>();
+        final List<Integer> indexUpdateAssets = new ArrayList<>();
+        final List<Integer> indexUpdateStorage = new ArrayList<>();
 
         //Write imports into SharedPreferences
         for (int i = 0; i < itemsToDisplay.length; i++) {
-            if (checkedItems[i]) {
+            if(checkedItems[i] || indexAlreadyImportedLanguageIndependen.contains(i)) {
                 if (first) {
                     first = false;
                     imports += itemsToDisplay[i];
                 } else {
                     imports += "," + itemsToDisplay[i];
                 }
+            }
 
+            if (checkedItems[i]) {
                 if (!indexAlreadyImported.contains(i)) {
-                    importsArray.add(selectedLanguage + "/" + itemsToDisplay[i]);
+                    if (Tags.hasToBeDownloaded(selectedLanguage, Integer.valueOf(itemsToDisplay[i]))) {
+                        //is saved in the storage
+                        //Saved the path to the file in SharedPreferences: year_language_xml -> path
+                        importsArrayStorage.add(settings.getString(itemsToDisplay[i] + "_" + selectedLanguage + "_xml", ""));
+                    } else {
+                        importsArrayAssets.add(selectedLanguage + "/" + itemsToDisplay[i]);
+
+                    }
+
                     years.add(itemsToDisplay[i]);
                 }
 
                 if(indexAlreadyImportedLanguageIndependen.contains(i)) {
-                    indexUpdate.add(importsArray.size() - 1);
+                    if (Tags.hasToBeDownloaded(selectedLanguage, Integer.valueOf(itemsToDisplay[i]))) {
+                        indexUpdateStorage.add(importsArrayStorage.size() - 1);
+                    } else {
+                        indexUpdateAssets.add(importsArrayAssets.size() - 1);
+                    }
                 }
             }
         }
@@ -213,16 +225,22 @@ public class ImportLosungenDialog {
         editor.putString(Tags.SELECTED_LANGUAGE, selectedLanguage);
         editor.apply();
 
-        Runnable afterYears = new Runnable() {
+        final Runnable afterYears = new Runnable() {
             @Override
             public void run() {
-                ImportLosungenIntoDB.importMonthAndWeeks(context, selectedLanguage, years, ifFinished, indexUpdate);
-
+                ImportLosungenIntoDB.importMonthAndWeeks(context, selectedLanguage, years, ifFinished, indexUpdateAssets);
             }
         };
 
-        //not for month or week and dont update db
-        ImportLosungenIntoDB.importLosungenFromAssets(context, importsArray, afterYears, indexUpdate, false, false);
+        Runnable afterStorage = new Runnable() {
+            @Override
+            public void run() {
+                ImportLosungenIntoDB.importLosungenFromAssets(context, importsArrayAssets, afterYears, indexUpdateAssets, false, false);
+            }
+        };
+
+        //not for month or week
+        ImportLosungenIntoDB.importLosungenFromStorage(context, importsArrayStorage, afterStorage, indexUpdateStorage, false, false);
 
     }
 
@@ -235,6 +253,13 @@ public class ImportLosungenDialog {
         return Tags.getImport(language);
     }
 
+    /**
+     * Get a list with indexes of all years that are already imported for this language
+     * This method will update the indexAlreadyImportedLanguageIndepeden Array
+     * @param language selected lanugae
+     * @param years years that are available for imports
+     * @return a list with all indexes from list years that are already imported
+     */
     private List<Integer> getYearsAlreadyImported(String language, List<String> years) {
         String importedLanguage = settings.getString(Tags.SELECTED_LANGUAGE, "en");
         List<Integer> indexAlreadyImported = new ArrayList<>();
@@ -294,8 +319,8 @@ public class ImportLosungenDialog {
      * @param checkboxesWithFixedValue all indexes of checkboxes that can not be changed
      * @param checkboxChanged listener that is called when a checkbox is checked and value changed
      */
-    private void initialCheckboxes(Context context, LinearLayout linearLayout,
-                                   String[] years, boolean[] checked,
+    private void initialCheckboxes(final Context context, LinearLayout linearLayout,
+                                   final String[] years, boolean[] checked,
                                    final List<Integer> checkboxesWithFixedValue,
                                    final CheckboxChanged checkboxChanged) {
         final List<CheckBox> checkBoxes = new ArrayList<>();
@@ -310,6 +335,20 @@ public class ImportLosungenDialog {
                             checkBoxes.get(i).setChecked(true);
                         } else {
                             checkboxChanged.onCheckedChange(isChecked, i);
+
+                            final int checkboxCount = i;
+
+                            //check if the losungen have to be downloaded first
+                            if(isChecked) {
+                                Runnable onNegativeDownloadLosung = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //Reset the checkbox if the losungen was not downloaded
+                                        checkBoxes.get(checkboxCount).setChecked(false);
+                                    }
+                                };
+                                checkForDownload(years[i], onNegativeDownloadLosung);
+                            }
                         }
                     }
                 }
@@ -317,17 +356,36 @@ public class ImportLosungenDialog {
         };
 
         //create new checkboxes
+        Runnable onNegativeDownloadLosung = new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.cancel();
+            }
+        };
+
         for(int i = 0; i < itemsToDisplay.length; i++) {
             CheckBox checkBox = new CheckBox(context);
             checkBox.setText(years[i]);
             checkBox.setHighlightColor(Colors.getColor(context, Colors.ACCENT));
             checkBox.setChecked(checked[i]);
 
+            if(checked[i]) {
+                checkForDownload(years[i], onNegativeDownloadLosung);
+            }
+
             checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 
             checkBoxes.add(checkBox);
 
             linearLayout.addView(checkBox);
+        }
+    }
+
+    private void checkForDownload(String year, Runnable onNegativeDownloadLosung) {
+        //check if the losungen have to be downloaded first
+        if(Tags.hasToBeDownloaded(selectedLanguage, Integer.valueOf(year))) {
+            LosungenDownloadDialog losungenDownloadDialog = new LosungenDownloadDialog(context, Integer.valueOf(year), selectedLanguage, onNegativeDownloadLosung);
+            losungenDownloadDialog.openDialog();
         }
     }
 

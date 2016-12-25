@@ -22,7 +22,7 @@ public class Tags {
 
     //Für Losungen, Wochen und Monatssprüche
     private static final String[] IMPORT_LIST_DE = {"2015", "2016", "2017"};
-    private static final String[] IMPORT_LIST_EN = {"2015", "2016"};
+    private static final String[] IMPORT_LIST_EN = {"2015", "2016", "2017"};
     private static final String[] IMPORT_LIST_ES = {"2015", "2016"};
     private static final String[] IMPORT_LIST_AR = {};
     private static final String[] IMPORT_LIST_FR = {"2015", "2016"};
@@ -274,5 +274,19 @@ public class Tags {
         int days = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
 
         return website_anfang + (website_01_01_2015 + days);
+    }
+
+
+    /**
+     * Returns the download path for the xml_file for this year
+     * @param year to downlaod
+     * @return url / download path for the zip-file
+     */
+    public static String getUrlLosung(int year) {
+        if(year == 2017) {
+            return "http://www.losungen.de/fileadmin/media-losungen/download/Losung_2017_XML.zip";
+        }
+
+        return null;
     }
 }

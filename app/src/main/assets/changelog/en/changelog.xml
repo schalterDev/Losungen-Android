@@ -1,4 +1,7 @@
 ﻿<XML>
+    <appversion version="21" versionNice="1.2.3.4">
+        <change important="false">Added data for 2017</change>
+    </appversion>
     <appversion version="19" versionNice="1.2.3.2">
         <change important="false">Fixed some issues with the ads</change>
     </appversion>
