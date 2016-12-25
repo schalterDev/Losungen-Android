@@ -117,8 +117,7 @@
     <string name="info_fragment_launcherIcon">Launcher Icon</string>
     <string name="columns">Spalten</string>
     <string name="rows">Reihen</string>
-    <string name="save">Speichern</string>
-    <string name="cancel">Abbrechen</string>
+    <string name="save">Speichern</string>    <string name="cancel">Abbrechen</string>
     <string name="info_questions_title">Wohin mit Fragen, Problemen und Verbesserungsvorschlägen?</string>
     <string name="info_questions_content">Obwohl diese App im Normalgebrauch mehr als reibungslos funktionieren sollte, eventuelle Fehler sind nie ausgeschlossen. Kontaktiere mich einfach über die Feedback Funktion</string>
     <string name="country_france">Französisch</string>
@@ -202,5 +201,8 @@
     <string name="download_losung">Lade Losungen herunter</string>
     <string name="wait_please">Siehe Benachrichtigung für die Fortschrittsanzeige</string>
     <string name="xml_downloading">Losungen herunterladen</string>
+    <string name="petition">Petition unterschreiben</string>
+    <string name="petition_message">Vielleicht hast du schon mitbekommen, dass ich aufgefordert wurde diese APP einzustellen und keinen neuen Jahrgang hinzuzufügen. Du kannst diese Petition unterschreiben und damit zeigen, dass du für ein Fortbestehen dieser APP bist</string>
+    <string name="dont_show_again">Nicht wieder anzeigen</string>
 
 </resources>
