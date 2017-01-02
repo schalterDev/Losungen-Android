@@ -187,4 +187,5 @@
     <string name="petition">Sign petition</string>
     <string name="petition_message">maybe you heard that I am not allowed to continue this APP. You can sign this petition to show that you want to continue this app. </string>
     <string name="dont_show_again">don\'t show again</string>
+    <string name="error">Error</string>
 </resources>

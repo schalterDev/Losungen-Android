@@ -31,10 +31,14 @@ public class DownloadNotificationHelper extends Service {
     private int resourceTitle;
     private int resourceSubTitle;
 
+    private boolean error;
+
     public DownloadNotificationHelper(Context context, int resourceTitle, int resourceSubTitle) {
         mContext = context;
         this.resourceTitle = resourceTitle;
         this.resourceSubTitle = resourceSubTitle;
+
+        error = false;
     }
 
     /**
@@ -120,11 +124,13 @@ public class DownloadNotificationHelper extends Service {
      */
     public void completed()    {
         //remove the notification from the status bar
-        mNotificationManager.cancel(NOTIFICATION_ID);
+        if(!error)
+            mNotificationManager.cancel(NOTIFICATION_ID);
     }
 
-    public void error() {
-        tickerText = mContext.getString(R.string.download_error);
+    /*
+    public void error(String message) {
+        tickerText = mContext.getString(R.string.download_error) + ": " + message;
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
         mNotification = builder.setContentIntent(mContentIntent)
@@ -135,6 +141,24 @@ public class DownloadNotificationHelper extends Service {
         //show the notification
         mNotificationManager.notify(NOTIFICATION_ID, mNotification);
         //mNotificationManager.cancel(NOTIFICATION_ID);
+    }*/
+
+    public void error(String message) {
+        error = true;
+
+        String contentText = mContext.getResources().getString(R.string.error) + ": " + message;
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(mContext)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setSmallIcon(icon)
+                        .setContentTitle(mContext.getResources().getString(R.string.error))
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(contentText))
+                        .setContentText(contentText)
+                        .setAutoCancel(false);
+
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
     @Nullable

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -30,6 +31,8 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
     private Runnable finished;
     private Runnable onUpdate;
 
+    private boolean error;
+
     public DownloadTask(Context context, String url, String folder,
                         String fileName, boolean internal, int resourceTitleNotification, int resourceSubtitleNotification){
         this.context = context;
@@ -37,6 +40,9 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
         this.fileName = fileName;
         this.url = url;
         this.internal = internal;
+
+        error =false;
+
         mNotificationHelper = new DownloadNotificationHelper(context, resourceTitleNotification, resourceSubtitleNotification);
     }
 
@@ -92,15 +98,15 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
                             context.getResources().getString(R.string.failed_external),
                             Toast.LENGTH_LONG);
 
-                    mNotificationHelper.error();
-                    cancel(true);
+                    mNotificationHelper.error("Failed to write to external and internal storage");
+                    error = true;
                 }
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            mNotificationHelper.error();
-            cancel(true);
+            error = true;
+            mNotificationHelper.error(e.getMessage());
         }
         return null;
     }
@@ -125,14 +131,14 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
         //The task is complete, tell the status bar about it
         mNotificationHelper.completed();
 
-        if(finished != null) {
+        if(finished != null && !error) {
             finished.run();
         }
     }
 
     @Override
     protected void onCancelled(Void result){
-        mNotificationHelper.error();
+        super.onCancelled(result);
     }
 
     public String getAbsolutePath() {
