@@ -207,8 +207,8 @@ public class Notifications extends Service {
                 }
 
                 //Download AUDIO
-                boolean downlaodAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, true);
-                if(downlaodAudio) {
+                boolean autoDownloadAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, false);
+                if(autoDownloadAudio) {
                     boolean wifiConnected = Tags.isWifiConnected(getApplicationContext());
                     boolean mobileConnected = Tags.isMobileConnected(getApplicationContext());
 
