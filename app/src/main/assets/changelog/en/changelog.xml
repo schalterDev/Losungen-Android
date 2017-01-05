@@ -1,4 +1,8 @@
 ﻿<XML>
+    <appversion version="24" versionNice="1.2.3.7">
+        <change important="false">Detailed error report when downloading something with an error</change>
+        <change important="false">Bugfixing</change>
+    </appversion>
     <appversion version="21" versionNice="1.2.3.4">
         <change important="false">Added data for 2017</change>
     </appversion>

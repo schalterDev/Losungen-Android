@@ -1,9 +1,13 @@
 ﻿<XML>
+    <appversion version="24" versionNice="1.2.3.7">
+        <change important="false">Ausführliche Fehlermeldung in der Benachrichtigung beim Downloadfehler</change>
+        <change important="false">Bugfixing</change>
+    </appversion>
     <appversion version="21" versionNice="1.2.3.4">
         <change important="true">Losungen für 2017 können von der offiziellen Internetadresse von "Die Losungen" heruntergeladen und importiert werden. Dazu im Menü auf "Import / Sprache ändern" klicken</change>
     </appversion>
     <appversion version="20" versionNice="1.2.3.3">
-        <change important="true">Petition für das Vortsetzten dieser APP hinzugefügt</change>
+        <change important="true">Petition für das Fortsetzten dieser APP hinzugefügt</change>
     </appversion>
     <appversion version="19" versionNice="1.2.3.2">
         <change important="false">Probleme mit der Werbung behoben</change>

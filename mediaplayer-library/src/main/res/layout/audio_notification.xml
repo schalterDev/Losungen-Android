@@ -67,6 +67,7 @@
         android:layout_alignParentEnd="true"
         android:background="#00ffffff"
         android:focusable="true"
-        android:tint="#555555"/>
+        android:tint="#555555"
+        android:src="@android:drawable/ic_delete" />
 
 </RelativeLayout>
