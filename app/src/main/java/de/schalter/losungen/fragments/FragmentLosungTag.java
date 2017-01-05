@@ -604,8 +604,16 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     }
 
     private String getTimeFormat(int time) {
-        String duration = String.valueOf( (int) (time / 1000 / 60)) + ":" +
-                String.valueOf( (int) ((time / 1000) % 60));
+        int minutes = time / 1000 / 60;
+        int seconds = (time / 1000) % 60;
+
+        String duration = minutes + ":";
+
+        if(seconds >= 10) {
+            duration += String.valueOf(seconds);
+        } else {
+            duration += "0" + String.valueOf(seconds);
+        }
 
         return duration;
     }
