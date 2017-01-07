@@ -1,4 +1,7 @@
 ﻿<XML>
+    <appversion version="25" versionNice="1.2.3.8">
+        <change important="true">Der Download von den Losungen und Andachten sollte nun auf allen Geräten funktionieren</change>
+    </appversion>
     <appversion version="24" versionNice="1.2.3.7">
         <change important="false">Ausführliche Fehlermeldung in der Benachrichtigung beim Downloadfehler</change>
         <change important="false">Bugfixing</change>
