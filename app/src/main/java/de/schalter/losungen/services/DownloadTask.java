@@ -84,22 +84,28 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
             if(internal) {
                 absolutePath = files.writeToPrivateStorage(context, input, folder, fileName);
             } else { //Write to external storage
-                absolutePath = files.writeToRealExternalCacheStorage(context, input,
-                        folder, fileName);
+                try {
+                    absolutePath = files.writeToRealExternalCacheStorage(context, input,
+                            folder, fileName);
 
-                if(absolutePath == null) {
-                    //couldn't write to external sd-card, try internal sd-card
-                    absolutePath = files.writeToExternalPrivateStorage(input, fileName, folder);
-                }
+                    if (absolutePath == null) {
+                        //couldn't write to external sd-card, try internal sd-card
+                        absolutePath = files.writeToExternalPrivateStorage(input, fileName, folder);
+                    }
 
-                if(absolutePath == null) {
-                    //Error writing to external resource
-                    MainActivity.toast(context,
-                            context.getResources().getString(R.string.failed_external),
-                            Toast.LENGTH_LONG);
+                    if (absolutePath == null) {
+                        //Error writing to external resource
+                        MainActivity.toast(context,
+                                context.getResources().getString(R.string.failed_external),
+                                Toast.LENGTH_LONG);
 
-                    mNotificationHelper.error("Failed to write to external and internal storage");
-                    error = true;
+                        mNotificationHelper.error("Failed to write to external and internal storage");
+                        error = true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //Write to internal storage
+                    absolutePath = files.writeToPrivateStorage(context, input, folder, fileName);
                 }
             }
 

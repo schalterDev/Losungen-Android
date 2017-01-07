@@ -126,6 +126,15 @@ public class Files {
     }
 
     /**
+     * Returns the internal cache directory.
+     * @param context application context
+     * @return returns the absolute path of the directory and null if no cache directory exists
+     */
+    public static String getInternalCacheDirectory(Context context) {
+        return context.getFilesDir().getAbsolutePath();
+    }
+
+    /**
      * Try to write file to second external storage with subfolder. Since Kitkat its not
      * possible to write into every folder but into cache folder. Be sure that this files
      * will be deleted when the user deletes your application.
