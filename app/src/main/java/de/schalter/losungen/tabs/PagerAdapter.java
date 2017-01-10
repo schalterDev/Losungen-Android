@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
     private List<String> titles;
     private List<Long> times;
+    private FragmentLosungTag[] fragments;
 
     private long currentDate;
 
@@ -37,6 +39,7 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
         titles = new ArrayList<>();
         times = new ArrayList<>();
+        fragments = new FragmentLosungTag[100];
 
         long timeNow = System.currentTimeMillis();
         currentDate = timeNow;
@@ -65,12 +68,17 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles.get(position);
+        String title = titles.get(position);
+        return title;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentLosungTag.newFragmentLosungTag(times.get(position), context);
+        FragmentLosungTag fragmentLosungTag = FragmentLosungTag.newFragmentLosungTag(times.get(position), context);
+
+        fragments[position] = fragmentLosungTag;
+
+        return fragmentLosungTag;
     }
 
     @Override
@@ -80,7 +88,8 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        return PagerAdapter.POSITION_NONE;
+        int index = Arrays.asList(fragments).indexOf(object);
+        return index;
     }
 
     @Override
@@ -112,11 +121,11 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
         this.notifyDataSetChanged();
     }
 
-    public int gescrollt(int position, boolean nachRechtsGescrollt) {
+    public int gescrollt(int position, boolean scrolledToRight) {
 
         currentDate = times.get(position);
 
-        if(nachRechtsGescrollt && (position > (titles.size() - 2))) { //Am Ende sollen immer noch 3 weitere Tage stehen
+        if(scrolledToRight && (position > (titles.size() - 3))) { //Am Ende sollen immer noch 3 weitere Tage stehen
             for(int i = 0; i < (position - titles.size() + ITEMSAFTER + 4); i++) {
                 long time = times.get(times.size() - 1) + (1000 * 60 * 60 * 24);
                 times.add(time);
@@ -126,7 +135,9 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
             //Error reported in Google-Play developer console
             try {
                 this.notifyDataSetChanged();
-            } catch (Exception ignored) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else if(position < 1) {
 
@@ -139,7 +150,9 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
             //Error reported in Google-Play developer console
             try {
                 this.notifyDataSetChanged();
-            } catch (Exception ignored) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             return position + ITEMSBEFOR;
         }
