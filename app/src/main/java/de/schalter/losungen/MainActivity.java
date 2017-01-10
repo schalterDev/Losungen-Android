@@ -45,6 +45,7 @@ import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -810,7 +811,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
                 File dir = new File(uri.getPath());
 
-                final File file = new File(dir, "notes.xml");
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
+                String formattedDate = df1.format(calendar.getTime());
+
+                final File file = new File(dir, "notes" + formattedDate + ".xml");
 
                 xmlWriter.writeXml(file);
 
