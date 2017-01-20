@@ -140,10 +140,10 @@ public class FragmentLosung extends Fragment {
             //If you reach the beginning or end of the tabs - load new
             @Override
             public void onPageSelected(int position) {
-                boolean nachRechtsGescrollt = (position > PagerAdapter.ITEMSBEFOR);
+                boolean scrolledToRight = (position > PagerAdapter.ITEMSBEFOR);
 
                 //This will add new tabs if necessary and will return the new right position
-                int scrollTo = pagerAdapter.gescrollt(position, nachRechtsGescrollt);
+                int scrollTo = pagerAdapter.gescrollt(position, scrolledToRight);
                 //If the count of the tabs changed - maybe you have to change the position
                 if (scrollTo != position)
                     pager.setCurrentItem(scrollTo, true);

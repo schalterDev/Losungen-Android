@@ -9,8 +9,8 @@ android {
         applicationId "de.schalter.losungen"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 25
-        versionName "1.2.3.8"
+        versionCode 26
+        versionName "1.2.3.9"
 
     }
     buildTypes {
@@ -44,7 +44,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.jpardogo.materialtabstrip:library:1.0.6'
+    compile 'com.jpardogo.materialtabstrip:library:1.1.1'
     compile 'com.github.paolorotolo:appintro:3.2.0'
     compile 'com.larswerkman:lobsterpicker:1.0.0'
     compile 'com.nononsenseapps:filepicker:2.5.2'
