@@ -1,4 +1,8 @@
 ﻿<XML>
+    <appversion version="26" versionNice="1.2.3.9">
+        <change important="true">Absturz beim Klicken auf das letzte Datum in der Leiste oben behoben</change>
+        <change important="false">Viele kleine Fehler behoben</change>
+    </appversion>
     <appversion version="25" versionNice="1.2.3.8">
         <change important="true">Der Download von den Losungen und Andachten sollte nun auf allen Geräten funktionieren</change>
     </appversion>
