@@ -7,11 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import de.schalter.losungen.AnalyticsApplication;
+import de.schalter.losungen.BuildConfig;
 import de.schalter.losungen.R;
 import de.schalter.losungen.settings.Tags;
 
@@ -64,5 +66,8 @@ public class FragmentInfo extends Fragment {
 
     private void initialise(View view) {
         //Until now there is everything defined in the XML-File
+        TextView version = (TextView) view.findViewById(R.id.textView_version);
+        String versionString = BuildConfig.VERSION_NAME;
+        version.setText(versionString);
     }
 }
