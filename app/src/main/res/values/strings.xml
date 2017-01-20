@@ -46,7 +46,7 @@
     <string name="pref_notes_title">Show Notes</string>
     <string name="pref_notification_art">Content</string>
     <string name="pref_notifications">Notifications</string>
-    <string name="pref_time">Time for download</string>
+    <string name="pref_time">Time for notification</string>
     <string name="rate">Rate</string>
     <string name="remove_fav">Removed from favorites</string>
     <string name="rows">Rows</string>

@@ -52,7 +52,7 @@
     <string name="pref_general">Allgemein</string>
     <string name="pref_notifications">Benachrichtigungen</string>
     <string name="pref_notification_art">Inhalt</string>
-    <string name="pref_time">Zeit für den automatischen Download</string>
+    <string name="pref_time">Zeit für die Benachrichtigung</string>
     <string name="pref_notes_title">Notizen anzeigen</string>
     <string name="pref_ads_title">Werbung anzeigen</string>
     <string name="pref_ads_summary">Wenn du diese APP unterstützen willst kannst du Werbung aktivieren. Dann wird ein kleiner Banner unten in der APP angezeigt (Neustart erforderlich)</string>
