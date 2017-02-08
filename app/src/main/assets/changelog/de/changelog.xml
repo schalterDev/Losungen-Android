@@ -1,5 +1,9 @@
 ﻿<XML>
+    <appversion version="27" versionNice="1.2.3.10">
+        <change important="false">Wochensprüche stimmen nun mit dem Losungen Buch überein</change>
+    </appversion>
     <appversion version="26" versionNice="1.2.3.9">
+        <change important="false">App kann nun auf die SD-Karte verschoben werden (dann funktioneren die Widgets aber nicht mehr)</change>
         <change important="true">Absturz beim Klicken auf das letzte Datum in der Leiste oben behoben</change>
         <change important="false">Viele kleine Fehler behoben</change>
     </appversion>

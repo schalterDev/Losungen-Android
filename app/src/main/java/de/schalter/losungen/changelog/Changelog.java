@@ -63,6 +63,12 @@ public class Changelog {
         return builder.create();
     }
 
+    public static int getOldVersion(Context context, String versionTag) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        return settings.getInt(versionTag, -1);
+
+    }
+
     public boolean isNewVersion(String versionTag) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         int oldVersionCode = settings.getInt(versionTag, -1);

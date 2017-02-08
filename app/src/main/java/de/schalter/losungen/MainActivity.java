@@ -144,13 +144,21 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         }
     }
 
+    private void updateOldWrongWeeklyWords() {
+        if(Changelog.getOldVersion(this, Tags.PREF_VERSIONCODE) < 27) {
+            //update wekkly words
+            ImportLosungenDialog.reimportWeekThisYear(this);
+        }
+    }
+
     private void newVersion() {
+        updateOldWrongWeeklyWords();
+
         final Changelog changelog = new Changelog(this);
 
         //Wenn eine neue Version der APP installiert ist
         if (changelog.isNewVersion(Tags.PREF_VERSIONCODE)) {
             //Changelog
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             String[] changelogLanguages = Tags.CHANGELOG_LANGUAGES;
             String language = Tags.getLanguage(this);
             //I GUI-Language is not supported for changelog use english
