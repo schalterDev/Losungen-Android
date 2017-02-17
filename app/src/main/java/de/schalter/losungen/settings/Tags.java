@@ -193,7 +193,7 @@ public class Tags {
 
     private static final String audio_anfang = "";
     private static final String audio_url_prefix = "https://www.erf.de";
-    private static final String audio_url_html_anfang = "class=\"erf-audio\" data-file=\"";
+    private static final String audio_url_html_anfang = "data-file=\"";
     private static final String audio_url_html_ende = "\"";
 
     public static String getLanguage(Context context) {

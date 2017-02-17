@@ -9,8 +9,8 @@ android {
         applicationId "de.schalter.losungen"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 27
-        versionName "1.2.3.10"
+        versionCode 28
+        versionName "1.2.3.11"
 
     }
     buildTypes {
