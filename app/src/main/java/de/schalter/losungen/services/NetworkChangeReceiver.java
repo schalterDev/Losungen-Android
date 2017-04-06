@@ -35,11 +35,12 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         //Wegen der Sprache wird hier "false" als Standartwert ausgewählt
         //Für andere Sprachen is das nämlich noch nicht vefügbar
         boolean downloadAudio = settings.getBoolean(Tags.PREF_AUDIO_DOWNLOAD, false);
+        boolean autoDownloadAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, false);
         boolean onlyWifi = settings.getString(Tags.PREF_AUDIO_AUTODOWNLOAD_NETWORK, "0").equals("0");
 
-        if(downloadAudio && wifi && languageSupported) {
+        if(autoDownloadAudio && downloadAudio && wifi && languageSupported) {
             downloadAudio();
-        } else if(downloadAudio && !onlyWifi && mobile && languageSupported) {
+        } else if(autoDownloadAudio && downloadAudio && !onlyWifi && mobile && languageSupported) {
             downloadAudio();
         }
 
