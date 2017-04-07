@@ -41,6 +41,7 @@ import de.schalter.losungen.customViews.CardLosung;
 import de.schalter.losungen.dialogs.LosungOpenDialog;
 import de.schalter.losungen.dialogs.OpenUrlDialog;
 import de.schalter.losungen.dialogs.SearchDialog;
+import de.schalter.losungen.dialogs.ShareSermon;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.services.DownloadTask;
 import de.schalter.losungen.settings.Tags;
@@ -213,6 +214,10 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         } else if(id == R.id.action_audio) {
             playAudio();
             return true;
+        } else if(id == R.id.action_share_sermon) {
+            ShareSermon dialog = new ShareSermon(context, losung);
+            dialog.show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -222,41 +227,44 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         Thread download = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    MainActivity.toast(context, context.getString(R.string.download_starting), Toast.LENGTH_SHORT);
-                    //get URL first
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(losung.getDatum());
-                    String url = Tags.getAudioUrl(calendar);
+                MainActivity.toast(context, context.getString(R.string.download_starting), Toast.LENGTH_SHORT);
+                //get URL first
+                losung.getSermonUrlDownload(new Runnable() {
+                    @Override
+                    public void run() {
+                        String url = losung.getUrlForDownload();
 
-                    //set Path
-                    String folder = "audio";
-                    String fileName = context.getString(R.string.app_name) + "_" +
-                            Losung.getDatumLongFromTime(losung.getDatum()) + ".mp3";
+                        if(url == null) {
+                            MainActivity.toast(context, context.getString(R.string.download_error_connection), Toast.LENGTH_LONG);
+                        } else {
+                            //set Path
+                            String folder = "audio";
+                            String fileName = context.getString(R.string.app_name) + "_" +
+                                    Losung.getDatumLongFromTime(losung.getDatum()) + ".mp3";
 
-                    //use internal or external storage
-                    boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
+                            //use internal or external storage
+                            boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
 
-                    final DownloadTask downloadTask = new DownloadTask(context, url, folder, fileName, internal, R.string.download_ticker, R.string.content_title);
+                            final DownloadTask downloadTask = new DownloadTask(context, url, folder, fileName, internal, R.string.download_ticker, R.string.content_title);
 
-                    //When finished
-                    Runnable finished = new Runnable() {
-                        @Override
-                        public void run() {
-                            //Write into database
-                            String absolutePath = downloadTask.getAbsolutePath();
-                            dbHandler.addAudioLosungen(losung.getDatum(), absolutePath);
+                            //When finished
+                            Runnable finished = new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Write into database
+                                    String absolutePath = downloadTask.getAbsolutePath();
+                                    dbHandler.addAudioLosungen(losung.getDatum(), absolutePath);
 
-                            playFile(absolutePath);
+                                    playFile(absolutePath);
+                                }
+                            };
+                            downloadTask.onFinishedListener(finished);
+
+                            //Start download with notification
+                            downloadTask.execute();
                         }
-                    };
-                    downloadTask.onFinishedListener(finished);
-
-                    //Start download with notification
-                    downloadTask.execute();
-                } catch (IOException e) {
-                    MainActivity.toast(context, context.getString(R.string.download_error_connection), Toast.LENGTH_LONG);
-                }
+                    }
+                });
             }
         });
 
