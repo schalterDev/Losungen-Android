@@ -205,5 +205,11 @@
     <string name="petition_message">Vielleicht hast du schon mitbekommen, dass ich aufgefordert wurde diese APP einzustellen und keinen neuen Jahrgang hinzuzufügen. Du kannst diese Petition unterschreiben und damit zeigen, dass du für ein Fortbestehen dieser APP bist</string>
     <string name="dont_show_again">Nicht wieder anzeigen</string>
     <string name="error">Fehler</string>
+    <string name="fetching_url">lade url...</string>
+    <string name="need_internet">Es wird eine Internetverbindung benötigt</string>
+    <string name="please_download_sermon_first">Bitte laden Sie erst die Andacht herunter</string>
+    <string name="sermon_share">Andacht teilen</string>
+    <string name="share_mp3File">MP3 - Datei teilen</string>
+    <string name="share_url">Link zum Herunterladen teilen</string>
 
 </resources>
