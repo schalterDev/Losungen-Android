@@ -407,6 +407,16 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         context.startActivity(finalIntent);
     }
 
+    public static void share(Context context, String text) {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
+
+        Intent finalIntent = Intent.createChooser(sharingIntent, context.getResources().getString(R.string.share));
+        finalIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(finalIntent);
+    }
+
     public void showSearchFragment(FragmentLosungenListe fragment) {
         searchResultShown = true;
         toolbar.setTitle(getResources().getString(R.string.search_results));

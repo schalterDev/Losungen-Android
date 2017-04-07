@@ -2,6 +2,7 @@ package de.schalter.losungen;
 
 import android.content.Context;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,6 +27,8 @@ public class Losung {
     private boolean markiert;
     private String notizenLehrtext;
     private String notizenLosung;
+
+    private String url;
 
     public String getLosungstext() {
         return losungstext;
@@ -97,6 +100,54 @@ public class Losung {
 
     public void setNotizenLosung(String notizenLosung) {
         this.notizenLosung = notizenLosung;
+    }
+
+    public String getTitleLosung() {
+        return titleLosung;
+    }
+
+    public void setTitleLosung(String titleLosung) {
+        this.titleLosung = titleLosung;
+    }
+
+    public String getTitleLehrtext() {
+        return titleLehrtext;
+    }
+
+    public void setTitleLehrtext(String titleLehrtext) {
+        this.titleLehrtext = titleLehrtext;
+    }
+
+    /**
+     * Tries to get download-url for the sermon with the language specified in the setting.
+     * Needs an internet connection and runs in an own thread
+     * @param runAfterUrlFound this will run after the url was found / not found
+     */
+    public void getSermonUrlDownload(final Runnable runAfterUrlFound) {
+        Thread network_thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(getDatum());
+                    url = Tags.getAudioUrl(calendar);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    runAfterUrlFound.run();
+                }
+            }
+        });
+
+        network_thread.start();
+    }
+
+    /**
+     * only return the url fetched with getSermonUrlDownload()
+     * @return download url for sermon, null if not know jet
+     */
+    public String getUrlForDownload() {
+        return url;
     }
 
     public static String getDatumFromTime(long time) {
@@ -180,19 +231,4 @@ public class Losung {
         return df.format(date);
     }
 
-    public String getTitleLosung() {
-        return titleLosung;
-    }
-
-    public void setTitleLosung(String titleLosung) {
-        this.titleLosung = titleLosung;
-    }
-
-    public String getTitleLehrtext() {
-        return titleLehrtext;
-    }
-
-    public void setTitleLehrtext(String titleLehrtext) {
-        this.titleLehrtext = titleLehrtext;
-    }
 }

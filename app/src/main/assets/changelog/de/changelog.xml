@@ -1,4 +1,11 @@
 ﻿<XML>
+    <appversion version="29" versionNice="1.2.4">
+        <change important="false">Die Andachten könenn nun mit anderen geteilt werden</change>
+        <change important="true">Der automtaische Download der Andacht wird nicht mehr ausgeführt, wenn es in den Einstellungen deaktiviert ist</change>
+    </appversion>
+    <appversion version="28" versionNice="1.2.3.11">
+        <change important="true">Die Andachten funktionieren wieder</change>
+    </appversion>
     <appversion version="27" versionNice="1.2.3.10">
         <change important="false">Wochensprüche stimmen nun mit dem Losungen Buch überein</change>
     </appversion>
