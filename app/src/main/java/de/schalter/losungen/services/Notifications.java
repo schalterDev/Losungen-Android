@@ -31,11 +31,17 @@ import de.schalter.losungen.settings.Tags;
 public class Notifications extends Service {
 
     private static final int NOTIFICATION_ID = 241504;
+    private static final long MAX_TIME_DIFFERENCE = 30; //30 minutes
 
     public Notifications() {
         super();
     }
 
+    /**
+     * adds an alarm for the given time
+     * @param context
+     * @param time when the alarm should start (will be repeated daily)
+     */
     public static void setNotifications(Context context, long time) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         long lastNotification = settings.getLong(Tags.TAG_LASTNOTIFICATION, 0);
@@ -45,7 +51,6 @@ public class Notifications extends Service {
         calendarNotification.setTimeInMillis(lastNotification);
         boolean notificationToday = (calendarNotification.get(Calendar.DAY_OF_YEAR) ==
                 Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
-
 
         Intent intent = new Intent(context, Notifications.class);
 
@@ -58,15 +63,21 @@ public class Notifications extends Service {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
+
         //If their was a notification today add one day
-        if(notificationToday) calendar.add(Calendar.DAY_OF_YEAR, 1);
+        if(notificationToday)
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
 
         alarmManager.cancel(pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
         Log.i("Losungen", "Notifications added");
     }
 
+    /**
+     * Remove all sheduled alarms
+     * @param context
+     */
     public static void removeNotifications(Context context) {
         Intent intent = new Intent(context, Notifications.class);
 
@@ -177,8 +188,14 @@ public class Notifications extends Service {
 
                 boolean showNotification = settings.getBoolean(Tags.PREF_NOTIFICATION, true);
 
+                long timeNow = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
+                long timeNotification = settings.getLong(Tags.PREF_NOTIFICATIONTIME, 0L);
+                long timeDifference = timeNow - timeNotification;
+                if(timeDifference < 0)
+                    timeDifference = -timeDifference;
+
                 //Show Notification
-                if(showNotification) {
+                if(showNotification && timeDifference <= MAX_TIME_DIFFERENCE) {
                     Losung losung = dbHandler.getLosung(calendar.getTimeInMillis());
 
                     if (!losung.getLosungstext().equals(getResources().getString(R.string.no_date))) {
