@@ -115,7 +115,7 @@ public class BibleDialog {
                 //1,14-2,1
                 //Array is then [1, 14-2, 1];
                 //I will not handle this for now...
-                throw new IOException("This verses can not be handelded");
+                throw new NumberFormatException("This verses can not be handelded");
             } else {
                 //now only one chapter in position 0 of Array
                 //Position 1 is the vers(range)
