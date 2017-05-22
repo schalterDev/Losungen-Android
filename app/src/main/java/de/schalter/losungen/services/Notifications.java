@@ -31,7 +31,6 @@ import de.schalter.losungen.settings.Tags;
 public class Notifications extends Service {
 
     private static final int NOTIFICATION_ID = 241504;
-    private static final long MAX_TIME_DIFFERENCE = 30; //30 minutes
 
     public Notifications() {
         super();
@@ -53,8 +52,10 @@ public class Notifications extends Service {
                 Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
 
         Intent intent = new Intent(context, Notifications.class);
+        intent.setAction("NOTIFICATION");
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        //add tag: NOTIFICATION
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
 
         int hourOfDay = (int) (time / 1000 / 60 / 60);
@@ -169,7 +170,7 @@ public class Notifications extends Service {
 
                 MainActivity.share(this, title, msg);
                 break;
-            case "MARK": {
+            case "MARK":
                 long datum = intent.getLongExtra("datum", 0);
                 DBHandler dbHandler = DBHandler.newInstance(this);
                 dbHandler.setMarkiert(datum);
@@ -179,23 +180,15 @@ public class Notifications extends Service {
 
                 MainActivity.toast(this, getResources().getString(R.string.add_fav), Toast.LENGTH_SHORT);
                 break;
-            }
-            default: {
-
-                DBHandler dbHandler = DBHandler.newInstance(this);
-                Calendar calendar = Calendar.getInstance();
+            case "NOTIFICATION":
+                dbHandler = DBHandler.newInstance(this);
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                Calendar calendar = Calendar.getInstance();
 
                 boolean showNotification = settings.getBoolean(Tags.PREF_NOTIFICATION, true);
 
-                long timeNow = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
-                long timeNotification = settings.getLong(Tags.PREF_NOTIFICATIONTIME, 0L);
-                long timeDifference = timeNow - timeNotification;
-                if(timeDifference < 0)
-                    timeDifference = -timeDifference;
-
                 //Show Notification
-                if(showNotification && timeDifference <= MAX_TIME_DIFFERENCE) {
+                if(showNotification) {
                     Losung losung = dbHandler.getLosung(calendar.getTimeInMillis());
 
                     if (!losung.getLosungstext().equals(getResources().getString(R.string.no_date))) {
@@ -222,6 +215,9 @@ public class Notifications extends Service {
                         }
                     }
                 }
+                break;
+            default:
+                settings = PreferenceManager.getDefaultSharedPreferences(this);
 
                 //Download AUDIO
                 boolean autoDownloadAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, false);
@@ -240,7 +236,6 @@ public class Notifications extends Service {
                     }
                 }
                 break;
-            }
         }
 
         return START_NOT_STICKY;
