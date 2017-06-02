@@ -15,13 +15,11 @@ import android.widget.Toast;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 
 import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
-import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.files.XmlWriter;
 
 /**

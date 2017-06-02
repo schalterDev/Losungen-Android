@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import de.schalter.losungen.Losung;
 import de.schalter.losungen.R;
-import de.schalter.losungen.lists.GridAdapter;
 import de.schalter.losungen.lists.GridAdapterWidget;
 
 /**

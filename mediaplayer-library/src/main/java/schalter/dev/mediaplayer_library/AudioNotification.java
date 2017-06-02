@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
-import schalter.dev.mediaplayer_library.R;
 /**
  * Created by Smarti on 10.01.2016.
  */

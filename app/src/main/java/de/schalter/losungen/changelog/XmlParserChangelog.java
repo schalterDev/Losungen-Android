@@ -1,6 +1,5 @@
 package de.schalter.losungen.changelog;
 
-import android.content.Context;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -13,15 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import de.schalter.losungen.Losung;
-import de.schalter.losungen.changelog.ChangelogElement;
 
 /**
  * Created by Smarti on 14.01.2016.
