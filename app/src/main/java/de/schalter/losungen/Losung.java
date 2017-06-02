@@ -1,6 +1,7 @@
 package de.schalter.losungen;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -133,6 +134,7 @@ public class Losung {
                     url = Tags.getAudioUrl(context, calendar);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    MainActivity.toast(context, R.string.download_error, Toast.LENGTH_LONG);
                 } finally {
                     runAfterUrlFound.run();
                 }
