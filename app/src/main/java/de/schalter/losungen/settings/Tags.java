@@ -7,12 +7,16 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.pkmmte.pkrss.Article;
+import com.pkmmte.pkrss.PkRSS;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -188,6 +192,8 @@ public class Tags {
         return "ESV";
     }
 
+    private static final String rss_feed = "http://feeds.feedburner.com/erf/wzt";
+
     private static final String website_anfang = "https://www.erf.de/radio/erf-plus/mediathek/wort-zum-tag/73-";
     private static final int website_01_01_2015 = 4073;
 
@@ -225,8 +231,8 @@ public class Tags {
 
     }
 
-    public static String getAudioUrl(Calendar calendar) throws IOException {
-        String websiteUrl = getWebsiteUrl(calendar);
+    public static String getAudioUrl(Context context, Calendar calendar) throws IOException {
+        String websiteUrl = getWebsiteUrl(context, calendar);
         String html = downloadHtml(websiteUrl);
 
         int indexAnfang = html.indexOf(audio_url_html_anfang) + audio_url_html_anfang.length();
@@ -259,7 +265,7 @@ public class Tags {
         return html;
     }
 
-    private static String getWebsiteUrl(Calendar calendar) {
+    private static String getWebsiteUrl(Context context, Calendar calendar) throws IOException {
         Calendar calJanuar = Calendar.getInstance();
         calJanuar.set(Calendar.MONTH, Calendar.JANUARY);
         calJanuar.set(Calendar.YEAR, 2015);
@@ -269,11 +275,32 @@ public class Tags {
         long calJanuarTime = calJanuar.getTimeInMillis();
         Log.d("Losungen", "CalJanuarTime: " + calJanuarTime);
 
-        long timeNow = calendar.getTimeInMillis();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        /*
         long diff = timeNow - calJanuarTime;
         int days = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
 
         return website_anfang + (website_01_01_2015 + days);
+        */
+
+        long timeNow = calendar.getTimeInMillis();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        long timeTomorrow = calendar.getTimeInMillis();
+
+        List<Article> articleList = PkRSS.with(context).load(rss_feed).get();
+        for(Article article : articleList) {
+            long date = article.getDate();
+            if(timeNow <= date && date <= timeTomorrow) {
+                //use this article
+                return article.getExtraString("guid");
+            }
+        }
+
+        return null;
     }
 
 

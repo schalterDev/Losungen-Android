@@ -123,14 +123,14 @@ public class Losung {
      * Needs an internet connection and runs in an own thread
      * @param runAfterUrlFound this will run after the url was found / not found
      */
-    public void getSermonUrlDownload(final Runnable runAfterUrlFound) {
+    public void getSermonUrlDownload(final Context context, final Runnable runAfterUrlFound) {
         Thread network_thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(getDatum());
-                    url = Tags.getAudioUrl(calendar);
+                    url = Tags.getAudioUrl(context, calendar);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
