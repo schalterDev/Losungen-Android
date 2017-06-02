@@ -259,7 +259,7 @@ public class Notifications extends Service {
                     //get URL first
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(datum);
-                    String url = Tags.getAudioUrl(calendar);
+                    String url = Tags.getAudioUrl(Notifications.this, calendar);
 
                     //set Path
                     String folder = "audio";

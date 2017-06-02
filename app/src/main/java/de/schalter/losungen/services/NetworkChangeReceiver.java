@@ -59,7 +59,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                     //get URL first
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(datum);
-                    String url = Tags.getAudioUrl(calendar);
+                    String url = Tags.getAudioUrl(context, calendar);
 
                     //set Path
                     String folder = "audio";

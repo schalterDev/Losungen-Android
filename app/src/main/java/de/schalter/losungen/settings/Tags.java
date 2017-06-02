@@ -7,18 +7,25 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.pkmmte.pkrss.Article;
+import com.pkmmte.pkrss.Callback;
+import com.pkmmte.pkrss.PkRSS;
+import com.pkmmte.pkrss.RequestCreator;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by marti on 30.10.2015.
  */
-public class Tags {
+public class Tags implements Callback {
 
     //Für Losungen, Wochen und Monatssprüche
     private static final String[] IMPORT_LIST_DE = {"2015", "2016", "2017"};
@@ -188,6 +195,8 @@ public class Tags {
         return "ESV";
     }
 
+    private static final String rss_feed = "http://feeds.feedburner.com/erf/wzt";
+
     private static final String website_anfang = "https://www.erf.de/radio/erf-plus/mediathek/wort-zum-tag/73-";
     private static final int website_01_01_2015 = 4073;
 
@@ -225,8 +234,11 @@ public class Tags {
 
     }
 
-    public static String getAudioUrl(Calendar calendar) throws IOException {
-        String websiteUrl = getWebsiteUrl(calendar);
+    public static String getAudioUrl(Context context, Calendar calendar) throws IOException {
+        String websiteUrl = getWebsiteUrl(context, calendar);
+        if(websiteUrl == null)
+            throw new IOException("Could not resovle url");
+
         String html = downloadHtml(websiteUrl);
 
         int indexAnfang = html.indexOf(audio_url_html_anfang) + audio_url_html_anfang.length();
@@ -237,12 +249,19 @@ public class Tags {
     }
 
     private static String downloadHtml(String urlString) throws IOException {
+        //Check for redirection
         URL url = new URL(urlString);
+        HttpURLConnection ucon = (HttpURLConnection) url.openConnection();
+        ucon.setInstanceFollowRedirects(false);
+        URL secondURL = new URL(ucon.getHeaderField("Location"));
+        URLConnection conn = secondURL.openConnection();
+
+        //URL url = new URL(urlString);
 
         long startTime = System.currentTimeMillis();
-        URLConnection ucon = url.openConnection();
+        //URLConnection ucon = url.openConnection();
 
-        InputStream is = ucon.getInputStream();
+        InputStream is = conn.getInputStream();
         BufferedInputStream bis = new BufferedInputStream(is);
 
         /*
@@ -259,7 +278,12 @@ public class Tags {
         return html;
     }
 
-    private static String getWebsiteUrl(Calendar calendar) {
+    private static String url = "";
+    private static long timeNow;
+
+    private static String getWebsiteUrl(Context context, Calendar calendar) throws IOException {
+        url = "";
+
         Calendar calJanuar = Calendar.getInstance();
         calJanuar.set(Calendar.MONTH, Calendar.JANUARY);
         calJanuar.set(Calendar.YEAR, 2015);
@@ -269,11 +293,33 @@ public class Tags {
         long calJanuarTime = calJanuar.getTimeInMillis();
         Log.d("Losungen", "CalJanuarTime: " + calJanuarTime);
 
-        long timeNow = calendar.getTimeInMillis();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        /*
         long diff = timeNow - calJanuarTime;
         int days = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
 
         return website_anfang + (website_01_01_2015 + days);
+        */
+        timeNow = calendar.getTimeInMillis();
+
+        RequestCreator requestCreator = PkRSS.with(context).load(rss_feed).callback(new Tags());
+        requestCreator.async();
+
+        //requestCreator.async();
+
+        while(url != null && url.equals("")) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return url;
     }
 
 
@@ -288,5 +334,30 @@ public class Tags {
         }
 
         return null;
+    }
+
+    @Override
+    public void onPreload() {
+
+    }
+
+    @Override
+    public void onLoaded(List<Article> newArticles) {
+        for(Article article : newArticles) {
+            long date = article.getDate();
+            if((timeNow == date)) {
+                //use this article
+                url = article.getSource().toString();
+                break;
+            }
+        }
+
+        if(url.equals(""))
+            url = null;
+    }
+
+    @Override
+    public void onLoadFailed() {
+        url = null;
     }
 }

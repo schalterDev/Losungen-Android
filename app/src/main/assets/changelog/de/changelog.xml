@@ -1,4 +1,4 @@
-﻿<XML>
+<XML>
     <appversion version="29" versionNice="1.2.4">
         <change important="false">Die Andachten könenn nun mit anderen geteilt werden</change>
         <change important="true">Der automtaische Download der Andacht wird nicht mehr ausgeführt, wenn es in den Einstellungen deaktiviert ist</change>
