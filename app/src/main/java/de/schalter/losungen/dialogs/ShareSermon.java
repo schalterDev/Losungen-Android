@@ -46,7 +46,7 @@ public class ShareSermon {
                 switch(which) {
                     case 0: //share url
                         MainActivity.toast(context, R.string.fetching_url, Toast.LENGTH_SHORT);
-                        losung.getSermonUrlDownload(new Runnable() {
+                        losung.getSermonUrlDownload(context, new Runnable() {
                             @Override
                             public void run() {
                                 String url = losung.getUrlForDownload();

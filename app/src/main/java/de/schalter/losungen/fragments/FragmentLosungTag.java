@@ -229,7 +229,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
             public void run() {
                 MainActivity.toast(context, context.getString(R.string.download_starting), Toast.LENGTH_SHORT);
                 //get URL first
-                losung.getSermonUrlDownload(new Runnable() {
+                losung.getSermonUrlDownload(context, new Runnable() {
                     @Override
                     public void run() {
                         String url = losung.getUrlForDownload();
@@ -333,7 +333,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                     //get URL first
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(losung.getDatum());
-                    String url = Tags.getAudioUrl(calendar);
+                    String url = Tags.getAudioUrl(context, calendar);
 
                     //Play audio with notification
                     playFile(url);
