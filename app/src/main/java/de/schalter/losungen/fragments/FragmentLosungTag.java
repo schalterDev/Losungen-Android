@@ -106,10 +106,10 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
      * @return the daily word of this day
      */
     private Losung getLosung(long datum) {
-        Calendar calendar = Calendar.getInstance();
+        /*Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(datum);
 
-        datum = calendar.getTimeInMillis();
+        datum = calendar.getTimeInMillis();*/
 
         //I had some errors with context = null
         //so no I check and try every available method

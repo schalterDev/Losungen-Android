@@ -127,7 +127,7 @@ public class FragmentLosung extends Fragment {
         tabs.setTextColor(Colors.getColor(getContext(), Colors.TOOLBARICON));
         tabs.setIndicatorColor(Colors.getColor(getContext(), Colors.INDICATOR));
         tabs.setDividerColor(Colors.getColor(getContext(), Colors.PRIMARY));
-        tabs.setIndicatorHeight(6);
+        tabs.setIndicatorHeight(15);
 
         pager.setPageMargin(5);
 

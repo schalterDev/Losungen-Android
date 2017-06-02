@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "de.schalter.losungen"
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 29
         versionName "1.2.4"
 
@@ -23,7 +23,8 @@ android {
     lintOptions {
         disable 'MissingTranslation'
     }
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.2'
+
 }
 
 repositories {
