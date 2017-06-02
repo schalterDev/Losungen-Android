@@ -45,6 +45,7 @@ import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -143,13 +144,21 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         }
     }
 
+    private void updateOldWrongWeeklyWords() {
+        if(Changelog.getOldVersion(this, Tags.PREF_VERSIONCODE) < 27) {
+            //update wekkly words
+            ImportLosungenDialog.reimportWeekThisYear(this);
+        }
+    }
+
     private void newVersion() {
+        updateOldWrongWeeklyWords();
+
         final Changelog changelog = new Changelog(this);
 
         //Wenn eine neue Version der APP installiert ist
         if (changelog.isNewVersion(Tags.PREF_VERSIONCODE)) {
             //Changelog
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             String[] changelogLanguages = Tags.CHANGELOG_LANGUAGES;
             String language = Tags.getLanguage(this);
             //I GUI-Language is not supported for changelog use english
@@ -262,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         MainActivity.activity = this;
 
-        petitionDialog();
+        //petitionDialog();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -391,6 +400,16 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
+
+        Intent finalIntent = Intent.createChooser(sharingIntent, context.getResources().getString(R.string.share));
+        finalIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(finalIntent);
+    }
+
+    public static void share(Context context, String text) {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
 
         Intent finalIntent = Intent.createChooser(sharingIntent, context.getResources().getString(R.string.share));
@@ -810,7 +829,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
                 File dir = new File(uri.getPath());
 
-                final File file = new File(dir, "notes.xml");
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
+                String formattedDate = df1.format(calendar.getTime());
+
+                final File file = new File(dir, "notes" + formattedDate + ".xml");
 
                 xmlWriter.writeXml(file);
 

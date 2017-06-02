@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2270371481189370/5668516244</string>
-    <string name="info_version" translatable="false">1.2.3.4</string>
     <string name="app_name">Daily words</string>
     <string name="add_fav">Added to favorites</string>
     <string name="appwidge_content">Content</string>
@@ -47,7 +46,7 @@
     <string name="pref_notes_title">Show Notes</string>
     <string name="pref_notification_art">Content</string>
     <string name="pref_notifications">Notifications</string>
-    <string name="pref_time">Time for download</string>
+    <string name="pref_time">Time for notification</string>
     <string name="rate">Rate</string>
     <string name="remove_fav">Removed from favorites</string>
     <string name="rows">Rows</string>
@@ -187,4 +186,11 @@
     <string name="petition">Sign petition</string>
     <string name="petition_message">maybe you heard that I am not allowed to continue this APP. You can sign this petition to show that you want to continue this app. </string>
     <string name="dont_show_again">don\'t show again</string>
+    <string name="error">Error</string>
+    <string name="sermon_share">Share sermon</string>
+    <string name="share_url">Share download url</string>
+    <string name="share_mp3File">Share mp3-file</string>
+    <string name="please_download_sermon_first">Please download the sermon first</string>
+    <string name="need_internet">A internet connection is needed</string>
+    <string name="fetching_url">fetching url...</string>
 </resources>

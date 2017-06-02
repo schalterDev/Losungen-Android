@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.schalter.losungen.Losung;
@@ -117,7 +116,11 @@ public class AudioDeletePreference extends ListPreference {
             //Lösche gewählte Tage
             for(int i = 0; i < mClickedDialogEntry.length; i++) {
                 if(mClickedDialogEntry[i]) {
-                    deleteDate(entryDates[i]);
+                    //Error reported in developer console. IndexOutOfBound size = 0, index = 0
+                    //I dont know why know
+                    //TODO check error
+                    if(entryDates.length > i)
+                        deleteDate(entryDates[i]);
                 }
             }
         }

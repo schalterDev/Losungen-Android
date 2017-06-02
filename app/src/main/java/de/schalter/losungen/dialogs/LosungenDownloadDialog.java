@@ -85,7 +85,7 @@ public class LosungenDownloadDialog {
                                 //Download finished
                                 String pathZipFile = downloadTask.getAbsolutePath();
                                 try {
-                                    String pathExtractedFile = Files.getExternalCacheDirectory(context) + "/extracted_xml/" + language + year;
+                                    String pathExtractedFile = Files.getInternalCacheDirectory(context) + "/extracted_xml/" + language + year;
                                     unzip(new File(pathZipFile) , new File(pathExtractedFile));
 
                                     //File-Name in directory is "Losungen Free year.xml"
@@ -120,7 +120,7 @@ public class LosungenDownloadDialog {
      * @param zipFile path to the zipFile
      * @param targetDirectory path to the target directory (will be created if not exists)
      */
-    public static void unzip(File zipFile, File targetDirectory) throws IOException {
+    private static void unzip(File zipFile, File targetDirectory) throws IOException {
         //Create directory for targetDirectory
         targetDirectory.mkdirs();
 

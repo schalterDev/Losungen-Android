@@ -419,4 +419,21 @@ public class ImportLosungenDialog {
         public void onCheckedChange(boolean isChecked, int index);
     }
 
+    /**
+     * This method just reimports the weekly words for this year into the database
+     */
+    public static void reimportWeekThisYear(Context context) {
+        Calendar calendar = Calendar.getInstance();
+        List<String> years = new ArrayList<>();
+        years.add(String.valueOf(calendar.get(Calendar.YEAR)));
+
+        List<Integer> indexUpdateAssets = new ArrayList<>();
+        indexUpdateAssets.add(0);
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        String selectedLanguage = settings.getString(Tags.SELECTED_LANGUAGE, Locale.getDefault().getLanguage());
+
+        ImportLosungenIntoDB.importMonthAndWeeks(context, selectedLanguage, years, null, indexUpdateAssets);
+    }
+
 }

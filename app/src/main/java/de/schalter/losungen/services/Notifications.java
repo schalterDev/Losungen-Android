@@ -207,8 +207,8 @@ public class Notifications extends Service {
                 }
 
                 //Download AUDIO
-                boolean downlaodAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, true);
-                if(downlaodAudio) {
+                boolean autoDownloadAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, false);
+                if(autoDownloadAudio) {
                     boolean wifiConnected = Tags.isWifiConnected(getApplicationContext());
                     boolean mobileConnected = Tags.isMobileConnected(getApplicationContext());
 
@@ -218,7 +218,7 @@ public class Notifications extends Service {
                         //Wifi enabled
                         downloadAudio();
                     } else if(mobileConnected && network == 1) {
-                        //Wifi not enabled but user allows to downlaod with mobile internet
+                        //Wifi not enabled but user allows to download with mobile internet
                         downloadAudio();
                     }
                 }

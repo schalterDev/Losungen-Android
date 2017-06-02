@@ -1,6 +1,31 @@
-﻿﻿<XML>
+<XML>
+    <appversion version="29" versionNice="1.2.4">
+        <change important="false">Die Andachten könenn nun mit anderen geteilt werden</change>
+        <change important="true">Der automtaische Download der Andacht wird nicht mehr ausgeführt, wenn es in den Einstellungen deaktiviert ist</change>
+    </appversion>
+    <appversion version="28" versionNice="1.2.3.11">
+        <change important="true">Die Andachten funktionieren wieder</change>
+    </appversion>
+    <appversion version="27" versionNice="1.2.3.10">
+        <change important="false">Wochensprüche stimmen nun mit dem Losungen Buch überein</change>
+    </appversion>
+    <appversion version="26" versionNice="1.2.3.9">
+        <change important="false">App kann nun auf die SD-Karte verschoben werden (dann funktioneren die Widgets aber nicht mehr)</change>
+        <change important="true">Absturz beim Klicken auf das letzte Datum in der Leiste oben behoben</change>
+        <change important="false">Viele kleine Fehler behoben</change>
+    </appversion>
+    <appversion version="25" versionNice="1.2.3.8">
+        <change important="true">Der Download von den Losungen und Andachten sollte nun auf allen Geräten funktionieren</change>
+    </appversion>
+    <appversion version="24" versionNice="1.2.3.7">
+        <change important="false">Ausführliche Fehlermeldung in der Benachrichtigung beim Downloadfehler</change>
+        <change important="false">Bugfixing</change>
+    </appversion>
     <appversion version="21" versionNice="1.2.3.4">
         <change important="true">Losungen für 2017 können von der offiziellen Internetadresse von "Die Losungen" heruntergeladen und importiert werden. Dazu im Menü auf "Import / Sprache ändern" klicken</change>
+    </appversion>
+    <appversion version="20" versionNice="1.2.3.3">
+        <change important="true">Petition für das Fortsetzten dieser APP hinzugefügt</change>
     </appversion>
     <appversion version="19" versionNice="1.2.3.2">
         <change important="false">Probleme mit der Werbung behoben</change>

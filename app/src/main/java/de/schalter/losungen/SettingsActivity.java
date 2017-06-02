@@ -289,6 +289,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
             if(sharedPreferences.getBoolean(Tags.PREF_NOTIFICATION, true)
                     || sharedPreferences.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, true)) {
+
+                //Set time for notification or sermon download
                 long time = sharedPreferences.getLong(Tags.PREF_NOTIFICATIONTIME, 60 * 7);
                 Notifications.setNotifications(this, time * 60 * 1000);
             } else
