@@ -55,7 +55,6 @@ public class Notifications extends Service {
         intent.setAction("NOTIFICATION");
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        //add tag: NOTIFICATION
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
 
         int hourOfDay = (int) (time / 1000 / 60 / 60);
