@@ -43,8 +43,6 @@ public class SermonUrl {
     }
 
     public void load() {
-        MainActivity.toast(context, R.string.download_starting, Toast.LENGTH_SHORT);
-
         Rss rss = new Rss(FEED_URL, new Rss.FeedLoaded() {
             @Override
             public void onLoaded(final String websiteUrl) {

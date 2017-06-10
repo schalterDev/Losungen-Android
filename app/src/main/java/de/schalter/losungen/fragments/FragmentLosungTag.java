@@ -256,6 +256,8 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     }
 
     private void downloadSermon(final long date) {
+        MainActivity.toast(context, R.string.download_starting, Toast.LENGTH_SHORT);
+
         Thread download = new Thread(new Runnable() {
             @Override
             public void run() {
