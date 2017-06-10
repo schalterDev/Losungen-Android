@@ -883,4 +883,3 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     }
 
 }
-

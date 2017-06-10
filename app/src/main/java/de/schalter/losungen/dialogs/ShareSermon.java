@@ -14,6 +14,7 @@ import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.files.DBHandler;
+import de.schalter.losungen.rss.SermonUrl;
 
 /**
  * Created by martin on 06.04.17.
@@ -46,16 +47,16 @@ public class ShareSermon {
                 switch(which) {
                     case 0: //share url
                         MainActivity.toast(context, R.string.fetching_url, Toast.LENGTH_SHORT);
-                        losung.getSermonUrlDownload(context, new Runnable() {
+                        SermonUrl sermonUrl = new SermonUrl(context, losung.getDatum(), new SermonUrl.SermonUrlListener() {
                             @Override
-                            public void run() {
-                                String url = losung.getUrlForDownload();
+                            public void urlFound(String url) {
                                 if(url != null)
                                     MainActivity.share(context, url);
                                 else
                                     MainActivity.toast(context, R.string.need_internet, Toast.LENGTH_LONG);
                             }
                         });
+                        sermonUrl.load();
                         break;
                     case 1: //share mp3
                         DBHandler dbHandler = DBHandler.newInstance(context);

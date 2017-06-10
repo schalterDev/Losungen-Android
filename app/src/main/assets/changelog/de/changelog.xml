@@ -1,7 +1,10 @@
-﻿<XML>
-    <appversion version="30" versionNice="1.2.4.1">
+<XML>
+    <appversion version="32" versionNice="1.2.4.3">
         <change important="false">Benachrichtigung wird nun zur richtigen Zeit angezeigt</change>
         <change important="false">Kleine Verbesserungen</change>
+    </appversion>
+    <appversion version="31" versionNice="1.2.4.2">
+        <change important="true">Die Andachten funktionieren nun wieder</change>
     </appversion>
     <appversion version="29" versionNice="1.2.4">
         <change important="false">Die Andachten könenn nun mit anderen geteilt werden</change>

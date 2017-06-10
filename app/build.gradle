@@ -8,8 +8,8 @@ android {
         applicationId "de.schalter.losungen"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 29
-        versionName "1.2.4"
+        versionCode 31
+        versionName "1.2.4.2"
 
     }
     buildTypes {
@@ -23,7 +23,6 @@ android {
         disable 'MissingTranslation'
     }
     buildToolsVersion '25.0.3'
-
 }
 
 repositories {
@@ -47,9 +46,8 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:3.2.0'
     compile 'com.larswerkman:lobsterpicker:1.0.0'
     compile 'com.nononsenseapps:filepicker:2.5.2'
-    compile 'com.pkmmte.pkrss:pkrss:1.2'
-    compile 'com.squareup.okhttp:okhttp:1.6.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:1.6.0'
     compile project(':mediaplayer-library')
     compile project(':customizelibrary')
+    compile files('libs/android-rome-feed-reader-1.0.0.jar')
+    compile files('libs/jdom-1.1.1-android-fork.jar')
 }
