@@ -1,7 +1,5 @@
 package de.schalter.losungen.rss;
 
-import android.content.Context;
-
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
 import com.google.code.rome.android.repackaged.com.sun.syndication.io.FeedException;
@@ -22,37 +20,41 @@ public class Rss  {
     private FeedLoaded listener;
     private SyndFeed feed;
 
-    private long time;
+    private String url;
 
-    public Rss(Context context, String url, FeedLoaded listener) {
+    public Rss(String url, FeedLoaded listener) {
         this.listener = listener;
-
-        try {
-            feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
-
-        } catch (FeedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.url = url;
     }
 
-    public void load(long time) {
-        this.time = time;
-        boolean found = false;
+    public void load(final long time) {
+        Thread background = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
 
-        List<SyndEntryImpl> entries = feed.getEntries();
-        for(SyndEntryImpl entry : entries) {
-            Date date = entry.getPublishedDate();
-            if(date.getTime() == time) {
-                listener.onLoaded(entry.getUri());
-                found = true;
-                break;
+                } catch (FeedException | IOException e) {
+                    e.printStackTrace();
+                }
+
+                boolean found = false;
+
+                List<SyndEntryImpl> entries = feed.getEntries();
+                for(SyndEntryImpl entry : entries) {
+                    Date date = entry.getPublishedDate();
+                    if(date.getTime() == time) {
+                        listener.onLoaded(entry.getUri());
+                        found = true;
+                        break;
+                    }
+                }
+
+                if(!found)
+                    listener.onLoaded(null);
             }
-        }
-
-        if(!found)
-            listener.onLoaded(null);
+        });
+        background.start();
     }
 
     interface FeedLoaded {
