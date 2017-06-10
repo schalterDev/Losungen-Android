@@ -3,13 +3,13 @@ package de.schalter.losungen;
 import android.content.Context;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import de.schalter.losungen.dialogs.ShareDialog;
+import de.schalter.losungen.rss.SermonUrl;
 import de.schalter.losungen.settings.Tags;
 
 /**
@@ -125,23 +125,22 @@ public class Losung {
      * @param runAfterUrlFound this will run after the url was found / not found
      */
     public void getSermonUrlDownload(final Context context, final Runnable runAfterUrlFound) {
-        Thread network_thread = new Thread(new Runnable() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(getDatum());
+
+        SermonUrl sermonUrl = new SermonUrl(context, calendar, new SermonUrl.SermonUrlListener() {
             @Override
-            public void run() {
-                try {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(getDatum());
-                    url = Tags.getAudioUrl(context, calendar);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            public void urlFound(String url) {
+                if(url == null) {
                     MainActivity.toast(context, R.string.download_error, Toast.LENGTH_LONG);
-                } finally {
+                } else {
+                    Losung.this.url = url;
                     runAfterUrlFound.run();
                 }
             }
         });
 
-        network_thread.start();
+        sermonUrl.load();
     }
 
     /**

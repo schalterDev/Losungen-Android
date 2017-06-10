@@ -31,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 
 import de.schalter.losungen.Losung;
@@ -43,7 +42,8 @@ import de.schalter.losungen.dialogs.OpenUrlDialog;
 import de.schalter.losungen.dialogs.SearchDialog;
 import de.schalter.losungen.dialogs.ShareSermon;
 import de.schalter.losungen.files.DBHandler;
-import de.schalter.losungen.services.DownloadTask;
+import de.schalter.losungen.network.Network;
+import de.schalter.losungen.rss.SermonUrl;
 import de.schalter.losungen.settings.Tags;
 import schalter.dev.customizelibrary.Colors;
 import schalter.dev.mediaplayer_library.AudioService;
@@ -224,50 +224,6 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     }
 
     private void playAudio() {
-        Thread download = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                MainActivity.toast(context, context.getString(R.string.download_starting), Toast.LENGTH_SHORT);
-                //get URL first
-                losung.getSermonUrlDownload(context, new Runnable() {
-                    @Override
-                    public void run() {
-                        String url = losung.getUrlForDownload();
-
-                        if(url == null) {
-                            MainActivity.toast(context, context.getString(R.string.download_error_connection), Toast.LENGTH_LONG);
-                        } else {
-                            //set Path
-                            String folder = "audio";
-                            String fileName = context.getString(R.string.app_name) + "_" +
-                                    Losung.getDatumLongFromTime(losung.getDatum()) + ".mp3";
-
-                            //use internal or external storage
-                            boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
-
-                            final DownloadTask downloadTask = new DownloadTask(context, url, folder, fileName, internal, R.string.download_ticker, R.string.content_title);
-
-                            //When finished
-                            Runnable finished = new Runnable() {
-                                @Override
-                                public void run() {
-                                    //Write into database
-                                    String absolutePath = downloadTask.getAbsolutePath();
-                                    dbHandler.addAudioLosungen(losung.getDatum(), absolutePath);
-
-                                    playFile(absolutePath);
-                                }
-                            };
-                            downloadTask.onFinishedListener(finished);
-
-                            //Start download with notification
-                            downloadTask.execute();
-                        }
-                    }
-                });
-            }
-        });
-
         boolean stream = !settings.getBoolean(Tags.PREF_AUDIO_DOWNLOAD, true);
 
         //Check if audio-file exists allready
@@ -284,7 +240,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                 if(stream) {
                     streamFile();
                 } else {
-                    download.start();
+                    downloadSermon(losung.getDatum());
                 }
             }
         } else {
@@ -294,9 +250,26 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
             if(stream) {
                 streamFile();
             } else {
-                download.start();
+                downloadSermon(losung.getDatum());
             }
         }
+    }
+
+    private void downloadSermon(final long date) {
+        Thread download = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Network.downloadSermon(context, new Network.NetworkListener() {
+
+                    @Override
+                    public void downloaded(String path) {
+                        //Play file
+                        playFile(path);
+                    }
+                }, date);
+            }
+        });
+        download.start();
     }
 
     private void playFile(String path) {
@@ -326,24 +299,20 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     }
 
     private void streamFile() {
-        Thread stream = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //get URL first
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(losung.getDatum());
-                    String url = Tags.getAudioUrl(context, calendar);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(losung.getDatum());
 
-                    //Play audio with notification
-                    playFile(url);
-                } catch (IOException e) {
-                    e.printStackTrace();
+        SermonUrl sermonUrl = new SermonUrl(context, calendar, new SermonUrl.SermonUrlListener() {
+            @Override
+            public void urlFound(String url) {
+                if(url == null) {
                     MainActivity.toast(context, context.getResources().getString(R.string.download_error), Toast.LENGTH_LONG);
+                } else {
+                    playFile(url);
                 }
             }
         });
-        stream.start();
+        sermonUrl.load();
     }
 
     private void setMarkiert(boolean markiert) {
