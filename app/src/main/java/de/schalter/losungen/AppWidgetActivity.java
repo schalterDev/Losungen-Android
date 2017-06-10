@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
@@ -24,8 +23,8 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.util.Calendar;
 
-import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.dialogs.ColorDialog;
+import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.settings.Tags;
 
 /**

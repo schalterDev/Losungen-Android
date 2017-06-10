@@ -1,4 +1,8 @@
-﻿<XML>
+﻿﻿<XML>
+    <appversion version="30" versionNice="1.2.4.1">
+        <change important="false">Bug fixed: Notfication appeared too early</change>
+        <change important="false">Small bug fixes</change>
+    </appversion>
     <appversion version="26" versionNice="1.2.3.9">
         <change important="true">Fixed crash on selecting the last date</change>
         <change important="false">small bux fixes</change>

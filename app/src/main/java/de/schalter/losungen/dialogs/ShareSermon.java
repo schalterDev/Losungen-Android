@@ -47,7 +47,6 @@ public class ShareSermon {
                 switch(which) {
                     case 0: //share url
                         MainActivity.toast(context, R.string.fetching_url, Toast.LENGTH_SHORT);
-
                         SermonUrl sermonUrl = new SermonUrl(context, losung.getDatum(), new SermonUrl.SermonUrlListener() {
                             @Override
                             public void urlFound(String url) {

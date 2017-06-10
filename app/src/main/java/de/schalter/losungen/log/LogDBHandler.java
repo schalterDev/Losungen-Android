@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import de.schalter.losungen.files.DBHandler;
-
 /**
  * Created by martin on 07.10.16.
  */

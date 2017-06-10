@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -88,8 +87,9 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        int index = Arrays.asList(fragments).indexOf(object);
-        return index;
+        /*int index = Arrays.asList(fragments).indexOf(object);
+        return index;*/
+        return POSITION_NONE;
     }
 
     @Override

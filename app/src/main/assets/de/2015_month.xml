@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="yes"?>
-<FreeXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<FreeXml>
   <Losungen>
     <Datum>2015-01-01T00:00:00</Datum>
     <Wtag>Freitag</Wtag>
