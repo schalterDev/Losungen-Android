@@ -193,4 +193,5 @@
     <string name="please_download_sermon_first">Please download the sermon first</string>
     <string name="need_internet">A internet connection is needed</string>
     <string name="fetching_url">fetching url...</string>
+    <string name="download_error_rss">could not find a sermon for this date</string>
 </resources>
