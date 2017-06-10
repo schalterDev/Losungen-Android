@@ -15,14 +15,13 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 
 import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.files.DBHandler;
+import de.schalter.losungen.network.Network;
 import de.schalter.losungen.settings.Tags;
 
 /**
@@ -216,10 +215,10 @@ public class Notifications extends Service {
                     //network: 0 (only wifi), 1 (all)
                     if(wifiConnected) {
                         //Wifi enabled
-                        downloadAudio();
+                        Network.downloadSermon(context, null);
                     } else if(mobileConnected && network == 1) {
                         //Wifi not enabled but user allows to download with mobile internet
-                        downloadAudio();
+                        Network.downloadSermon(context, null);
                     }
                 }
                 break;
@@ -228,71 +227,4 @@ public class Notifications extends Service {
 
         return START_NOT_STICKY;
     }
-
-    private void downloadAudio() {
-        final DBHandler dbHandler = DBHandler.newInstance(getApplicationContext());
-        long datumJetzt = System.currentTimeMillis();
-        final long datum = dbHandler.getLosung(datumJetzt).getDatum();
-        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        Thread download = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //get URL first
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(datum);
-                    String url = Tags.getAudioUrl(Notifications.this, calendar);
-
-                    //set Path
-                    String folder = "audio";
-                    String fileName = Notifications.this.getString(R.string.app_name) + "_" + Losung.getDatumLongFromTime(datum) + ".mp3";
-
-                    //use internal or external storage
-                    boolean internal = !settings.getBoolean(Tags.PREF_AUDIO_EXTERNAL_STORGAE, false);
-
-                    final DownloadTask downloadTask = new DownloadTask(getApplicationContext(), url, folder, fileName, internal, R.string.download_ticker, R.string.content_title);
-
-                    //When finished
-                    Runnable finished = new Runnable() {
-                        @Override
-                        public void run() {
-                            //Write into database
-                            String absolutePath = downloadTask.getAbsolutePath();
-                            dbHandler.addAudioLosungen(datum, absolutePath);
-
-                            //We dont want to play the file
-                            //playFile(absolutePath);
-                        }
-                    };
-                    downloadTask.onFinishedListener(finished);
-
-                    //Start download with notification
-                    downloadTask.execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        //Check if audio-file exists allready
-        String pathAudioLosung = dbHandler.getAudioLosungen(datum);
-        if(pathAudioLosung != null) { //Es wurde bereits ein Pfad gespeichert
-            //Es kann aber immer noch sein, dass der Pfad nicht mehr stimmt
-            //Wenn zum Beispiel die SD-Karte entfernt wurde
-            //Deswegen wird überprüft ob die Datei existiert
-            File file = new File(pathAudioLosung);
-            if(file.exists()) {
-                //playFile(pathAudioLosung);
-                //Do nothing
-            } else {
-                download.start();
-            }
-        } else {
-            //Audio download and write into database
-            download.start();
-        }
-    }
-
-
 }

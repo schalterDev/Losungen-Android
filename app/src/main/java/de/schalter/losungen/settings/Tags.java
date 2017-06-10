@@ -5,27 +5,13 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.pkmmte.pkrss.Article;
-import com.pkmmte.pkrss.Callback;
-import com.pkmmte.pkrss.PkRSS;
-import com.pkmmte.pkrss.RequestCreator;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by marti on 30.10.2015.
  */
-public class Tags implements Callback {
+public class Tags {
 
     //Für Losungen, Wochen und Monatssprüche
     private static final String[] IMPORT_LIST_DE = {"2015", "2016", "2017"};
@@ -201,9 +187,6 @@ public class Tags implements Callback {
     private static final int website_01_01_2015 = 4073;
 
     private static final String audio_anfang = "";
-    private static final String audio_url_prefix = "https://www.erf.de";
-    private static final String audio_url_html_anfang = "data-file=\"";
-    private static final String audio_url_html_ende = "\"";
 
     public static String getLanguage(Context context) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
@@ -234,95 +217,6 @@ public class Tags implements Callback {
 
     }
 
-    public static String getAudioUrl(Context context, Calendar calendar) throws IOException {
-        String websiteUrl = getWebsiteUrl(context, calendar);
-        if(websiteUrl == null)
-            throw new IOException("Could not resovle url");
-
-        String html = downloadHtml(websiteUrl);
-
-        int indexAnfang = html.indexOf(audio_url_html_anfang) + audio_url_html_anfang.length();
-        int indexEnde = html.indexOf(audio_url_html_ende, indexAnfang);
-
-        String url = audio_url_prefix + html.substring(indexAnfang, indexEnde);
-        return url;
-    }
-
-    private static String downloadHtml(String urlString) throws IOException {
-        //Check for redirection
-        URL url = new URL(urlString);
-        HttpURLConnection ucon = (HttpURLConnection) url.openConnection();
-        ucon.setInstanceFollowRedirects(false);
-        URL secondURL = new URL(ucon.getHeaderField("Location"));
-        URLConnection conn = secondURL.openConnection();
-
-        //URL url = new URL(urlString);
-
-        long startTime = System.currentTimeMillis();
-        //URLConnection ucon = url.openConnection();
-
-        InputStream is = conn.getInputStream();
-        BufferedInputStream bis = new BufferedInputStream(is);
-
-        /*
-         * Read bytes to the Buffer until there is nothing more to read(-1).
-         */
-        byte[] contents = new byte[1024];
-
-        int bytesRead=0;
-        String html = "";
-        while( (bytesRead = bis.read(contents)) != -1){
-            html += new String(contents, 0, bytesRead);
-        }
-
-        return html;
-    }
-
-    private static String url = "";
-    private static long timeNow;
-
-    private static String getWebsiteUrl(Context context, Calendar calendar) throws IOException {
-        url = "";
-
-        Calendar calJanuar = Calendar.getInstance();
-        calJanuar.set(Calendar.MONTH, Calendar.JANUARY);
-        calJanuar.set(Calendar.YEAR, 2015);
-        calJanuar.set(Calendar.DAY_OF_MONTH, 1);
-        calJanuar.set(Calendar.HOUR, 0);
-        calJanuar.set(Calendar.MINUTE, 0);
-        long calJanuarTime = calJanuar.getTimeInMillis();
-        Log.d("Losungen", "CalJanuarTime: " + calJanuarTime);
-
-        calendar.set(Calendar.HOUR, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        /*
-        long diff = timeNow - calJanuarTime;
-        int days = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-
-        return website_anfang + (website_01_01_2015 + days);
-        */
-        timeNow = calendar.getTimeInMillis();
-
-        RequestCreator requestCreator = PkRSS.with(context).load(rss_feed).callback(new Tags());
-        requestCreator.async();
-
-        //requestCreator.async();
-
-        while(url != null && url.equals("")) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return url;
-    }
-
-
     /**
      * Returns the download path for the xml_file for this year
      * @param year to downlaod
@@ -334,30 +228,5 @@ public class Tags implements Callback {
         }
 
         return null;
-    }
-
-    @Override
-    public void onPreload() {
-
-    }
-
-    @Override
-    public void onLoaded(List<Article> newArticles) {
-        for(Article article : newArticles) {
-            long date = article.getDate();
-            if((timeNow == date)) {
-                //use this article
-                url = article.getSource().toString();
-                break;
-            }
-        }
-
-        if(url.equals(""))
-            url = null;
-    }
-
-    @Override
-    public void onLoadFailed() {
-        url = null;
     }
 }

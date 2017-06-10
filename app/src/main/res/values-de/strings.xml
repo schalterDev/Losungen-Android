@@ -211,5 +211,6 @@
     <string name="sermon_share">Andacht teilen</string>
     <string name="share_mp3File">MP3 - Datei teilen</string>
     <string name="share_url">Link zum Herunterladen teilen</string>
+    <string name="download_error_rss">Konnte keine Andacht für diesen tag finden</string>
 
 </resources>
