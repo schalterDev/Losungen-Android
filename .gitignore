@@ -55,3 +55,12 @@ freeline/
 freeline_project_description.json
 
 *.iml
+gradle\.properties~
+
+gradle/wrapper/gradle-wrapper\.jar
+
+gradle/wrapper/gradle-wrapper\.properties
+
+projectFilesBackup/\.idea/workspace\.xml
+
+*.xml~
