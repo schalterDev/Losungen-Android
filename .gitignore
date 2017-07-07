@@ -55,3 +55,8 @@ freeline/
 freeline_project_description.json
 
 *.iml
+*.properties~
+
+projectFilesBackup/\.idea/
+
+apks/
