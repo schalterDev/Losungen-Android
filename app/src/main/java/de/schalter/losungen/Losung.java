@@ -119,39 +119,6 @@ public class Losung {
         this.titleLehrtext = titleLehrtext;
     }
 
-    /**
-     * Tries to get download-url for the sermon with the language specified in the setting.
-     * Needs an internet connection and runs in an own thread
-     * @param runAfterUrlFound this will run after the url was found / not found
-     */
-    public void getSermonUrlDownload(final Context context, final Runnable runAfterUrlFound) {
-        Thread network_thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(getDatum());
-                    url = Tags.getAudioUrl(context, calendar);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    MainActivity.toast(context, R.string.download_error, Toast.LENGTH_LONG);
-                } finally {
-                    runAfterUrlFound.run();
-                }
-            }
-        });
-
-        network_thread.start();
-    }
-
-    /**
-     * only return the url fetched with getSermonUrlDownload()
-     * @return download url for sermon, null if not know jet
-     */
-    public String getUrlForDownload() {
-        return url;
-    }
-
     public static String getDatumFromTime(long time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);

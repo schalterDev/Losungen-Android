@@ -5,12 +5,13 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+
 import java.util.Locale;
 
 /**
  * Created by marti on 30.10.2015.
  */
-public class Tags implements Callback {
+public class Tags {
 
     //Für Losungen, Wochen und Monatssprüche
     private static final String[] IMPORT_LIST_DE = {"2015", "2016", "2017"};
@@ -227,30 +228,5 @@ public class Tags implements Callback {
         }
 
         return null;
-    }
-
-    @Override
-    public void onPreload() {
-
-    }
-
-    @Override
-    public void onLoaded(List<Article> newArticles) {
-        for(Article article : newArticles) {
-            long date = article.getDate();
-            if((timeNow == date)) {
-                //use this article
-                url = article.getSource().toString();
-                break;
-            }
-        }
-
-        if(url.equals(""))
-            url = null;
-    }
-
-    @Override
-    public void onLoadFailed() {
-        url = null;
     }
 }
