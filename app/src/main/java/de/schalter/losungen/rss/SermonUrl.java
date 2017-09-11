@@ -53,19 +53,21 @@ public class SermonUrl {
                             MainActivity.toast(context, R.string.download_error_rss, Toast.LENGTH_LONG);
                         } else {
 
-                            String html = null;
+                            String html;
                             try {
                                 html = Network.downloadHtml(websiteUrl);
+
+                                int indexAnfang = html.indexOf(audio_url_html_anfang) + audio_url_html_anfang.length();
+                                int indexEnde = html.indexOf(audio_url_html_ende, indexAnfang);
+
+                                String url = audio_url_prefix + html.substring(indexAnfang, indexEnde);
+
+                                listener.urlFound(url);
                             } catch (IOException e) {
                                 MainActivity.toast(context, R.string.download_error, Toast.LENGTH_LONG);
                             }
 
-                            int indexAnfang = html.indexOf(audio_url_html_anfang) + audio_url_html_anfang.length();
-                            int indexEnde = html.indexOf(audio_url_html_ende, indexAnfang);
 
-                            String url = audio_url_prefix + html.substring(indexAnfang, indexEnde);
-
-                            listener.urlFound(url);
                         }
                     }
                 });

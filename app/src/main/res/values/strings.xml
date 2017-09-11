@@ -194,4 +194,5 @@
     <string name="need_internet">A internet connection is needed</string>
     <string name="fetching_url">fetching url...</string>
     <string name="download_error_rss">could not find a sermon for this date</string>
+    <string name="accept">OK</string>
 </resources>
