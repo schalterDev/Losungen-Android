@@ -40,13 +40,15 @@ public class Rss  {
 
                 boolean found = false;
 
-                List<SyndEntryImpl> entries = feed.getEntries();
-                for(SyndEntryImpl entry : entries) {
-                    Date date = entry.getPublishedDate();
-                    if(date.getTime() == time) {
-                        listener.onLoaded(entry.getUri());
-                        found = true;
-                        break;
+                if(feed != null) {
+                    List<SyndEntryImpl> entries = feed.getEntries();
+                    for (SyndEntryImpl entry : entries) {
+                        Date date = entry.getPublishedDate();
+                        if (date.getTime() == time) {
+                            listener.onLoaded(entry.getUri());
+                            found = true;
+                            break;
+                        }
                     }
                 }
 
