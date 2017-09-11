@@ -1,5 +1,6 @@
 <XML>
     <appversion version="32" versionNice="1.2.4.3">
+        <change important="true">Absturz beim Klick auf die Losung behoben</change>
         <change important="false">Benachrichtigung wird nun zur richtigen Zeit angezeigt</change>
         <change important="false">Kleine Verbesserungen</change>
     </appversion>
