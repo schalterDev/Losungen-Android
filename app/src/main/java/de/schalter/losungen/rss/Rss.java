@@ -15,26 +15,26 @@ import java.util.List;
  * Created by martin on 09.06.17.
  */
 
-public class Rss  {
+class Rss  {
 
     private FeedLoaded listener;
     private SyndFeed feed;
 
     private String url;
 
-    public Rss(String url, FeedLoaded listener) {
+    Rss(String url, FeedLoaded listener) {
         this.listener = listener;
         this.url = url;
     }
 
-    public void load(final long time) {
+    void load(final long time) {
         Thread background = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
 
-                } catch (FeedException | IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
