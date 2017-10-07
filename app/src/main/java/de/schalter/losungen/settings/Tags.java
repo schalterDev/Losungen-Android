@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Locale;
 public class Tags {
 
     //Für Losungen, Wochen und Monatssprüche
-    private static final String[] IMPORT_LIST_DE = {"2015", "2016", "2017"};
+    private static final String[] IMPORT_LIST_DE = {"2017", "2018"};
     private static final String[] IMPORT_LIST_EN = {"2015", "2016", "2017"};
     private static final String[] IMPORT_LIST_ES = {"2015", "2016"};
     private static final String[] IMPORT_LIST_AR = {};
@@ -32,7 +33,7 @@ public class Tags {
     private static final String[] IMPORT_LIST_BE = {};
     private static final String[] IMPORT_LIST_BG = {};
 
-    private static final String[] DOWNLOAD_LIST_DE = {"---", "---", "http://www.losungen.de/fileadmin/media-losungen/download/Losung_2017_XML.zip"};
+    private static final String[] DOWNLOAD_LIST_DE = {/*"---", "---",*/ "http://www.losungen.de/fileadmin/media-losungen/download/Losung_2017_XML.zip", "https://www.losungen.de/fileadmin/media-losungen/download/Losung_2018_XML.zip"};
 
     public static final String[] SUPPORTED_LANGUAGES = {"en", "de", "nl"}; //Das gilt für die Strings.xml
     public static final String[] CHANGELOG_LANGUAGES = {"en", "de"};
@@ -223,8 +224,12 @@ public class Tags {
      * @return url / download path for the zip-file
      */
     public static String getUrlLosung(int year) {
-        if(year == 2017) {
-            return "http://www.losungen.de/fileadmin/media-losungen/download/Losung_2017_XML.zip";
+        //This only works for german
+
+        String yearAsString = String.valueOf(year);
+        int index = Arrays.asList(IMPORT_LIST_DE).indexOf(yearAsString);
+        if(index < DOWNLOAD_LIST_DE.length) {
+            return DOWNLOAD_LIST_DE[index];
         }
 
         return null;
