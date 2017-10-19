@@ -1,0 +1,12 @@
+﻿<XML>
+<appversion version="7" versionNice="1.2.0">
+	<change important="true">Es kann nun direkt eine kleine Andacht zur heutigen Losung von ERF angehört werden. Diese wird jeden Tag automatisch heruntergeladen (kann in den Einstellungen deaktiviert werden)</change>
+	<change important="true">Jahres-, Monats- und Wochensprüche hinzugefügt (verfügbar im Navigation-Drawer)</change>
+	<change important="false">Changelog - Dialog hinzugefügt</change>
+</appversion>
+<appversion version="6" versionNice="1.1.2">
+	<change important="true">Option für "Datum nicht verfügbar": In den Optionen "Sprache ändern" auswählen und gewünschte Sprache erneut importieren</change>
+	<change important="false">neue Sprachfunktionen (Ändern der Anzeige- und Losungssprache)</change>
+	<change important="false">Abstürze behoben</change>
+</appversion>
+</XML>

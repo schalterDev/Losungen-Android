@@ -197,5 +197,4 @@ public class Losung {
         DateFormat df = new SimpleDateFormat("EEEE, dd.MM.yyyy");
         return df.format(date);
     }
-
 }
