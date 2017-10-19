@@ -148,7 +148,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         if(audioMenuItem != null) {
             String textAudioMenu;
 
-            String file = dbHandler.getAudioLosungen(losung.getDatum());
+            String file = dbHandler.getAudioLosungen(losung.getDate());
             boolean isDownloaded;
             if(file != null) {
                 File file1 = new File(file);
@@ -157,7 +157,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                 isDownloaded = false;
             }
 
-            String platzHalter = Losung.getDatumFromTime(losung.getDatum());
+            String platzHalter = Losung.getDatumFromTime(losung.getDate());
 
             if(isDownloaded) {
                 textAudioMenu = getResources().getString(R.string.audio_download_downloaded);
@@ -184,8 +184,8 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
             return true;
         } else if(id == R.id.action_mark) {
             //Set this daily word as marked/unmarked
-            losung.setMarkiert(!losung.isMarkiert());
-            setMarkiert(losung.isMarkiert());
+            losung.setMarked(!losung.isMarked());
+            setMarkiert(losung.isMarked());
             return true;
         } else if(id == R.id.action_web) {
             //Get the right bible-translation for bibleserver.com
@@ -227,7 +227,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         boolean stream = !settings.getBoolean(Tags.PREF_AUDIO_DOWNLOAD, true);
 
         //Check if audio-file exists allready
-        String pathAudioLosung = dbHandler.getAudioLosungen(losung.getDatum());
+        String pathAudioLosung = dbHandler.getAudioLosungen(losung.getDate());
         if(pathAudioLosung != null) { //Es wurde bereits ein Pfad gespeichert
             //Es kann aber immer noch sein, dass der Pfad nicht mehr stimmt
             //Wenn zum Beispiel die SD-Karte entfernt wurde
@@ -240,7 +240,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                 if(stream) {
                     streamFile();
                 } else {
-                    downloadSermon(losung.getDatum());
+                    downloadSermon(losung.getDate());
                 }
             }
         } else {
@@ -250,7 +250,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
             if(stream) {
                 streamFile();
             } else {
-                downloadSermon(losung.getDatum());
+                downloadSermon(losung.getDate());
             }
         }
     }
@@ -291,7 +291,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     private void serviceReady(String path) {
         //Play audio with notification
         audioService.setElements(this);
-        audioService.setSong(path, Losung.getFullDatumFromTime(losung.getDatum()), "ERF Wort zum Tag");
+        audioService.setSong(path, Losung.getFullDatumFromTime(losung.getDate()), "ERF Wort zum Tag");
         audioService.setPrimaryColor(Colors.getColor(context, Colors.PRIMARY));
         audioService.setPrimarDarkColor(Colors.getColor(context, Colors.PRIMARYDARK));
         audioService.setIcon(R.mipmap.ic_launcher);
@@ -302,7 +302,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
 
     private void streamFile() {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(losung.getDatum());
+        calendar.setTimeInMillis(losung.getDate());
 
         SermonUrl sermonUrl = new SermonUrl(context, calendar, new SermonUrl.SermonUrlListener() {
             @Override
@@ -325,16 +325,16 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         //and change the value in the files
         if(markiert) {
             mainActivity.snackbar(context.getString(R.string.add_fav), Snackbar.LENGTH_SHORT, true);
-            dbHandler.setMarkiert(losung.getDatum());
+            dbHandler.setMarkiert(losung.getDate());
         } else {
             mainActivity.snackbar(context.getString(R.string.remove_fav), Snackbar.LENGTH_SHORT, true);
-            dbHandler.removeMarkiert(losung.getDatum());
+            dbHandler.removeMarkiert(losung.getDate());
         }
     }
 
     private void updateMarkiertIcon() {
         if(losung != null) {
-            if (!losung.isMarkiert()) {
+            if (!losung.isMarked()) {
                 menu.getItem(1).setIcon(getResources()
                         .getDrawable(R.drawable.ic_star_notfilled));
             } else {
@@ -463,7 +463,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
             editNotizen.setSingleLine(false);
             editNotizen.setHint(getResources().getString(R.string.notes_hint));
             if(losung != null)
-                editNotizen.setText(losung.getNotizenLosung());
+                editNotizen.setText(losung.getNotesLosung());
 
             editNotizen.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -481,7 +481,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
                     //Safe changes to files
                     try {
                         if(dbHandler != null)
-                            dbHandler.editLosungNotiz(losung.getDatum(), s.toString());
+                            dbHandler.editLosungNotiz(losung.getDate(), s.toString());
                     } catch (Exception e) {
                         Log.d("Losungen", "Fehler: " + e.getMessage());
                         e.printStackTrace();

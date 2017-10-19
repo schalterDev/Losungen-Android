@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                         if (allAudios.get(i) < timeLimit) {
                             //If not marked
                             Losung losung = dbHandler.getLosung(allAudios.get(i));
-                            if (!losung.isMarkiert()) {
+                            if (!losung.isMarked()) {
                                 //DELTE AUDIO
                                 String path = dbHandler.getAudioLosungen(allAudios.get(i));
 

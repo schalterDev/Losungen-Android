@@ -84,13 +84,13 @@ public class XmlParser {
                 losung.setLosungsvers(entry.losungsvers);
                 losung.setLehrtext(entry.lehretext.replace("/", ""));
                 losung.setLehrtextVers(entry.lehrtextvers);
-                losung.setSonntagsname(entry.sonntagname);
+                losung.setSundayName(entry.sonntagname);
 
                 String datum = entry.datum;
-                losung.setDatum(getTimeByDatum(datum));
-                losung.setMarkiert(false);
-                losung.setNotizenLehrtext("");
-                losung.setNotizenLosung("");
+                losung.setDate(getTimeByDatum(datum));
+                losung.setMarked(false);
+                losung.setNotesLehrtext("");
+                losung.setNotesLosung("");
 
                 losungen.add(losung);
             }
@@ -104,11 +104,11 @@ public class XmlParser {
             if(monat) {
                 dbHandler.addMonthlyWord(losungen.get(i).getLosungstext(),
                         losungen.get(i).getLosungsvers(),
-                        losungen.get(i).getDatum());
+                        losungen.get(i).getDate());
             } else if(woche) {
                 dbHandler.addWeeklyWord(losungen.get(i).getLosungstext(),
                         losungen.get(i).getLosungsvers(),
-                        losungen.get(i).getDatum());
+                        losungen.get(i).getDate());
             } else {
                 dbHandler.addNew(losungen.get(i));
             }
@@ -169,7 +169,7 @@ public class XmlParser {
         if(monat || woche) {
             for (int i = 0; i < losungen.size(); i++) {
                 Losung losung = losungen.get(i);
-                dbHandler.updateLanguage(losung.getLosungstext(), losung.getLosungsvers(), losung.getDatum(), monat);
+                dbHandler.updateLanguage(losung.getLosungstext(), losung.getLosungsvers(), losung.getDate(), monat);
             }
         } else {
             for (int i = 0; i < losungen.size(); i++) {

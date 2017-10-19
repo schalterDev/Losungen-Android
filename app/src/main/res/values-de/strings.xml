@@ -186,8 +186,8 @@
     <string name="failed_internal">Fehler beim Schreiben in den internen Speicher</string>
     <string name="import_failed">konnte Datei nicht importieren</string>
     <string name="failed">Fehlgeschlagen</string>
-    <string name="moving_to_internal">Verschiebe die Andachten in den internen Speicher, bitte warten...</string>
-    <string name="moving_to_sdcard">Verschiebe die Andachten auf dei SD-Karte, bitte warten...</string>
+    <string name="moving_to_internal">Verschiebe die Andachten in den internen Speicher, bitte warten…</string>
+    <string name="moving_to_sdcard">Verschiebe die Andachten auf dei SD-Karte, bitte warten…</string>
     <string name="successful">Erfolgreich</string>
     <string name="successfull">Erfolgreich</string>
     <string name="cant_parse_number">Konnte die Bibelstelle nicht interpretieren</string>
@@ -205,12 +205,12 @@
     <string name="petition_message">Vielleicht hast du schon mitbekommen, dass ich aufgefordert wurde diese APP einzustellen und keinen neuen Jahrgang hinzuzufügen. Du kannst diese Petition unterschreiben und damit zeigen, dass du für ein Fortbestehen dieser APP bist</string>
     <string name="dont_show_again">Nicht wieder anzeigen</string>
     <string name="error">Fehler</string>
-    <string name="fetching_url">lade url...</string>
+    <string name="fetching_url">lade url…</string>
     <string name="need_internet">Es wird eine Internetverbindung benötigt</string>
     <string name="please_download_sermon_first">Bitte laden Sie erst die Andacht herunter</string>
     <string name="sermon_share">Andacht teilen</string>
     <string name="share_mp3File">MP3 - Datei teilen</string>
     <string name="share_url">Link zum Herunterladen teilen</string>
-    <string name="download_error_rss">Konnte keine Andacht für diesen tag finden</string>
+    <string name="download_error_rss">Konnte keine Andacht für diesen Tag finden</string>
 
 </resources>

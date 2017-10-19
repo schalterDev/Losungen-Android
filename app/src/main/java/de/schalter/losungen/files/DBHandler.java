@@ -215,11 +215,11 @@ public class DBHandler extends SQLiteOpenHelper {
             losung.setLosungsvers(c.getString(2));
             losung.setLehrtext("");
             losung.setLehrtextVers("");
-            losung.setSonntagsname("");
-            losung.setDatum(c.getLong(3));
-            losung.setMarkiert(c.getInt(4) == 1);
-            losung.setNotizenLosung(c.getString(5));
-            losung.setNotizenLehrtext("");
+            losung.setSundayName("");
+            losung.setDate(c.getLong(3));
+            losung.setMarked(c.getInt(4) == 1);
+            losung.setNotesLosung(c.getString(5));
+            losung.setNotesLehrtext("");
 
             c.close();
             return losung;
@@ -232,11 +232,11 @@ public class DBHandler extends SQLiteOpenHelper {
         losung.setLosungsvers(context.getString(R.string.no_date));
         losung.setLehrtext(context.getString(R.string.no_date));
         losung.setLehrtextVers(context.getString(R.string.no_date));
-        losung.setSonntagsname(context.getString(R.string.no_date));
-        losung.setDatum(datum);
-        losung.setMarkiert(false);
-        losung.setNotizenLosung("");
-        losung.setNotizenLehrtext("");
+        losung.setSundayName(context.getString(R.string.no_date));
+        losung.setDate(datum);
+        losung.setMarked(false);
+        losung.setNotesLosung("");
+        losung.setNotesLehrtext("");
         return losung;
     }
 
@@ -271,11 +271,11 @@ public class DBHandler extends SQLiteOpenHelper {
             );
             losung.setLehrtext("");
             losung.setLehrtextVers("");
-            losung.setSonntagsname("");
-            losung.setDatum(c.getLong(3));
-            losung.setMarkiert(c.getInt(4) == 1);
-            losung.setNotizenLosung(c.getString(5));
-            losung.setNotizenLehrtext("");
+            losung.setSundayName("");
+            losung.setDate(c.getLong(3));
+            losung.setMarked(c.getInt(4) == 1);
+            losung.setNotesLosung(c.getString(5));
+            losung.setNotesLehrtext("");
 
             c.close();
             return losung;
@@ -288,11 +288,11 @@ public class DBHandler extends SQLiteOpenHelper {
         losung.setLosungsvers(context.getString(R.string.no_date));
         losung.setLehrtext(context.getString(R.string.no_date));
         losung.setLehrtextVers(context.getString(R.string.no_date));
-        losung.setSonntagsname(context.getString(R.string.no_date));
-        losung.setDatum(datum);
-        losung.setMarkiert(false);
-        losung.setNotizenLosung("");
-        losung.setNotizenLehrtext("");
+        losung.setSundayName(context.getString(R.string.no_date));
+        losung.setDate(datum);
+        losung.setMarked(false);
+        losung.setNotesLosung("");
+        losung.setNotesLehrtext("");
         return losung;
     }
 
@@ -321,7 +321,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void addNew(Losung losung) {
         this.addNew(losung.getLosungstext(), losung.getLosungsvers(),
                 losung.getLehrtext(), losung.getLehrtextVers(),
-                losung.getSonntagsname(), losung.getDatum());
+                losung.getSundayName(), losung.getDate());
     }
 
     //Update fields in Database to new Language
@@ -329,7 +329,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void updateLanguage(Losung losung) {
         this.updateLanguage(losung.getLosungstext(), losung.getLosungsvers(),
                 losung.getLehrtext(), losung.getLehrtextVers(),
-                losung.getSonntagsname(), losung.getDatum());
+                losung.getSundayName(), losung.getDate());
     }
 
     //Update fields in Database to new Language
@@ -447,11 +447,11 @@ public class DBHandler extends SQLiteOpenHelper {
             losung.setLosungsvers(c.getString(2));
             losung.setLehrtext(c.getString(3));
             losung.setLehrtextVers(c.getString(4));
-            losung.setSonntagsname(c.getString(5));
-            losung.setDatum(c.getLong(6));
-            losung.setMarkiert(c.getInt(7) == 1);
-            losung.setNotizenLosung(c.getString(8));
-            losung.setNotizenLehrtext(c.getString(9));
+            losung.setSundayName(c.getString(5));
+            losung.setDate(c.getLong(6));
+            losung.setMarked(c.getInt(7) == 1);
+            losung.setNotesLosung(c.getString(8));
+            losung.setNotesLehrtext(c.getString(9));
 
             c.close();
             return losung;
@@ -464,11 +464,11 @@ public class DBHandler extends SQLiteOpenHelper {
         losung.setLosungsvers(context.getString(R.string.no_date));
         losung.setLehrtext(context.getString(R.string.no_date));
         losung.setLehrtextVers(context.getString(R.string.no_date));
-        losung.setSonntagsname(context.getString(R.string.no_date));
-        losung.setDatum(datum);
-        losung.setMarkiert(false);
-        losung.setNotizenLosung("");
-        losung.setNotizenLehrtext("");
+        losung.setSundayName(context.getString(R.string.no_date));
+        losung.setDate(datum);
+        losung.setMarked(false);
+        losung.setNotesLosung("");
+        losung.setNotesLehrtext("");
         return losung;
     }
 
@@ -492,13 +492,13 @@ public class DBHandler extends SQLiteOpenHelper {
             losung.setLosungsvers(c.getString(2));
             losung.setLehrtext(c.getString(3));
             losung.setLehrtextVers(c.getString(4));
-            losung.setSonntagsname(c.getString(5));
-            losung.setDatum(c.getLong(6));
-            losung.setMarkiert(c.getInt(7) == 1);
-            losung.setNotizenLosung(c.getString(8));
-            losung.setNotizenLehrtext(c.getString(9));
+            losung.setSundayName(c.getString(5));
+            losung.setDate(c.getLong(6));
+            losung.setMarked(c.getInt(7) == 1);
+            losung.setNotesLosung(c.getString(8));
+            losung.setNotesLehrtext(c.getString(9));
 
-            losung.setTitleLosung(context.getResources().getString(R.string.losung_from) + " " + Losung.getFullDatumFromTime(losung.getDatum()));
+            losung.setTitleLosung(context.getResources().getString(R.string.losung_from) + " " + Losung.getFullDatumFromTime(losung.getDate()));
             losung.setTitleLehrtext(context.getResources().getString(R.string.lehrtext));
 
             losungen.add(losung);
@@ -643,11 +643,11 @@ public class DBHandler extends SQLiteOpenHelper {
             losung.setLosungsvers(c.getString(2));
             losung.setLehrtext(c.getString(3));
             losung.setLehrtextVers(c.getString(4));
-            losung.setSonntagsname(c.getString(5));
-            losung.setDatum(c.getLong(6));
-            losung.setMarkiert(c.getInt(7) == 1);
-            losung.setNotizenLosung(c.getString(8));
-            losung.setNotizenLehrtext(c.getString(9));
+            losung.setSundayName(c.getString(5));
+            losung.setDate(c.getLong(6));
+            losung.setMarked(c.getInt(7) == 1);
+            losung.setNotesLosung(c.getString(8));
+            losung.setNotesLehrtext(c.getString(9));
 
             losungenList.add(losung);
         }
