@@ -52,17 +52,17 @@
     <string-array name="country_arrays">
         <item>@string/country_german</item>
         <item>@string/country_english</item>
-        <item>@string/country_netherlands</item>
+        <!--<item>@string/country_netherlands</item>
         <item>@string/country_spanish</item>
-        <item>@string/country_france</item>
+        <item>@string/country_france</item>-->
     </string-array>
 
     <string-array name="country_values" translatable="false">
         <item>de</item>
         <item>en</item>
-        <item>nl</item>
+        <!--<item>nl</item>
         <item>es</item>
-        <item>fr</item>
+        <item>fr</item>-->
     </string-array>
 
     <!-- AUDIO -->

@@ -1,4 +1,8 @@
 <XML>
+    <appversion version="33" versionNice="1.2.5">
+        <change important="true">Die Daten für 2018 können nun importiert werden</change>
+        <change important="false">Rechtschreibfehler behoben</change>
+    </appversion>
     <appversion version="32" versionNice="1.2.4.3">
         <change important="true">Absturz beim Klick auf die Losung behoben</change>
         <change important="false">Benachrichtigung wird nun zur richtigen Zeit angezeigt</change>
