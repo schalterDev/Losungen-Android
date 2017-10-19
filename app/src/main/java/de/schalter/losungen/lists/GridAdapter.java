@@ -77,10 +77,10 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final GridAdapter.ViewHolder holder, final int position) {
         final Losung losung = items.get(position);
-        String datum = Losung.getDatumLongFromTime(losung.getDatum());
+        String datum = Losung.getDatumLongFromTime(losung.getDate());
 
         if(losung.getTitleLosung().trim().equals("")) {
-            holder.titleLosung.setText(String.format("%s %s", context.getResources().getString(R.string.losung_from), Losung.getFullDatumFromTime(losung.getDatum())));
+            holder.titleLosung.setText(String.format("%s %s", context.getResources().getString(R.string.losung_from), Losung.getFullDatumFromTime(losung.getDate())));
         } else {
             holder.titleLosung.setText(losung.getTitleLosung());
         }
@@ -95,12 +95,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         holder.losungsvers.setText(losung.getLosungsvers());
         holder.lehrtext.setText(losung.getLehrtext());
         holder.lehrtextVers.setText(losung.getLehrtextVers());
-        holder.setNotes(losung.getNotizenLosung());
-        //holder.notizen.setText(losung.getNotizenLosung());
-        holder.datum = losung.getDatum();
-        holder.markiert = losung.isMarkiert();
+        holder.setNotes(losung.getNotesLosung());
+        //holder.notizen.setText(losung.getNotesLosung());
+        holder.datum = losung.getDate();
+        holder.markiert = losung.isMarked();
 
-        if(!losung.isMarkiert()) {
+        if(!losung.isMarked()) {
             holder.imageView.setImageResource(R.drawable.ic_star_notfilled);
         }
 
@@ -110,7 +110,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
                 if(fav) {
                     items.remove(position);
-                    dbHandler.removeMarkiert(losung.getDatum());
+                    dbHandler.removeMarkiert(losung.getDate());
                     GridAdapter.this.notifyDataSetChanged();
 
                     MainActivity activity = MainActivity.getInstance();
@@ -118,14 +118,14 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                         activity.snackbar(activity.getResources().getString(R.string.remove_fav), Snackbar.LENGTH_SHORT, true);
                 } else {
                     if(holder.markiert) {
-                        dbHandler.removeMarkiert(losung.getDatum());
+                        dbHandler.removeMarkiert(losung.getDate());
                         holder.imageView.setImageResource(R.drawable.ic_star_notfilled);
 
                         MainActivity activity = MainActivity.getInstance();
                         if(activity != null)
                             activity.snackbar(activity.getResources().getString(R.string.remove_fav), Snackbar.LENGTH_SHORT, true);
                     } else {
-                        dbHandler.setMarkiert(losung.getDatum());
+                        dbHandler.setMarkiert(losung.getDate());
                         holder.imageView.setImageResource(R.drawable.ic_star_filled);
 
                         MainActivity activity = MainActivity.getInstance();

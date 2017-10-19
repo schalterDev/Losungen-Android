@@ -47,7 +47,7 @@ public class ShareSermon {
                 switch(which) {
                     case 0: //share url
                         MainActivity.toast(context, R.string.fetching_url, Toast.LENGTH_SHORT);
-                        SermonUrl sermonUrl = new SermonUrl(context, losung.getDatum(), new SermonUrl.SermonUrlListener() {
+                        SermonUrl sermonUrl = new SermonUrl(context, losung.getDate(), new SermonUrl.SermonUrlListener() {
                             @Override
                             public void urlFound(String url) {
                                 if(url != null)
@@ -62,7 +62,7 @@ public class ShareSermon {
                         DBHandler dbHandler = DBHandler.newInstance(context);
 
                         //Check if audio-file exists allready
-                        String pathAudioLosung = dbHandler.getAudioLosungen(losung.getDatum());
+                        String pathAudioLosung = dbHandler.getAudioLosungen(losung.getDate());
                         if(pathAudioLosung != null) { //Es wurde bereits ein Pfad gespeichert
                             //Es kann aber immer noch sein, dass der Pfad nicht mehr stimmt
                             //Wenn zum Beispiel die SD-Karte entfernt wurde

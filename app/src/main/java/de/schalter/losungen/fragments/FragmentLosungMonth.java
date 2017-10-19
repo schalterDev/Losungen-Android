@@ -91,7 +91,7 @@ public class FragmentLosungMonth extends Fragment {
         int monthOriginal = month;
         while(month == monthOriginal) {
             Losung losung = dbHandler.getWeeklyWord(calendar.getTimeInMillis());
-            losung.setTitleLosung(Losung.getFullDatumFromTime(losung.getDatum())); //TODO change title
+            losung.setTitleLosung(Losung.getFullDatumFromTime(losung.getDate())); //TODO change title
             losungen.add(losung);
             calendar.add(Calendar.DAY_OF_MONTH, 7);
             month = calendar.get(Calendar.MONTH);

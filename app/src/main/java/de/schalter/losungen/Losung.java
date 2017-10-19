@@ -1,9 +1,7 @@
 package de.schalter.losungen;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,11 +21,11 @@ public class Losung {
     private String losungsvers;
     private String lehrtext;
     private String lehrtextVers;
-    private String sonntagsname;
-    private long datum;
-    private boolean markiert;
-    private String notizenLehrtext;
-    private String notizenLosung;
+    private String sundayName;
+    private long date;
+    private boolean marked;
+    private String notesLehrtext;
+    private String notesLosung;
 
     private String url;
 
@@ -63,44 +61,44 @@ public class Losung {
         this.lehrtextVers = lehrtextVers;
     }
 
-    public String getSonntagsname() {
-        return sonntagsname;
+    public String getSundayName() {
+        return sundayName;
     }
 
-    public void setSonntagsname(String sonntagsname) {
-        this.sonntagsname = sonntagsname;
+    public void setSundayName(String sonntagsname) {
+        this.sundayName = sonntagsname;
     }
 
-    public long getDatum() {
-        return datum;
+    public long getDate() {
+        return date;
     }
 
-    public void setDatum(long datum) {
-        this.datum = datum;
+    public void setDate(long date) {
+        this.date = date;
     }
 
-    public boolean isMarkiert() {
-        return markiert;
+    public boolean isMarked() {
+        return marked;
     }
 
-    public void setMarkiert(boolean markiert) {
-        this.markiert = markiert;
+    public void setMarked(boolean marked) {
+        this.marked = marked;
     }
 
-    public String getNotizenLehrtext() {
-        return notizenLehrtext;
+    public String getNotesLehrtext() {
+        return notesLehrtext;
     }
 
-    public void setNotizenLehrtext(String notizenLehrtext) {
-        this.notizenLehrtext = notizenLehrtext;
+    public void setNotesLehrtext(String notesLehrtext) {
+        this.notesLehrtext = notesLehrtext;
     }
 
-    public String getNotizenLosung() {
-        return notizenLosung;
+    public String getNotesLosung() {
+        return notesLosung;
     }
 
-    public void setNotizenLosung(String notizenLosung) {
-        this.notizenLosung = notizenLosung;
+    public void setNotesLosung(String notesLosung) {
+        this.notesLosung = notesLosung;
     }
 
     public String getTitleLosung() {
@@ -156,7 +154,7 @@ public class Losung {
                 context.getResources().getString(R.string.lehrtext),
                 context.getResources().getString(R.string.losung_and_lehrtext)};
 
-        String title = context.getResources().getString(R.string.losung_from) + " " + Losung.getDatumFromTime(losung.getDatum());
+        String title = context.getResources().getString(R.string.losung_from) + " " + Losung.getDatumFromTime(losung.getDate());
 
         String[] titles = {title, title, title};
         String[] inhalte = new String[3];
@@ -170,7 +168,7 @@ public class Losung {
     }
 
     public static void shareLosung(Losung losung, Context context, int type) {
-        String title = context.getResources().getString(R.string.losung_from) + " " + Losung.getDatumFromTime(losung.getDatum());
+        String title = context.getResources().getString(R.string.losung_from) + " " + Losung.getDatumFromTime(losung.getDate());
         String content = "";
 
         switch (type) {

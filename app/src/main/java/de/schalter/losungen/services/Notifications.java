@@ -185,13 +185,13 @@ public class Notifications extends Service {
                             case Tags.LOSUNG_NOTIFICATION:
                                 showNotification(context, getResources().getString(R.string.losung),
                                         losung.getLosungstext() + System.getProperty("line.separator") + losung.getLosungsvers(),
-                                        losung.getDatum());
+                                        losung.getDate());
                                 break;
 
                             case Tags.LEHRTEXT_NOTIFICATION:
                                 showNotification(context, getResources().getString(R.string.lehrtext),
                                         losung.getLehrtext() + System.getProperty("line.separator") + losung.getLehrtextVers(),
-                                        losung.getDatum());
+                                        losung.getDate());
                                 break;
 
                             case Tags.LOSUNG_UND_LEHRTEXT_NOTIFICATION:
@@ -199,7 +199,7 @@ public class Notifications extends Service {
                                         losung.getLosungstext() + System.getProperty("line.separator") + losung.getLosungsvers() +
                                                 System.getProperty("line.separator") + System.getProperty("line.separator") +
                                                 losung.getLehrtext() + System.getProperty("line.separator") + losung.getLehrtextVers(),
-                                        losung.getDatum());
+                                        losung.getDate());
                                 break;
                         }
                     }

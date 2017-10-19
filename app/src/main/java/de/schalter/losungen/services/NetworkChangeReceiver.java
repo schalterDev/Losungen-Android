@@ -36,7 +36,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
         DBHandler dbHandler = DBHandler.newInstance(context);
         long datumJetzt = System.currentTimeMillis();
-        final long datum = dbHandler.getLosung(datumJetzt).getDatum();
+        final long datum = dbHandler.getLosung(datumJetzt).getDate();
 
         if(autoDownloadAudio && downloadAudio && wifi && languageSupported) {
             Network.downloadSermon(context, null, datum);
