@@ -16,7 +16,7 @@ public class Tags {
 
     //Für Losungen, Wochen und Monatssprüche
     private static final String[] IMPORT_LIST_DE = {"2017", "2018"};
-    private static final String[] IMPORT_LIST_EN = {"2015", "2016", "2017"};
+    private static final String[] IMPORT_LIST_EN = {"2016", "2017", "2018"};
     private static final String[] IMPORT_LIST_ES = {"2015", "2016"};
     private static final String[] IMPORT_LIST_AR = {};
     private static final String[] IMPORT_LIST_FR = {"2015", "2016"};
