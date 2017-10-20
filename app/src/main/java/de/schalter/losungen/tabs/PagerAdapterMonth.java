@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ public class PagerAdapterMonth extends android.support.v4.app.FragmentPagerAdapt
 
     private List<String> titles;
     private List<Long> times;
+    private FragmentLosungMonth[] fragments;
 
     private long currentDate;
 
@@ -37,6 +39,7 @@ public class PagerAdapterMonth extends android.support.v4.app.FragmentPagerAdapt
 
         titles = new ArrayList<>();
         times = new ArrayList<>();
+        fragments = new FragmentLosungMonth[100];
 
         long timeNow = System.currentTimeMillis();
         currentDate = timeNow;
@@ -70,7 +73,11 @@ public class PagerAdapterMonth extends android.support.v4.app.FragmentPagerAdapt
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentLosungMonth.newFragmentLosungTag(times.get(position), context);
+        FragmentLosungMonth fragmentLosungMonth = FragmentLosungMonth.newFragmentLosungTag(times.get(position), context);
+
+        fragments[position] = fragmentLosungMonth;
+
+        return fragmentLosungMonth;
     }
 
     @Override
@@ -80,7 +87,12 @@ public class PagerAdapterMonth extends android.support.v4.app.FragmentPagerAdapt
 
     @Override
     public int getItemPosition(Object object) {
-        return PagerAdapterMonth.POSITION_NONE;
+        int index = Arrays.asList(fragments).indexOf(object);
+
+        if(index == -1)
+            return POSITION_NONE;
+
+        return index;
     }
 
     @Override
@@ -99,6 +111,11 @@ public class PagerAdapterMonth extends android.support.v4.app.FragmentPagerAdapt
 
         titles.clear();
         times.clear();
+
+        //reset fragments
+        for(int i = 0; i < fragments.length; i++) {
+            fragments[i] = null;
+        }
 
         String title = "";
         long time;
@@ -140,7 +157,15 @@ public class PagerAdapterMonth extends android.support.v4.app.FragmentPagerAdapt
                 titles.add(0, getTitleByTime(time));
             }
 
-            this.notifyDataSetChanged();
+            //reset fragments
+            for(int i = 0; i < fragments.length; i++) {
+                fragments[i] = null;
+            }
+
+            //Error reported in Google-Play developer console
+            try {
+                this.notifyDataSetChanged();
+            } catch (Exception ignored) {}
             return position + ITEMSBEFOR;
         }
 

@@ -71,8 +71,6 @@ public class PagerAdapter extends android.support.v4.app.FragmentStatePagerAdapt
     public CharSequence getPageTitle(int position) {
         String title = titles.get(position);
 
-        Log.d("Losungen", "getPageTitle: " + position);
-
         return title;
     }
 
@@ -81,8 +79,6 @@ public class PagerAdapter extends android.support.v4.app.FragmentStatePagerAdapt
         FragmentLosungTag fragmentLosungTag = FragmentLosungTag.newFragmentLosungTag(times.get(position), context);
 
         fragments[position] = fragmentLosungTag;
-
-        Log.d("Losungen", "GetItem: " + position + ", " + fragmentLosungTag);
 
         return fragmentLosungTag;
     }
@@ -95,13 +91,11 @@ public class PagerAdapter extends android.support.v4.app.FragmentStatePagerAdapt
     @Override
     public int getItemPosition(Object object) {
         int index = Arrays.asList(fragments).indexOf(object);
-        Log.d("Losungen", "getItemPosition: " + index);
 
         if(index == -1)
             return POSITION_NONE;
 
         return index;
-        //return POSITION_NONE;
     }
 
     /*
