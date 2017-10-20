@@ -2,10 +2,12 @@ package de.schalter.losungen.tabs;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,11 +18,11 @@ import de.schalter.losungen.fragments.FragmentLosungTag;
 /**
  * Created by marti on 27.10.2015.
  */
-public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
+public class PagerAdapter extends android.support.v4.app.FragmentStatePagerAdapter {
 
     private long baseId = 0;
 
-    //Immer 21 Tage in den Tabs anzeigen
+    //Immer 9 Tage in den Tabs anzeigen
     public static final int ITEMSBEFOR = 4;
     private final int ITEMSAFTER = 4;
 
@@ -68,6 +70,9 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         String title = titles.get(position);
+
+        Log.d("Losungen", "getPageTitle: " + position);
+
         return title;
     }
 
@@ -76,6 +81,8 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
         FragmentLosungTag fragmentLosungTag = FragmentLosungTag.newFragmentLosungTag(times.get(position), context);
 
         fragments[position] = fragmentLosungTag;
+
+        Log.d("Losungen", "GetItem: " + position + ", " + fragmentLosungTag);
 
         return fragmentLosungTag;
     }
@@ -87,16 +94,22 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        /*int index = Arrays.asList(fragments).indexOf(object);
-        return index;*/
-        return POSITION_NONE;
+        int index = Arrays.asList(fragments).indexOf(object);
+        Log.d("Losungen", "getItemPosition: " + index);
+
+        if(index == -1)
+            return POSITION_NONE;
+
+        return index;
+        //return POSITION_NONE;
     }
 
+    /*
     @Override
     public long getItemId(int position) {
         baseId++;
         return baseId;
-    }
+    }*/
 
     public void setDate(int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
@@ -108,6 +121,11 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
         titles.clear();
         times.clear();
+
+        //reset fragments
+        for(int i = 0; i < fragments.length; i++) {
+            fragments[i] = null;
+        }
 
         String title = "";
         long time;
@@ -145,6 +163,11 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
                 long time = times.get(0) - (1000 * 60 * 60 * 24);
                 times.add(0, time);
                 titles.add(0, getTitleByTime(time));
+            }
+
+            //reset fragments
+            for(int i = 0; i < fragments.length; i++) {
+                fragments[i] = null;
             }
 
             //Error reported in Google-Play developer console

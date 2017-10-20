@@ -1,4 +1,8 @@
 <XML>
+    <appversion version="34" versionNice="1.2.5.1">
+        <change important="true">Absturz beim scrollen nach rechts behoben</change>
+        <change important="true">Fehler, dass die falsche Losung angezeigt wird, wenn man nach links scrollt behoben</change>
+    </appversion>
     <appversion version="33" versionNice="1.2.5">
         <change important="true">Die Daten für 2018 können nun importiert werden</change>
         <change important="false">Rechtschreibfehler behoben</change>

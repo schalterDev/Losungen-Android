@@ -524,7 +524,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                         itemWidget,
                         itemEinstellungen,
                         new DividerDrawerItem(),
-                        itemPetition,
+                        //itemPetition,
                         itemBewerten,
                         itemFeedeback,
                         itemInfo

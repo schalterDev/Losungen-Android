@@ -1,4 +1,8 @@
 ﻿﻿<XML>
+    <appversion version="34" versionNice="1.2.5.1">
+        <change important="true">Fixed crash when scrolling to the right</change>
+        <change important="true">When scrolling to left the text was out of sync with the date. This is fixed now</change>
+    </appversion>
     <appversion version="33" versionNice="1.2.5">
         <change important="true">Data for 2018 is ready to import</change>
     </appversion>
