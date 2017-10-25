@@ -1,5 +1,5 @@
 <XML>
-    <appversion version="35" versionNice="1.2.5.1">
+    <appversion version="35" versionNice="1.2.5.2">
         <change important="true">Fehler beim Download von den Andachten behoben</change>
     </appversion>
     <appversion version="34" versionNice="1.2.5.1">
