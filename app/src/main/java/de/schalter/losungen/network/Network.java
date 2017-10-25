@@ -3,13 +3,17 @@ package de.schalter.losungen.network;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.Calendar;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -29,9 +33,39 @@ import de.schalter.losungen.settings.Tags;
 public class Network {
 
     public static String downloadHtml(String urlString) throws IOException {
-        //Check for redirection
-        URL url = new URL(urlString);
-        HttpsURLConnection ucon = (HttpsURLConnection) url.openConnection();
+        //URLConnection urlConnection = url.openConnection();
+        HttpURLConnection ucon = null;
+
+        int counter = 5;
+
+        while (counter > 0)
+        {
+            URL url = new URL(urlString);
+            Log.d("Losungen", "url: " + urlString);
+
+            ucon = (HttpURLConnection) url.openConnection();
+            ucon.setConnectTimeout(15000);
+            ucon.setReadTimeout(15000);
+            ucon.setInstanceFollowRedirects(false);   // Make the logic below easier to detect redirections
+            ucon.setRequestProperty("User-Agent", "Mozilla/5.0...");
+
+            counter--;
+
+            switch (ucon.getResponseCode())
+            {
+                case HttpURLConnection.HTTP_MOVED_PERM:
+                case HttpURLConnection.HTTP_MOVED_TEMP:
+                    String location = ucon.getHeaderField("Location");
+                    location = URLDecoder.decode(location, "UTF-8");
+                    URL base = new URL(urlString);
+                    URL next = new URL(base, location);  // Deal with relative URLs
+                    urlString = next.toExternalForm();
+                    continue;
+            }
+
+            break;
+        }
+
 
         InputStream is = ucon.getInputStream();
         BufferedInputStream bis = new BufferedInputStream(is);
