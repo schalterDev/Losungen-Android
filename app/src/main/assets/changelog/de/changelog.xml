@@ -1,4 +1,7 @@
 <XML>
+    <appversion version="35" versionNice="1.2.5.2">
+        <change important="true">Fehler beim Download von den Andachten behoben</change>
+    </appversion>
     <appversion version="34" versionNice="1.2.5.1">
         <change important="true">Absturz beim scrollen nach rechts behoben</change>
         <change important="true">Fehler, dass die falsche Losung angezeigt wird, wenn man nach links scrollt behoben</change>

@@ -8,8 +8,8 @@ android {
         applicationId "de.schalter.losungen"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 34
-        versionName "1.2.5.1"
+        versionCode 35
+        versionName "1.2.5.2"
 
     }
     buildTypes {

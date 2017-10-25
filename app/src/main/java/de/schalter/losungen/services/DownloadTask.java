@@ -2,6 +2,7 @@ package de.schalter.losungen.services;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -72,6 +73,8 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
 
         try {
             URL url = new URL(this.url);
+
+            Log.d("Losungen", "Url-tast: " + url);
 
             URLConnection connexion = url.openConnection();
             //URLConnection connexion = url.openConnection();
