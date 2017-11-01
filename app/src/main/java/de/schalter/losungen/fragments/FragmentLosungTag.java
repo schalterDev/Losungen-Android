@@ -615,7 +615,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         handler.post(new Runnable() {
             public void run() {
                 audio_relative.setVisibility(View.VISIBLE);
-                play_audio.setImageDrawable(getResources()
+                play_audio.setImageDrawable(FragmentLosungTag.this.getResources()
                         .getDrawable(R.drawable.ic_media_pause));
             }
         });
