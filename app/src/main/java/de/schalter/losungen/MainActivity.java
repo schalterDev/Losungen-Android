@@ -242,7 +242,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         setContentView(R.layout.activity_main);
 
-        analytics();
+        try {
+            analytics();
+        } catch(Exception ignore) {
+            //Some errors occur when using analytics
+        }
 
         /*TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
