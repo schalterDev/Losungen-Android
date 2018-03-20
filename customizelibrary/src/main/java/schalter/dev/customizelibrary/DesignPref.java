@@ -74,7 +74,7 @@ public class DesignPref extends DialogPreference {
 
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new GridAdapter(colors, getContext(), selectedDefault);
+        adapter = new GridAdapter(colors, selectedDefault);
         recyclerView.setAdapter(adapter);
 
         return (view);

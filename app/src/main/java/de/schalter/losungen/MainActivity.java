@@ -255,7 +255,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         toolbar = (CustomToolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.losungen));
-        toolbar.setItemColor(Colors.getColor(this, Colors.TOOLBARICON));
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         ads();

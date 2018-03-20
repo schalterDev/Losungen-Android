@@ -293,7 +293,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
         audioService.setElements(this);
         audioService.setSong(path, Losung.getFullDatumFromTime(losung.getDate()), "ERF Wort zum Tag");
         audioService.setPrimaryColor(Colors.getColor(context, Colors.PRIMARY));
-        audioService.setPrimarDarkColor(Colors.getColor(context, Colors.PRIMARYDARK));
+        audioService.setPrimarDarkColor(Colors.getColor(context, Colors.PRIMARY_DARK));
         audioService.setIcon(R.mipmap.ic_launcher);
         audioService.setPendingActivity(mainActivity);
 

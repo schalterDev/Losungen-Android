@@ -32,21 +32,24 @@ public class CustomToolbar extends Toolbar {
 
     public CustomToolbar(Context context) {
         super(context);
-        ctxt = context;
     }
 
     int itemColor;
-    Context ctxt;
+    Context context;
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        colorizeToolbar(this, itemColor, (Activity) ctxt);
+        itemColor = Colors.getColor(getContext(), Colors.ICONS_TOOLBAR);
+        colorizeToolbar(this, itemColor, (Activity) context);
+
+        if(context instanceof Activity)
+            Colors.setStatusBarColor((Activity) context, Colors.PRIMARY_DARK);
     }
 
     public void setItemColor(int color) {
         itemColor = color;
-        colorizeToolbar(this, itemColor, (Activity) ctxt);
+        colorizeToolbar(this, itemColor, (Activity) context);
     }
 
 
@@ -67,7 +70,6 @@ public class CustomToolbar extends Toolbar {
             doColorizing(v, colorFilter, toolbarIconsColor);
         }
 
-        //Step 3: Changing the color of title and subtitle.
         toolbarView.setTitleTextColor(toolbarIconsColor);
         toolbarView.setSubtitleTextColor(toolbarIconsColor);
     }
@@ -104,7 +106,7 @@ public class CustomToolbar extends Toolbar {
         if (v instanceof ActionMenuView) {
             for (int j = 0; j < ((ActionMenuView) v).getChildCount(); j++) {
 
-                //Step 2: Changing the color of any ActionMenuViews - icons that
+                //Changing the color of any ActionMenuViews - icons that
                 //are not back button, nor text, nor overflow menu icon.
                 final View innerView = ((ActionMenuView) v).getChildAt(j);
 

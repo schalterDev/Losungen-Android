@@ -1,8 +1,5 @@
 package schalter.dev.customizelibrary;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,22 +14,15 @@ import java.util.List;
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     private List<Integer> items;
-    private Context context;
     private int checkedItem;
 
-    private GridAdapter.ViewHolder holder;
-
-    private SharedPreferences settings;
-
-    public GridAdapter(List<Integer> colors, Context context, int checkedItem) {
+    GridAdapter(List<Integer> colors, int checkedItem) {
         super();
         items = colors;
         this.checkedItem = checkedItem;
-        this.context = context;
-        settings = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public int getColorPosition() {
+    int getColorPosition() {
         return checkedItem;
     }
 
@@ -47,7 +37,6 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final GridAdapter.ViewHolder holder, final int position) {
-        this.holder = holder;
         final int color = items.get(position);
 
         if(checkedItem == position)
@@ -67,7 +56,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     }
 
-    public void setCheckedItem(int checkedItem) {
+    void setCheckedItem(int checkedItem) {
         this.checkedItem = checkedItem;
         notifyDataSetChanged();
     }
@@ -77,12 +66,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView colorImage;
         //private String notizenLosung;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             colorImage = (ImageView) itemView.findViewById(R.id.imageView_color);
