@@ -1,20 +1,6 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'fb-like'
-
-    publishedGroupId = 'com.inthecheesefactory.thecheeselibrary'
-    libraryName = 'FBLike'
-    artifact = 'fb-like'
-
-    libraryDescription = 'A library to let the user customize your Android - APP'
-
-    siteUrl = 'https://github.com/schalterDev/Customize-library'
-    gitUrl = 'https://github.com/schalterDev/Customize-library.git'
-
-    libraryVersion = '0.1.0'
-
     developerId = 'schalterdev'
     developerName = 'Martin Schalter'
     developerEmail = 'schalter.dev@gmail.com'
@@ -30,7 +16,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -40,12 +26,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:recyclerview-v7:25.4.0'
+    compile 'com.android.support:appcompat-v7:27.1.0'
+    compile 'com.android.support:recyclerview-v7:27.1.0'
 }

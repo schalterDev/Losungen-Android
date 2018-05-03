@@ -16,7 +16,7 @@ import de.schalter.losungen.network.Network;
 
 public class SermonUrl {
 
-    private static final String FEED_URL = "http://feeds.feedburner.com/erf/wzt";
+    private static final String FEED_URL = "https://feedpress.me/erf-plus-wortzumtag";
     private static final String audio_url_prefix = "https://www.erf.de";
     private static final String audio_url_html_anfang = "data-file=\"";
     private static final String audio_url_html_ende = "\"";
