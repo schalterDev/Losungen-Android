@@ -195,4 +195,6 @@
     <string name="fetching_url">fetching url...</string>
     <string name="download_error_rss">could not find a sermon for this date</string>
     <string name="accept">OK</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_url" translatable="false">https://losungen.webdesign-schalter.de</string>
 </resources>

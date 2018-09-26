@@ -515,6 +515,9 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         final PrimaryDrawerItem itemInfo = new PrimaryDrawerItem().withName(R.string.info)
                 .withIcon(R.drawable.ic_info_black_24dp)
                 .withIconTintingEnabled(true);
+        final PrimaryDrawerItem privacyItem = new PrimaryDrawerItem().withName(R.string.privacy_policy)
+                .withIcon(R.drawable.ic_info_black_24dp) // TODO change icon
+                .withIconTintingEnabled(true);
 
         //create the drawer and remember the `Drawer` result object
         navigationDrawer = new DrawerBuilder()
@@ -530,7 +533,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                         //itemPetition,
                         itemBewerten,
                         itemFeedeback,
-                        itemInfo
+                        itemInfo,
+                        privacyItem
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -643,6 +647,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                                     .beginTransaction()
                                     .replace(R.id.fragment_content, FragmentInfo.newInstance())
                                     .commit();
+                        } else if (drawerItem.equals(privacyItem)) {
+                            // open privacy website
+                            String url =  getResources().getString(R.string.privacy_url);
+                            Uri uri = Uri.parse(url);
+                            startActivity(new Intent(Intent.ACTION_VIEW, uri));
                         }
 
                         return false;

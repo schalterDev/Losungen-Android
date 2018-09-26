@@ -212,5 +212,7 @@
     <string name="share_mp3File">MP3 - Datei teilen</string>
     <string name="share_url">Link zum Herunterladen teilen</string>
     <string name="download_error_rss">Konnte keine Andacht für diesen Tag finden</string>
+    <string name="privacy_policy">Datenschutzerklärung</string>
+    <string name="accept">OK</string>
 
 </resources>
