@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "de.schalter.losungen"
         minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 36
-        versionName "1.2.5.3"
+        targetSdkVersion 27
+        versionCode 37
+        versionName "1.2.5.4"
 
     }
     buildTypes {
