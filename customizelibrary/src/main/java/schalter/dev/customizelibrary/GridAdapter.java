@@ -74,7 +74,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         ViewHolder(View itemView) {
             super(itemView);
 
-            colorImage = (ImageView) itemView.findViewById(R.id.imageView_color);
+            colorImage = itemView.findViewById(R.id.imageView_color);
         }
     }
 }

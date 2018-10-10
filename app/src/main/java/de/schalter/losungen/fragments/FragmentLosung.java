@@ -15,16 +15,12 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.Calendar;
 
-import de.schalter.losungen.AnalyticsApplication;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.dialogs.DateChooserDialog;
-import de.schalter.losungen.settings.Tags;
 import de.schalter.losungen.tabs.PagerAdapter;
 import schalter.dev.customizelibrary.Colors;
 
@@ -46,25 +42,12 @@ public class FragmentLosung extends Fragment {
         return fragment;
     }
 
-    //Send screen to google Analytics
-    private void analytics() {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) getActivity().getApplication();
-            Tracker mTracker = application.getDefaultTracker();
-
-            mTracker.setScreenName("Fragment-Losungen");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        analytics();
     }
 
     @Override
@@ -115,9 +98,9 @@ public class FragmentLosung extends Fragment {
     }
 
     private void initialise(View view) {
-        pager = (ViewPager) view.findViewById(R.id.pager);
+        pager = view.findViewById(R.id.pager);
         pagerAdapter = new PagerAdapter(getChildFragmentManager(),activity);
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+        PagerSlidingTabStrip tabs = view.findViewById(R.id.tabs);
 
         pager.setPadding(5, 5, 5, 0);
         pager.setAdapter(pagerAdapter);

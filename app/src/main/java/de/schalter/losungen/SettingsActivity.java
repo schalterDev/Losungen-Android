@@ -23,9 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,34 +58,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
      */
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
     private SharedPreferences prefs;
-
-    private Tracker mTracker;
-
-    private void analytics() {
-        if(prefs.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) getApplication();
-            mTracker = application.getDefaultTracker();
-
-            mTracker.setScreenName("SettingsActivity");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
-    private void analytics(String category, String action) {
-        if(prefs.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            if (mTracker == null) {
-                AnalyticsApplication application = (AnalyticsApplication) getApplication();
-                mTracker = application.getDefaultTracker();
-            }
-
-            mTracker.send(new HitBuilders.EventBuilder()
-                    .setCategory(category)
-                    .setAction(action)
-                    .build());
-
-        }
-    }
 
     private void setLocale(String lang) {
         /*Locale myLocale = new Locale(lang);
@@ -137,7 +106,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         super.onPostCreate(savedInstanceState);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        analytics();
 
 
         CustomToolbar toolbar;
@@ -147,7 +115,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             toolbar = (CustomToolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
             root.addView(toolbar, 0); // insert at top
         } else {
-            ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+            ViewGroup root = findViewById(android.R.id.content);
             ListView content = (ListView) root.getChildAt(0);
 
             root.removeAllViews();
@@ -296,12 +264,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 Notifications.setNotifications(this, time * 60 * 1000);
             } else
                 Notifications.removeNotifications(this);
-        }
-
-        if(key.equals(Tags.PREF_NOTIFICATION) || key.equals(Tags.PREF_ADS)
-                || key.equals(Tags.PREF_GOOGLEANALYTICS) || key.equals(Tags.PREF_SHOWNOTES)) {
-
-            analytics("Settings", "Settings: " + key + ", " + sharedPreferences.getBoolean(key, true));
         }
 
         //Language change

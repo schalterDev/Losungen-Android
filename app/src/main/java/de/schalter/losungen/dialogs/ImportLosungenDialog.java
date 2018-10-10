@@ -78,7 +78,7 @@ public class ImportLosungenDialog {
         View dialogView = li.inflate(R.layout.dialog_import, null);
         builder = new AlertDialog.Builder(context);
 
-        final LinearLayout linearLayout = (LinearLayout) dialogView.findViewById(R.id.linear_layout_import);
+        final LinearLayout linearLayout = dialogView.findViewById(R.id.linear_layout_import);
 
         // set dialog_import.xml to alertdialog builder
         builder.setView(dialogView);
@@ -96,8 +96,8 @@ public class ImportLosungenDialog {
         // set dialog_import.xml to alertdialog builder
         builder.setView(dialogView);
 
-        final Spinner spinner = (Spinner) dialogView.findViewById(R.id.spinner_language);
-        final TextView notes = (TextView) dialogView.findViewById(R.id.textView_import_notes);
+        final Spinner spinner = dialogView.findViewById(R.id.spinner_language);
+        final TextView notes = dialogView.findViewById(R.id.textView_import_notes);
 
         // -------------- SPINNER --------------
 
@@ -416,7 +416,7 @@ public class ImportLosungenDialog {
     }
 
     private interface CheckboxChanged {
-        public void onCheckedChange(boolean isChecked, int index);
+        void onCheckedChange(boolean isChecked, int index);
     }
 
     /**

@@ -366,15 +366,15 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
     }
 
     private void initialise(View view) {
-        audio_relative = (RelativeLayout) view.findViewById(R.id.audio_relative);
-        audio_title = (TextView) view.findViewById(R.id.textView_audio_title);
-        audio_subtitle = (TextView) view.findViewById(R.id.textView_subtitile_audio);
-        audio_duration = (TextView) view.findViewById(R.id.textView_duration);
-        audio_seek_bar = (SeekBar) view.findViewById(R.id.seekBar_audio);
-        play_audio = (ImageView) view.findViewById(R.id.audio_play);
-        close_audio = (ImageView) view.findViewById(R.id.audio_cancle);
+        audio_relative = view.findViewById(R.id.audio_relative);
+        audio_title = view.findViewById(R.id.textView_audio_title);
+        audio_subtitle = view.findViewById(R.id.textView_subtitile_audio);
+        audio_duration = view.findViewById(R.id.textView_duration);
+        audio_seek_bar = view.findViewById(R.id.seekBar_audio);
+        play_audio = view.findViewById(R.id.audio_play);
+        close_audio = view.findViewById(R.id.audio_cancle);
 
-        CardLosung cardLosung = (CardLosung) view.findViewById(R.id.cardLosung);
+        CardLosung cardLosung = view.findViewById(R.id.cardLosung);
 
         if(losung != null) {
             cardLosung.setLosungsText(losung.getLosungstext());
@@ -404,7 +404,7 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
             }
         });
 
-        CardLosung cardLehrvers = (CardLosung) view.findViewById(R.id.cardLehrtext);
+        CardLosung cardLehrvers = view.findViewById(R.id.cardLehrtext);
         if(losung != null) {
             cardLehrvers.setLosungsText(losung.getLehrtext());
             cardLehrvers.setLosungsTitle(getResources().getString(R.string.lehrtext));
@@ -449,12 +449,12 @@ public class FragmentLosungTag extends Fragment implements ControlElements {
 
         // ------------------ END HIDE LEHRTEXT OR LOSUNG ----------------
 
-        EditText editNotizen = (EditText) view.findViewById(R.id.editText_notizen);
+        EditText editNotizen = view.findViewById(R.id.editText_notizen);
 
         //In the settings you can choose to show notes or not
         boolean showNotes = settings.getBoolean(Tags.PREF_SHOWNOTES, true);
         if(!showNotes) {
-            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout_losung);
+            LinearLayout linearLayout = view.findViewById(R.id.linearLayout_losung);
             try {
                 linearLayout.removeView(editNotizen);
             } catch(Exception ignored) {}

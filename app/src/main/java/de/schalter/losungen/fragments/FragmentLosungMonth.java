@@ -151,7 +151,7 @@ public class FragmentLosungMonth extends Fragment {
             Log.e("Losungen", "in FragmentLosungTag:  context, getContext and getActivity are null");
         }
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_losung_list);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_losung_list);
         recyclerView.setHasFixedSize(false);
 
         //Number of columns, Tablet has 2 - phone 1

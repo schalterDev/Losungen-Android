@@ -58,7 +58,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         // so that we know we have to resume playback once we get focus back)
         Paused
         // playback paused (media player ready!)
-    };
+    }
 
     State mState = State.Retrieving;
 

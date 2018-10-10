@@ -102,7 +102,7 @@ public class LosungOpenDialog {
 
         //CheckBox
         View checkBoxView = View.inflate(context, R.layout.list_with_checkbox, null);
-        CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
+        CheckBox checkBox = checkBoxView.findViewById(R.id.checkbox);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override

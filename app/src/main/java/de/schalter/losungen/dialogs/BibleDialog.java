@@ -83,7 +83,7 @@ public class BibleDialog {
         context.startActivity(intent);
     }
 
-    public void loadVers(String vers) throws IOException, NumberFormatException {
+    public void loadVers(String vers) throws NumberFormatException {
         String original_vers = vers;
 
         final_verses = new ArrayList<>();

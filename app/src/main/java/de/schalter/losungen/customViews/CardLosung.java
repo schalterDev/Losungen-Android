@@ -33,9 +33,9 @@ public class CardLosung extends CardView {
         View v = inflater.inflate(R.layout.losung_card, null, false);
         this.addView(v);
 
-        text = (TextView) v.findViewById(R.id.textView_losungText);
-        title = (TextView) v.findViewById(R.id.textView_losungTitle);
-        vers = (TextView) v.findViewById(R.id.textView_losungVers);
+        text = v.findViewById(R.id.textView_losungText);
+        title = v.findViewById(R.id.textView_losungTitle);
+        vers = v.findViewById(R.id.textView_losungVers);
     }
 
     public void setLosungsText(String text) {

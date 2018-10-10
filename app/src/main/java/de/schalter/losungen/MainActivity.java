@@ -31,9 +31,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -86,48 +83,10 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     private boolean firstStartResume = false;
     private PrimaryDrawerItem itemLosung;
 
-    private Tracker mTracker;
-
     private static MainActivity activity;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     public static MainActivity getInstance() {
         return activity;
-    }
-
-    private void analytics() {
-        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) getApplication();
-            mTracker = application.getDefaultTracker();
-
-            mTracker.setScreenName("MainActivity");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
-    private void analytics(boolean fav) {
-        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            if (fav)
-                mTracker.setScreenName("Fragment-Fav");
-            else
-                mTracker.setScreenName("Fragment-Suchen");
-
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
-    private void analytics(String category, String action) {
-        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            mTracker.send(new HitBuilders.EventBuilder()
-                    .setCategory(category)
-                    .setAction(action)
-                    .build());
-        }
     }
 
     private void langauge() {
@@ -242,21 +201,15 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
         setContentView(R.layout.activity_main);
 
-        try {
-            analytics();
-        } catch(Exception ignore) {
-            //Some errors occur when using analytics
-        }
-
         /*TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(attrColor, typedValue, true);
         int colorFont = typedValue.data;*/
 
-        toolbar = (CustomToolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.losungen));
 
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
         ads();
 
         setSupportActionBar(toolbar);
@@ -285,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     }
 
     private void ads() {
-        adview = (AdView) findViewById(R.id.adView);
+        adview = findViewById(R.id.adView);
 
         if (settings.getBoolean(Tags.PREF_ADS, false)) {
             AdRequest adRequest = new AdRequest.Builder()
@@ -294,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                     .build();
             adview.loadAd(adRequest);
         } else {
-            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout_main);
+            LinearLayout linearLayout = findViewById(R.id.linear_layout_main);
             linearLayout.removeView(adview);
         }
     }
@@ -579,8 +532,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                                     .replace(R.id.fragment_content, FragmentLosungenListe.newInstance(MainActivity.this, true))
                                     .commit();
 
-                            analytics(true);
-
                         } else if (drawerItem.equals(itemWidget)) {
                             toolbar.setTitle(R.string.widget);
 
@@ -604,8 +555,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
                         } else if (drawerItem.equals(itemPetition)) {
 
-                            analytics("Feedback", "Petition");
-
                             Uri uri = Uri.parse("https://www.openpetition.de/petition/online/losungen-der-herrnhuter-bruedergemeine-apps-fuer-mobile-endgeraete");
                             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                             try {
@@ -614,8 +563,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                             }
 
                         } else if (drawerItem.equals(itemBewerten)) {
-
-                            analytics("Feedback", "Bewerten");
 
                             Uri uri = Uri.parse("market://details?id=" + MainActivity.this.getPackageName());
                             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
@@ -626,8 +573,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                             }
 
                         } else if (drawerItem.equals(itemFeedeback)) {
-
-                            analytics("Feedback", "Mail");
 
                             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                                     "mailto", "schalter.dev@gmail.com", null));

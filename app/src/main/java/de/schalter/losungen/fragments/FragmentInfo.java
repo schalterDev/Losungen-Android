@@ -9,13 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
-import de.schalter.losungen.AnalyticsApplication;
 import de.schalter.losungen.BuildConfig;
 import de.schalter.losungen.R;
-import de.schalter.losungen.settings.Tags;
 
 /**
  * Created by marti on 27.10.2015.
@@ -31,25 +26,12 @@ public class FragmentInfo extends Fragment {
         return new FragmentInfo();
     }
 
-    //Send new screen to google analytics
-    private void analytics() {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) getActivity().getApplication();
-            Tracker mTracker = application.getDefaultTracker();
-
-            mTracker.setScreenName("Fragment-Info");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
 
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        analytics();
     }
 
     @Override
@@ -66,7 +48,7 @@ public class FragmentInfo extends Fragment {
 
     private void initialise(View view) {
         //Until now there is everything defined in the XML-File
-        TextView version = (TextView) view.findViewById(R.id.textView_version);
+        TextView version = view.findViewById(R.id.textView_version);
         String versionString = BuildConfig.VERSION_NAME;
         version.setText(versionString);
     }

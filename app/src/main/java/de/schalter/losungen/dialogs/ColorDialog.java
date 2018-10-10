@@ -51,9 +51,9 @@ public class ColorDialog {
         // set dialog_import.xml to alertdialog builder
         alertDialogBuilder.setView(dialogView);
 
-        LobsterPicker lobsterPicker = (LobsterPicker) dialogView.findViewById(R.id.lobsterpicker);
-        opacitySlider = (LobsterOpacitySlider) dialogView.findViewById(R.id.opacityslider);
-        LobsterShadeSlider shadeSlider = (LobsterShadeSlider) dialogView.findViewById(R.id.shadeslider);
+        LobsterPicker lobsterPicker = dialogView.findViewById(R.id.lobsterpicker);
+        opacitySlider = dialogView.findViewById(R.id.opacityslider);
+        LobsterShadeSlider shadeSlider = dialogView.findViewById(R.id.shadeslider);
 
         //To enable to color feedback use
         lobsterPicker.setColorHistoryEnabled(true);
