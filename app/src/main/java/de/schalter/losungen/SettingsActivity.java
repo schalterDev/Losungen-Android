@@ -60,13 +60,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     private SharedPreferences prefs;
 
     private void setLocale(String lang) {
-        /*Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);*/
-
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
