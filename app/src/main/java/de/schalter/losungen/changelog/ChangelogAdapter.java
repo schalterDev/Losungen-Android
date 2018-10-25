@@ -37,8 +37,8 @@ public class ChangelogAdapter extends ArrayAdapter<ChangelogElement> {
         View rowView = inflater.inflate(R.layout.changelog_card, parent, false);
 
         // 3. Get the two text view from the rowView
-        TextView titleView = (TextView) rowView.findViewById(R.id.changelog_title);
-        TextView contentView = (TextView) rowView.findViewById(R.id.changelog_content);
+        TextView titleView = rowView.findViewById(R.id.changelog_title);
+        TextView contentView = rowView.findViewById(R.id.changelog_content);
 
         // 4. Set the text for textView
         List<String> changes = items.get(position).changes;

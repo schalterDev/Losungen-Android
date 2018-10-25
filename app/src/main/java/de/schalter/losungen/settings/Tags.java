@@ -90,11 +90,7 @@ public class Tags {
                 return false;
             }
 
-            if(DOWNLOAD_LIST_DE[indexYearInImportArray].equals("---")) {
-                return false;
-            } else {
-                return true;
-            }
+            return !DOWNLOAD_LIST_DE[indexYearInImportArray].equals("---");
         } else {
             return false;
         }

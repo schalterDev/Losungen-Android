@@ -18,7 +18,7 @@ import de.schalter.losungen.R;
 public class DownloadNotificationHelper extends Service {
 
     private Context mContext;
-    private int NOTIFICATION_ID = 145611124;
+    private static final int NOTIFICATION_ID = 145611124;
     private Notification mNotification;
     private NotificationManager mNotificationManager;
     private PendingIntent mContentIntent;
@@ -33,7 +33,12 @@ public class DownloadNotificationHelper extends Service {
 
     private boolean error;
 
+    public DownloadNotificationHelper(){
+        super();
+    }
+
     public DownloadNotificationHelper(Context context, int resourceTitle, int resourceSubTitle) {
+        super();
         mContext = context;
         this.resourceTitle = resourceTitle;
         this.resourceSubTitle = resourceSubTitle;
@@ -45,6 +50,8 @@ public class DownloadNotificationHelper extends Service {
      * Put the notification into the status bar
      */
     public void createNotification() {
+        Notifications.createDailyNotificationChannel(mContext);
+
         //get the notification manager
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -68,7 +75,7 @@ public class DownloadNotificationHelper extends Service {
         PendingIntent pendingIntent =
                 PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, Notifications.NOTIFICATION_CHANNEL_ID);
         mNotification = builder.setContentIntent(mContentIntent)
                 .setSmallIcon(icon).setTicker(tickerText).setWhen(when)
                 .setAutoCancel(true).setContentTitle(mContentTitle)

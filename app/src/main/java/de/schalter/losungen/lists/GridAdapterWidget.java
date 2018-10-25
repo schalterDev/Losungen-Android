@@ -132,8 +132,8 @@ public class GridAdapterWidget extends RecyclerView.Adapter<GridAdapterWidget.Vi
         public ViewHolder(View itemView) {
             super(itemView);
 
-            text = (TextView) itemView.findViewById(R.id.textView_main);
-            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.relLayout_widget);
+            text = itemView.findViewById(R.id.textView_main);
+            relativeLayout = itemView.findViewById(R.id.relLayout_widget);
         }
     }
 }

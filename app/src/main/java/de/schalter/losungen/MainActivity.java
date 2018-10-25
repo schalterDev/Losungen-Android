@@ -31,9 +31,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -42,7 +39,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,9 +46,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import de.schalter.losungen.changelog.Changelog;
 import de.schalter.losungen.dialogs.ImportLosungenDialog;
-import de.schalter.losungen.dialogs.PetitionDialog;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.files.XmlNotesImport;
 import de.schalter.losungen.files.XmlWriter;
@@ -65,6 +59,7 @@ import de.schalter.losungen.intro.MyIntro;
 import de.schalter.losungen.log.CustomLog;
 import de.schalter.losungen.services.WidgetBroadcast;
 import de.schalter.losungen.settings.Tags;
+import de.schalter.losungen.versionUpdates.NewVersion;
 import schalter.dev.customizelibrary.Colors;
 import schalter.dev.customizelibrary.CustomToolbar;
 
@@ -86,51 +81,13 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
     private boolean firstStartResume = false;
     private PrimaryDrawerItem itemLosung;
 
-    private Tracker mTracker;
-
     private static MainActivity activity;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     public static MainActivity getInstance() {
         return activity;
     }
 
-    private void analytics() {
-        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) getApplication();
-            mTracker = application.getDefaultTracker();
-
-            mTracker.setScreenName("MainActivity");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
-    private void analytics(boolean fav) {
-        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            if (fav)
-                mTracker.setScreenName("Fragment-Fav");
-            else
-                mTracker.setScreenName("Fragment-Suchen");
-
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
-    private void analytics(String category, String action) {
-        if (settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            mTracker.send(new HitBuilders.EventBuilder()
-                    .setCategory(category)
-                    .setAction(action)
-                    .build());
-        }
-    }
-
-    private void langauge() {
+    private void loadLanguage() {
         String lang = settings.getString(Tags.PREF_LANGUAGE, "---");
         if (!lang.equals("---") && !lang.equals("0")) {
             Locale locale = new Locale(lang);
@@ -140,55 +97,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
             getBaseContext().getResources().updateConfiguration(config,
                     getBaseContext().getResources().getDisplayMetrics());
         }
-    }
-
-    private void updateOldWrongWeeklyWords() {
-        if(Changelog.getOldVersion(this, Tags.PREF_VERSIONCODE) < 27) {
-            //update wekkly words
-            ImportLosungenDialog.reimportWeekThisYear(this);
-        }
-    }
-
-    private void newVersion() {
-        updateOldWrongWeeklyWords();
-
-        final Changelog changelog = new Changelog(this);
-
-        //Wenn eine neue Version der APP installiert ist
-        if (changelog.isNewVersion(Tags.PREF_VERSIONCODE)) {
-            //Changelog
-            String[] changelogLanguages = Tags.CHANGELOG_LANGUAGES;
-            String language = Tags.getLanguage(this);
-            //I GUI-Language is not supported for changelog use english
-            if (!Arrays.asList(changelogLanguages).contains(language)) {
-                language = "en";
-            }
-
-            final String finalLanguage = language;
-            //Die Daten im Hintergrund parsen
-            Thread changelogThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        changelog.prepair(finalLanguage);
-
-                        Handler mHandler = new Handler(Looper.getMainLooper());
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                //und dann Dialog anzeigen
-                                changelog.getDialog().show();
-                            }
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            changelogThread.start();
-        }
-
     }
 
     private void deleteOldAudios() {
@@ -212,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                                 File file = new File(path);
                                 boolean deleted = file.delete();
                                 if (!deleted) {
-                                    Log.e("Losungen", "Failed to delte Audio file: " + allAudios.get(i));
+                                    Log.e("Losungen", "Failed to delete Audio file: " + allAudios.get(i));
                                 } else {
                                     dbHandler.setAudioNull(allAudios.get(i));
                                 }
@@ -236,24 +144,16 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         CustomLog.setPreference(this, Tags.PREF_DEBUG_LOG, false);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
-        langauge();
-        newVersion();
+        loadLanguage();
+        NewVersion.checkForNewVersion(this);
         deleteOldAudios();
 
         setContentView(R.layout.activity_main);
 
-        analytics();
-
-        /*TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(attrColor, typedValue, true);
-        int colorFont = typedValue.data;*/
-
-        toolbar = (CustomToolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.losungen));
-        toolbar.setItemColor(Colors.getColor(this, Colors.TOOLBARICON));
 
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
         ads();
 
         setSupportActionBar(toolbar);
@@ -268,21 +168,10 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         MainActivity.activity = this;
-
-        //petitionDialog();
-    }
-
-    private void petitionDialog() {
-        if(!settings.getBoolean(PetitionDialog.PREFERENCE_CHECKBOX, false)) {
-            PetitionDialog dialog = new PetitionDialog(this, R.string.petition, R.string.dont_show_again,
-                    R.string.petition_message, R.string.petition);
-
-            dialog.show();
-        }
     }
 
     private void ads() {
-        adview = (AdView) findViewById(R.id.adView);
+        adview = findViewById(R.id.adView);
 
         if (settings.getBoolean(Tags.PREF_ADS, false)) {
             AdRequest adRequest = new AdRequest.Builder()
@@ -291,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                     .build();
             adview.loadAd(adRequest);
         } else {
-            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout_main);
+            LinearLayout linearLayout = findViewById(R.id.linear_layout_main);
             linearLayout.removeView(adview);
         }
     }
@@ -497,10 +386,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                 .withIconTintingEnabled(true)
                 .withIcon(R.drawable.ic_settings_white_24dp)
                 .withSelectable(false);
-        final PrimaryDrawerItem itemPetition = new PrimaryDrawerItem().withName(R.string.petition)
-                .withIconTintingEnabled(true)
-                .withIcon(R.drawable.ic_action_petition)
-                .withSelectable(false);
         final PrimaryDrawerItem itemBewerten = new PrimaryDrawerItem().withName(R.string.rate)
                 .withIconTintingEnabled(true)
                 .withIcon(R.drawable.ic_action_star)
@@ -511,6 +396,9 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                 .withSelectable(false);
         final PrimaryDrawerItem itemInfo = new PrimaryDrawerItem().withName(R.string.info)
                 .withIcon(R.drawable.ic_info_black_24dp)
+                .withIconTintingEnabled(true);
+        final PrimaryDrawerItem privacyItem = new PrimaryDrawerItem().withName(R.string.privacy_policy)
+                .withIcon(R.drawable.ic_info_black_24dp) // TODO change icon
                 .withIconTintingEnabled(true);
 
         //create the drawer and remember the `Drawer` result object
@@ -524,10 +412,10 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                         itemWidget,
                         itemEinstellungen,
                         new DividerDrawerItem(),
-                        //itemPetition,
                         itemBewerten,
                         itemFeedeback,
-                        itemInfo
+                        itemInfo,
+                        privacyItem
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -572,8 +460,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                                     .replace(R.id.fragment_content, FragmentLosungenListe.newInstance(MainActivity.this, true))
                                     .commit();
 
-                            analytics(true);
-
                         } else if (drawerItem.equals(itemWidget)) {
                             toolbar.setTitle(R.string.widget);
 
@@ -595,20 +481,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
 
                             startActivity(new Intent(view.getContext(), SettingsActivity.class));
 
-                        } else if (drawerItem.equals(itemPetition)) {
-
-                            analytics("Feedback", "Petition");
-
-                            Uri uri = Uri.parse("https://www.openpetition.de/petition/online/losungen-der-herrnhuter-bruedergemeine-apps-fuer-mobile-endgeraete");
-                            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                            try {
-                                startActivity(goToMarket);
-                            } catch (ActivityNotFoundException ignored) {
-                            }
-
                         } else if (drawerItem.equals(itemBewerten)) {
-
-                            analytics("Feedback", "Bewerten");
 
                             Uri uri = Uri.parse("market://details?id=" + MainActivity.this.getPackageName());
                             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
@@ -619,8 +492,6 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                             }
 
                         } else if (drawerItem.equals(itemFeedeback)) {
-
-                            analytics("Feedback", "Mail");
 
                             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                                     "mailto", "schalter.dev@gmail.com", null));
@@ -640,21 +511,17 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
                                     .beginTransaction()
                                     .replace(R.id.fragment_content, FragmentInfo.newInstance())
                                     .commit();
+                        } else if (drawerItem.equals(privacyItem)) {
+                            // open privacy website
+                            String url =  getResources().getString(R.string.privacy_url);
+                            Uri uri = Uri.parse(url);
+                            startActivity(new Intent(Intent.ACTION_VIEW, uri));
                         }
 
                         return false;
                     }
                 })
                 .build();
-
-        // --- SET COLORS ---
-        /*
-        navigationDrawer.setStatusBarColor(Colors.getColor(this, Colors.PRIMARY));
-        navigationDrawer.getRecyclerView().setBackgroundColor(Colors.getColor(this, Colors.BACKGROUND));
-        int childCount = navigationDrawer.getRecyclerView().getChildCount();
-        for(int i = 0; i < childCount; i++) {
-            navigationDrawer.getRecyclerView().getChildAt(i).
-        }*/
 
         if (!firstStart)
             navigationDrawer.setSelection(itemLosung, true);

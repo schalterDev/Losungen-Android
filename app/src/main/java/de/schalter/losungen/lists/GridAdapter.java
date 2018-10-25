@@ -164,15 +164,15 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
-            losungstext = (TextView) itemView.findViewById(R.id.textView_losungText);
-            losungsvers = (TextView) itemView.findViewById(R.id.textView_losungVers);
-            lehrtext = (TextView) itemView.findViewById(R.id.textView_lehrtext);
-            lehrtextVers = (TextView) itemView.findViewById(R.id.textView_lehrtextVers);
-            titleLehrtext = (TextView) itemView.findViewById(R.id.textView_lehrtextTitle);
-            titleLosung = (TextView) itemView.findViewById(R.id.textView_losungTitle);
-            notizen = (EditText) itemView.findViewById(R.id.editText_notizen_losung_lehrtext);
-            cardView = (CardView) itemView.findViewById(R.id.card_view_losung_lehrtext);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView_mark);
+            losungstext = itemView.findViewById(R.id.textView_losungText);
+            losungsvers = itemView.findViewById(R.id.textView_losungVers);
+            lehrtext = itemView.findViewById(R.id.textView_lehrtext);
+            lehrtextVers = itemView.findViewById(R.id.textView_lehrtextVers);
+            titleLehrtext = itemView.findViewById(R.id.textView_lehrtextTitle);
+            titleLosung = itemView.findViewById(R.id.textView_losungTitle);
+            notizen = itemView.findViewById(R.id.editText_notizen_losung_lehrtext);
+            cardView = itemView.findViewById(R.id.card_view_losung_lehrtext);
+            imageView = itemView.findViewById(R.id.imageView_mark);
 
             cardView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -237,7 +237,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                     }
                 });
             } else {
-                relativeLayout = (RelativeLayout) itemView.findViewById(R.id.relative_layout_losung_card);
+                relativeLayout = itemView.findViewById(R.id.relative_layout_losung_card);
                 relativeLayout.removeView(notizen);
             }
 

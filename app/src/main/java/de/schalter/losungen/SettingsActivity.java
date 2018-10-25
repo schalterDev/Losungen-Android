@@ -14,7 +14,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -23,9 +22,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +35,7 @@ import de.schalter.losungen.files.Files;
 import de.schalter.losungen.services.Notifications;
 import de.schalter.losungen.settings.Tags;
 import schalter.dev.customizelibrary.Colors;
+import schalter.dev.customizelibrary.CustomToolbar;
 import schalter.dev.customizelibrary.DesignPref;
 
 /**
@@ -62,42 +59,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
     private SharedPreferences prefs;
 
-    private Tracker mTracker;
-
-    private void analytics() {
-        if(prefs.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) getApplication();
-            mTracker = application.getDefaultTracker();
-
-            mTracker.setScreenName("SettingsActivity");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
-    private void analytics(String category, String action) {
-        if(prefs.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            if (mTracker == null) {
-                AnalyticsApplication application = (AnalyticsApplication) getApplication();
-                mTracker = application.getDefaultTracker();
-            }
-
-            mTracker.send(new HitBuilders.EventBuilder()
-                    .setCategory(category)
-                    .setAction(action)
-                    .build());
-
-        }
-    }
-
     private void setLocale(String lang) {
-        /*Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);*/
-
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
@@ -115,8 +77,9 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         super.onCreate(savedInstanceState);
 
         this.setTheme(Colors.getTheme(this));
+        Colors.setStatusBarColor(this, Colors.PRIMARY_DARK);
 
-        getWindow().getDecorView().setBackgroundColor(Colors.getColor(this, Colors.BACKGROUNDWINDOWS));
+        getWindow().getDecorView().setBackgroundColor(Colors.getColor(this, Colors.WINDOWS_BACKGROUND));
     }
 
     @Override
@@ -136,22 +99,21 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         super.onPostCreate(savedInstanceState);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        analytics();
 
 
-        Toolbar bar;
+        CustomToolbar toolbar;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
-            bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            root.addView(bar, 0); // insert at top
+            toolbar = (CustomToolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+            root.addView(toolbar, 0); // insert at top
         } else {
-            ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+            ViewGroup root = findViewById(android.R.id.content);
             ListView content = (ListView) root.getChildAt(0);
 
             root.removeAllViews();
 
-            bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+            toolbar = (CustomToolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
 
 
             int height;
@@ -159,16 +121,16 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
                 height = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
             }else{
-                height = bar.getHeight();
+                height = toolbar.getHeight();
             }
 
             content.setPadding(0, height, 0, 0);
 
             root.addView(content);
-            root.addView(bar);
+            root.addView(toolbar);
         }
 
-        bar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -295,12 +257,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 Notifications.setNotifications(this, time * 60 * 1000);
             } else
                 Notifications.removeNotifications(this);
-        }
-
-        if(key.equals(Tags.PREF_NOTIFICATION) || key.equals(Tags.PREF_ADS)
-                || key.equals(Tags.PREF_GOOGLEANALYTICS) || key.equals(Tags.PREF_SHOWNOTES)) {
-
-            analytics("Settings", "Settings: " + key + ", " + sharedPreferences.getBoolean(key, true));
         }
 
         //Language change

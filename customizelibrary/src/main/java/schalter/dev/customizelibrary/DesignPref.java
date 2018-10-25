@@ -51,7 +51,7 @@ public class DesignPref extends DialogPreference {
         LayoutInflater li = (LayoutInflater)getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         View view = li.inflate(R.layout.design_pref, null, false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_desing_pref);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_desing_pref);
         recyclerView.setHasFixedSize(false);
 
         //Number of columns, Tablet has 6 - phone 3
@@ -74,7 +74,7 @@ public class DesignPref extends DialogPreference {
 
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new GridAdapter(colors, getContext(), selectedDefault);
+        adapter = new GridAdapter(colors, selectedDefault);
         recyclerView.setAdapter(adapter);
 
         return (view);

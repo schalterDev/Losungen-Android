@@ -13,10 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
-import de.schalter.losungen.AnalyticsApplication;
 import de.schalter.losungen.R;
 import de.schalter.losungen.services.Notifications;
 import de.schalter.losungen.settings.Tags;
@@ -42,23 +38,6 @@ public class FragmentIntroSwitch extends Fragment {
     private ImageView imageView;
     private LinearLayout linearLayout;
 
-    private Tracker mTracker;
-
-    private void analytics(String category, String action) {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            if (mTracker == null) {
-                AnalyticsApplication application = (AnalyticsApplication) getActivity().getApplication();
-                mTracker = application.getDefaultTracker();
-            }
-
-            mTracker.send(new HitBuilders.EventBuilder()
-                    .setCategory(category)
-                    .setAction(action)
-                    .build());
-
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_slide_notifi, container, false);
@@ -75,10 +54,10 @@ public class FragmentIntroSwitch extends Fragment {
     private void init(View v) throws NullPointerException{
         settings = PreferenceManager.getDefaultSharedPreferences(v.getContext());
 
-        txt_title = (TextView) v.findViewById(R.id.textView_intro_title);
-        txt_subtitle = (TextView) v.findViewById(R.id.textView_intro_subtitle);
-        switch_pref = (Switch) v.findViewById(R.id.switch_intro);
-        imageView = (ImageView) v.findViewById(R.id.imageView_intro);
+        txt_title = v.findViewById(R.id.textView_intro_title);
+        txt_subtitle = v.findViewById(R.id.textView_intro_subtitle);
+        switch_pref = v.findViewById(R.id.switch_intro);
+        imageView = v.findViewById(R.id.imageView_intro);
 
         txt_title.setText(title);
         txt_subtitle.setText(subtitle);
@@ -102,13 +81,11 @@ public class FragmentIntroSwitch extends Fragment {
                         else
                             Notifications.removeNotifications(FragmentIntroSwitch.this.getContext());
                     }
-
-                    analytics("Settings", "Intro: " + prefTag + ", " + isChecked);
                 }
             }
         });
 
-        linearLayout = (LinearLayout) v.findViewById(R.id.linear_layout_intro);
+        linearLayout = v.findViewById(R.id.linear_layout_intro);
         linearLayout.setBackgroundColor(color);
 
         if(prefTag.equals(Tags.PREF_NOTIFICATION)) {

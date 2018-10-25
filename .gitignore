@@ -83,3 +83,5 @@ gradle/wrapper/gradle-wrapper\.properties
 projectFilesBackup/\.idea/workspace\.xml
 
 *.xml~
+
+\.idea/

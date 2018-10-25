@@ -10,13 +10,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import de.schalter.losungen.AnalyticsApplication;
 import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
@@ -43,26 +39,6 @@ public class SearchDialog {
 
     private SharedPreferences settings;
 
-    /**
-     * Sends a Action to Google Analytics
-     * @param fav will this open the fovorite fragment (or search fragment)
-     *            in this case only false
-     */
-    private void analytics(boolean fav) {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) activity.getApplication();
-            Tracker mTracker = application.getDefaultTracker();
-
-            if(fav)
-                mTracker.setScreenName("Fragment-Fav");
-            else
-                mTracker.setScreenName("Fragment-Suchen");
-
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
     public SearchDialog(MainActivity activity) {
         this.activity = activity;
         settings = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -70,14 +46,14 @@ public class SearchDialog {
         LayoutInflater inflater = LayoutInflater.from(activity);
         final View view = inflater.inflate(R.layout.dialog_search, null);
 
-        editText = (EditText) view.findViewById(R.id.editText);
-        check_losung = (CheckBox) view.findViewById(R.id.checkBox_losung);
-        check_losungVers = (CheckBox) view.findViewById(R.id.checkBox_losungsverse);
-        check_lehrtext = (CheckBox) view.findViewById(R.id.checkBox_lehretext);
-        check_lehrtextVers = (CheckBox) view.findViewById(R.id.checkBox_lehrtextvers);
-        check_notizen = (CheckBox) view.findViewById(R.id.checkBox_notizen);
-        check_markierte = (CheckBox) view.findViewById(R.id.checkBox_markiert);
-        linearLayout_years = (LinearLayout) view.findViewById(R.id.linear_layout_years);
+        editText = view.findViewById(R.id.editText);
+        check_losung = view.findViewById(R.id.checkBox_losung);
+        check_losungVers = view.findViewById(R.id.checkBox_losungsverse);
+        check_lehrtext = view.findViewById(R.id.checkBox_lehretext);
+        check_lehrtextVers = view.findViewById(R.id.checkBox_lehrtextvers);
+        check_notizen = view.findViewById(R.id.checkBox_notizen);
+        check_markierte = view.findViewById(R.id.checkBox_markiert);
+        linearLayout_years = view.findViewById(R.id.linear_layout_years);
 
         // ---- YEARS ----
         //allYears will not be modified, it contains all imported years
@@ -174,9 +150,6 @@ public class SearchDialog {
 
         DBHandler dbHandler = DBHandler.newInstance(activity);
         List<Losung> losungenList = dbHandler.suchen(text, losungen, lehrtexte, losungsVerse, lehrtextVerse, notizen, nurMarkierte, years);
-
-        //Send action to google analytics
-        analytics(false);
 
         activity.showSearchFragment(FragmentLosungenListe.newInstance(losungenList));
     }

@@ -18,9 +18,6 @@ import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.util.Calendar;
 
 import de.schalter.losungen.dialogs.ColorDialog;
@@ -58,24 +55,12 @@ public class AppWidgetActivity extends Activity {
     private int font_color = default_font_color;
     private int background_color = default_background;
 
-    private void analytics() {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) getApplication();
-            Tracker mTracker = application.getDefaultTracker();
-
-            mTracker.setScreenName("AppWidgetActivity");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setResult(RESULT_CANCELED);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
-        analytics();
 
         setContentView(R.layout.appwidget_activity);
 
@@ -110,7 +95,7 @@ public class AppWidgetActivity extends Activity {
         schriftgroesse();
         colors();
 
-        Button fertig = (Button) findViewById(R.id.button_fertig);
+        Button fertig = findViewById(R.id.button_fertig);
         fertig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,10 +105,10 @@ public class AppWidgetActivity extends Activity {
     }
 
     private void init() {
-        textViewWidget = (TextView) findViewById(R.id.textView_widget_preview);
-        textViewFontSize = (TextView) findViewById(R.id.textView_textSize);
+        textViewWidget = findViewById(R.id.textView_widget_preview);
+        textViewFontSize = findViewById(R.id.textView_textSize);
 
-        relWidget = (RelativeLayout) findViewById(R.id.relative_layout_widget_activity);
+        relWidget = findViewById(R.id.relative_layout_widget_activity);
 
         dbHandler = DBHandler.newInstance(this);
         calendar = Calendar.getInstance();
@@ -131,8 +116,8 @@ public class AppWidgetActivity extends Activity {
     }
 
     private void colors() {
-        Button btn_font = (Button) findViewById(R.id.button_fontColor);
-        Button btn_background = (Button) findViewById(R.id.button_background);
+        Button btn_font = findViewById(R.id.button_fontColor);
+        Button btn_background = findViewById(R.id.button_background);
 
         btn_font.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +187,7 @@ public class AppWidgetActivity extends Activity {
     }
 
     private void schriftgroesse() {
-        SeekBar fontSizeSeek = (SeekBar) findViewById(R.id.seekBar_fontSize);
+        SeekBar fontSizeSeek = findViewById(R.id.seekBar_fontSize);
         textViewWidget.setTextSize(schriftgroesse);
 
         fontSizeSeek.setMax(40);
@@ -231,7 +216,7 @@ public class AppWidgetActivity extends Activity {
     }
 
     private void radioButtons() {
-        final RadioGroup content = (RadioGroup) findViewById(R.id.radiogroup_content);
+        final RadioGroup content = findViewById(R.id.radiogroup_content);
         content.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

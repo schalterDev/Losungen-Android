@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorPrimary"
+    android:background="?colorPrimary"
     app:popupTheme="@style/AppTheme.Menu"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     tools:context=".MainActivity" />

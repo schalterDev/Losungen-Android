@@ -1,6 +1,7 @@
 package de.schalter.losungen.services;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -29,10 +31,27 @@ import de.schalter.losungen.settings.Tags;
  */
 public class Notifications extends Service {
 
+    public static final String NOTIFICATION_CHANNEL_ID = "Losungen";
+    private static final String NOTIFICATION_CHANNEL_NAME = "Losungen";
+    private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "Daily notifications";
     private static final int NOTIFICATION_ID = 241504;
 
     public Notifications() {
         super();
+    }
+
+    public static void createDailyNotificationChannel(Context context) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+            channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     public static void setNotifications(Context context, long time) {
@@ -78,6 +97,8 @@ public class Notifications extends Service {
     }
 
     private void showNotification(Context context, String titel, String msg, long datum) {
+        Notifications.createDailyNotificationChannel(context);
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         editor.putLong(Tags.TAG_LASTNOTIFICATION, System.currentTimeMillis());
@@ -90,7 +111,7 @@ public class Notifications extends Service {
                 new Intent(this, MainActivity.class), 0);
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setSmallIcon(R.drawable.ic_notification)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))

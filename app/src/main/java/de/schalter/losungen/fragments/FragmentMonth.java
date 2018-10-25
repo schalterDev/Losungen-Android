@@ -14,12 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.Calendar;
 
-import de.schalter.losungen.AnalyticsApplication;
 import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
@@ -46,18 +43,6 @@ public class FragmentMonth extends Fragment {
         return fragment;
     }
 
-    //Send screen to google Analytics
-    private void analytics() {
-        if(settings.getBoolean(Tags.PREF_GOOGLEANALYTICS, true)) {
-            // Obtain the shared Tracker instance.
-            AnalyticsApplication application = (AnalyticsApplication) getActivity().getApplication();
-            Tracker mTracker = application.getDefaultTracker();
-
-            mTracker.setScreenName("Fragment-Losungen-Month");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -74,8 +59,6 @@ public class FragmentMonth extends Fragment {
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         checkIfImported();
-
-        analytics();
     }
 
     private void checkIfImported() {
@@ -137,18 +120,18 @@ public class FragmentMonth extends Fragment {
     private void initialise(View view) {
         Calendar calendar = Calendar.getInstance();
 
-        pager = (ViewPager) view.findViewById(R.id.pager_month);
+        pager = view.findViewById(R.id.pager_month);
         pagerAdapter = new PagerAdapterMonth(getChildFragmentManager(),activity);
         pagerAdapter.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs_month);
+        PagerSlidingTabStrip tabs = view.findViewById(R.id.tabs_month);
 
         pager.setPadding(5, 5, 5, 0);
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(PagerAdapter.ITEMSBEFOR, true);
         tabs.setViewPager(pager);
 
-        tabs.setTextColor(Colors.getColor(getContext(), Colors.TOOLBARICON));
-        tabs.setIndicatorColor(Colors.getColor(getContext(), Colors.INDICATOR));
+        tabs.setTextColor(Colors.getColor(getContext(), Colors.ICONS_TOOLBAR));
+        tabs.setIndicatorColor(Colors.getColor(getContext(), Colors.ACCENT));
         tabs.setDividerColor(Colors.getColor(getContext(), Colors.PRIMARY));
         tabs.setIndicatorHeight(6);
 

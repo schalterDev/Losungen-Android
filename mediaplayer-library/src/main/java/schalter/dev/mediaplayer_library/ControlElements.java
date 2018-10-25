@@ -7,19 +7,19 @@ public interface ControlElements {
 
     //is called when a new song is loaded
     //duration is the length in milli seconds
-    public void init(AudioService audioService, int duration);
+    void init(AudioService audioService, int duration);
 
-    public void songSet(String title, String subtitle);
+    void songSet(String title, String subtitle);
 
     //when the media player is paused
-    public void pause();
+    void pause();
 
     //When the media player is resumed / started the first time
-    public void play();
+    void play();
 
     //When the media player is closed
-    public void cancel();
+    void cancel();
 
     //When music is seeked to a position
-    public void seekedTo(int position);
+    void seekedTo(int position);
 }

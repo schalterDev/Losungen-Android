@@ -12,11 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.Calendar;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;

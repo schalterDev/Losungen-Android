@@ -1,4 +1,7 @@
-﻿﻿<XML>
+﻿<XML>
+    <appversion version="37" versionNice="1.2.5.4">
+        <change important="false">Added privacy policy (only in german)</change>
+    </appversion>
     <appversion version="34" versionNice="1.2.5.1">
         <change important="true">Fixed crash when scrolling to the right</change>
         <change important="true">When scrolling to left the text was out of sync with the date. This is fixed now</change>

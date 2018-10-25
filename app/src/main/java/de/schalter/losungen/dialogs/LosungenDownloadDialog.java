@@ -49,10 +49,10 @@ public class LosungenDownloadDialog {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
 
-        TextView titleTextView = (TextView) dialogView.findViewById(R.id.losungen_download_subtitle);
+        TextView titleTextView = dialogView.findViewById(R.id.losungen_download_subtitle);
         titleTextView.setText(R.string.copyright_losungen);
 
-        final EditText urlEditText = (EditText) dialogView.findViewById(R.id.edit_text_url_download);
+        final EditText urlEditText = dialogView.findViewById(R.id.edit_text_url_download);
         urlEditText.setText(Tags.getUrlLosung(year));
 
         // set downlaod_losung_dialog.xml to alertdialog builder
