@@ -1,6 +1,7 @@
 <XML>
     <appversion version="37" versionNice="1.2.5.4">
         <change important="false">Datenschutzerklärung hinzugefügt</change>
+        <change important="true">Benachrichtigungen funktionieren auf Android 7 und höher wieder</change>
     </appversion>
     <appversion version="35" versionNice="1.2.5.2">
         <change important="true">Fehler beim Download von den Andachten behoben</change>

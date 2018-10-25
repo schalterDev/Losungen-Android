@@ -1,6 +1,7 @@
 ﻿<XML>
     <appversion version="37" versionNice="1.2.5.4">
         <change important="false">Added privacy policy (only in german)</change>
+        <change important="true">Notifications are working again for android 7 and higher</change>
     </appversion>
     <appversion version="34" versionNice="1.2.5.1">
         <change important="true">Fixed crash when scrolling to the right</change>
