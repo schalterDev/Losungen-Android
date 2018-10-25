@@ -12,6 +12,9 @@
         android:theme="@style/BaseTheme" >
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true"/>
 
         <activity android:name=".MainActivity"
             android:configChanges="orientation|screenSize">
@@ -74,6 +77,10 @@
         <service
             android:name=".services.Notifications"
             android:enabled="true" />
+        <service
+            android:name=".services.DownloadNotificationHelper"
+            android:enabled="true"
+            />
         <service
             android:name="schalter.dev.mediaplayer_library.AudioService"
             android:enabled="true" />
