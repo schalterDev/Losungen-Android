@@ -3,12 +3,16 @@ package de.schalter.losungen.dialogs;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.List;
 
 import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
@@ -71,6 +75,7 @@ public class ShareSermon {
                             if(!file.exists()) {
                                 downloadMp3();
                             } else {
+                                Log.d("Losungen", "share mp3, path: " + pathAudioLosung);
                                 shareMp3(pathAudioLosung);
                             }
                         } else {
@@ -87,11 +92,19 @@ public class ShareSermon {
     }
 
     private void shareMp3(String path) {
+        Uri shareUri = FileProvider.getUriForFile(context, "de.schalter.losungen", new File(path));
+
+        Intent intentAudios = new Intent();
+        intentAudios.setAction(Intent.ACTION_SEND);
+        List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(intentAudios, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            context.grantUriPermission(packageName, shareUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("audio/*");
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///" + path));
-
-        Log.d("Losungen", "URL: " + Uri.parse("file:///" + path));
+        share.putExtra(Intent.EXTRA_STREAM, shareUri);
 
         context.startActivity(Intent.createChooser(share, context.getResources().getString(R.string.share_mp3File)));
     }

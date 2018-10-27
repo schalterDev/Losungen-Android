@@ -80,6 +80,7 @@ public class DownloadNotificationHelper extends Service {
                 .setSmallIcon(icon).setTicker(tickerText).setWhen(when)
                 .setAutoCancel(true).setContentTitle(mContentTitle)
                 .setContentText(contentText)
+                .setChannelId(Notifications.NOTIFICATION_CHANNEL_ID)
                 /*.addAction(R.drawable.ic_action_cancel,
                         mContext.getResources().getString(R.string.cancel),
                         pendingIntent)*/
