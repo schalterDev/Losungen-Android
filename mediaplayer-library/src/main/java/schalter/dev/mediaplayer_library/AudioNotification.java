@@ -1,9 +1,11 @@
 package schalter.dev.mediaplayer_library;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 /**
@@ -11,6 +13,9 @@ import android.widget.RemoteViews;
  */
 public class AudioNotification {
 
+    private static final String NOTIFICATION_CHANNEL_ID = "audio-play";
+    private static final String NOTIFICATION_CHANNEL_NAME = "Playing audio";
+    private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "playing audio for sermon";
     private static int NOTIFICATION_ID = 8645156;
 
     private NotificationCompat.Builder mBuilder;
@@ -38,12 +43,27 @@ public class AudioNotification {
         init();
     }
 
+    public static void createNotificationChannel(Context context) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+            channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     private void init() {
+        createNotificationChannel(context);
         playing = true;
 
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mBuilder = new NotificationCompat.Builder(context);
+        mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         mBuilder.setSmallIcon(R.drawable.ic_notification_play);
         mBuilder.setAutoCancel(false);
 
@@ -68,6 +88,7 @@ public class AudioNotification {
     }
 
     public Notification getNotification() {
+
         //Set colors
         //mContentView.setInt(R.id.audio_notification_layout, "setBackgroundResource", colorPrimary);
         //mContentView.setInt(R.id.imageView2, "setBackgroundResource", colorPrimaryDark);
