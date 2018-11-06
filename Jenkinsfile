@@ -31,7 +31,7 @@ pipeline {
       }
       steps {
         sh './gradlew assembleRelease'
-        signAndroidApks(archiveSignedApks: true, keyAlias: 'android-losungen', keyStoreId: 'losungen-cert', apksToSign: '**/*-unsigned.apk')
+        signAndroidApks(archiveSignedApks: true, keyAlias: 'losungen-final', keyStoreId: 'losungen-cert', apksToSign: '**/*-unsigned.apk')
       }
     }
   }
