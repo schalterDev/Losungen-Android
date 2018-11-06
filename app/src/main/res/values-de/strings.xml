@@ -125,7 +125,7 @@
     <string name="pref_language_summary">Das wird nur die Texte von Buttons und Textfeldern verändern. Die Losungen werden nicht geändert</string>
     <string name="need_restart">Ein Neustart der APP ist erforderlich</string>
     <string name="change_language">Import / Sprache ändern</string>
-    <string name="content_text">% fertig</string>
+    <string name="content_text">%d fertig</string>
     <string name="content_title">Lädt Andacht herunter</string>
     <string name="download_ticker">Lädt Andacht herunter</string>
     <string name="audio_download">Kurze Andacht abspielen (vom Internet)</string>

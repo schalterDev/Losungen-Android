@@ -126,7 +126,7 @@
     <string name="pref_language_summary">Alleen de tekst en buttons worden veranderd. De Daily Word word niet veranderd.</string>
     <string name="need_restart">App opnieuw starten nodig</string>
     <string name="change_language">Taal van het dagelijks woord wijzigen</string>
-    <string name="content_text">% Klaar</string>
+    <string name="content_text">%d Klaar</string>
     <string name="content_title">aanbidding laden</string>
     <string name="download_ticker">aanbidding downloaden</string>
     <string name="audio_download">Korte aanbidding afluisteren (over het internet)</string>

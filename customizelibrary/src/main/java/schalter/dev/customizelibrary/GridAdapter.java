@@ -37,9 +37,9 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final GridAdapter.ViewHolder holder, final int position) {
-        final int color = items.get(position);
+        final int color = items.get(holder.getAdapterPosition());
 
-        if(checkedItem == position)
+        if(checkedItem == holder.getAdapterPosition())
             holder.colorImage.setImageResource(R.drawable.circle_checked);
         else
             holder.colorImage.setImageResource(R.drawable.circle);
@@ -49,7 +49,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         holder.colorImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkedItem = position;
+                checkedItem = holder.getAdapterPosition();
                 notifyDataSetChanged();
             }
         });

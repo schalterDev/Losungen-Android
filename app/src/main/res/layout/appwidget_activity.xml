@@ -87,7 +87,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -106,7 +107,8 @@
             android:layout_alignTop="@+id/button_fontColor"
             android:layout_toRightOf="@+id/button_fontColor"
             android:layout_toEndOf="@+id/textView_settings_text"
-            android:layout_marginStart="5dp" />
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
