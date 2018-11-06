@@ -1,0 +1,5 @@
+<lint>
+    <issue id="InvalidPackage">
+        <ignore path="**/android-rome-feed-reader*.jar"/>
+    </issue>
+</lint>
