@@ -32,7 +32,7 @@ pipeline {
       steps {
         sh './gradlew assembleRelease'
         signAndroidApks(archiveSignedApks: true, keyAlias: 'losungen_final', keyStoreId: 'losungen-cert', apksToSign: '**/*-unsigned.apk')
-        androidApkUpload(apkFilesPattern: '**/*-release.apk', googleCredentialsId: 'Google play', recentChangeList: [[language: 'de-DE', text: '${FILE, path="changes-de.txt"}'], [language: 'en-AU', text: '${FILE, path="changes-en.txt"}']], trackName: 'beta')
+        androidApkUpload(apkFilesPattern: '**/*-release.apk', googleCredentialsId: 'Google play', recentChangeList: [[language: 'de-DE', text: '${FILE, path="recent-changes/changes-de.txt"}'], [language: 'en-AU', text: '${FILE, path="recent-changes/changes-en.txt"}']], trackName: 'beta')
       }
     }
   }
