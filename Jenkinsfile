@@ -26,12 +26,13 @@ pipeline {
     stage('Deploy') {
 
       when {
-        // Only execute this stage when building from the `firebase-admob-master` branch
+        // Only execute this stage when building from the `master` branch
         branch 'master'
       }
       steps {
         sh './gradlew assembleRelease'
         signAndroidApks(archiveSignedApks: true, keyAlias: 'losungen_final', keyStoreId: 'losungen-cert', apksToSign: '**/*-unsigned.apk')
+        androidApkUpload(apkFilesPattern: '**/*-release.apk', googleCredentialsId: 'Google play', trackName: 'beta')
       }
     }
   }
