@@ -75,8 +75,8 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final GridAdapter.ViewHolder holder, final int position) {
-        final Losung losung = items.get(position);
+    public void onBindViewHolder(final GridAdapter.ViewHolder holder, int position) {
+        final Losung losung = items.get(holder.getAdapterPosition());
         String datum = Losung.getDatumLongFromTime(losung.getDate());
 
         if(losung.getTitleLosung().trim().equals("")) {
@@ -109,7 +109,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             public void onClick(View v) {
 
                 if(fav) {
-                    items.remove(position);
+                    items.remove(holder.getAdapterPosition());
                     dbHandler.removeMarkiert(losung.getDate());
                     GridAdapter.this.notifyDataSetChanged();
 

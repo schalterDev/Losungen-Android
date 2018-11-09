@@ -110,7 +110,7 @@
     <string name="need_restart">You need to restart this APP</string>
     <string name="download_ticker">Audio is downloading</string>
     <string name="content_title">Audio downloading</string>
-    <string name="content_text">% complete</string>
+    <string name="content_text">%d complete</string>
     <string name="audio_download">Download short audio</string>
     <string name="change_language">Import / Change Language</string>
     <string name="pref_audio_autodownload_title">Auto download</string>
