@@ -1,4 +1,7 @@
 ﻿<XML>
+    <appversion version="41" versionNice="1.2.5.6">
+        <change important="false">Added a log feature</change>
+    </appversion>
     <appversion version="37" versionNice="1.2.5.4">
         <change important="false">Added privacy policy (only in german)</change>
         <change important="true">Notifications are working again for android 7 and higher</change>
