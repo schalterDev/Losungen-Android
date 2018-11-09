@@ -214,5 +214,7 @@
     <string name="download_error_rss">Konnte keine Andacht für diesen Tag finden</string>
     <string name="privacy_policy">Datenschutzerklärung</string>
     <string name="accept">OK</string>
+    <string name="export_log">Exportiere Logs</string>
+    <string name="save_log">Speichere Logs auf dem Handy</string>
 
 </resources>

@@ -23,6 +23,7 @@ import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.files.DBHandler;
+import de.schalter.losungen.log.CustomLog;
 import de.schalter.losungen.network.Network;
 import de.schalter.losungen.settings.Tags;
 
@@ -55,15 +56,7 @@ public class Notifications extends Service {
     }
 
     public static void setNotifications(Context context, long time) {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        long lastNotification = settings.getLong(Tags.TAG_LASTNOTIFICATION, 0);
-
-        //Was this day allready a notification?
-        Calendar calendarNotification = Calendar.getInstance();
-        calendarNotification.setTimeInMillis(lastNotification);
-        boolean notificationToday = (calendarNotification.get(Calendar.DAY_OF_YEAR) ==
-                Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
-
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Set Notification with time: " + time));
 
         Intent intent = new Intent(context, Notifications.class);
 
@@ -76,8 +69,6 @@ public class Notifications extends Service {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-        //If their was a notification today add one day
-        if(notificationToday) calendar.add(Calendar.DAY_OF_YEAR, 1);
 
         alarmManager.cancel(pendingIntent);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);
@@ -93,7 +84,8 @@ public class Notifications extends Service {
 
         alarmManager.cancel(pendingIntent);
 
-        Log.i("Losungen", "Notifications canceled");
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Notifications canceled"));
+        Log.i("Losungen", "Notifications removed");
     }
 
     private void showNotification(Context context, String titel, String msg, long datum) {
@@ -129,6 +121,8 @@ public class Notifications extends Service {
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Show notification"));
     }
 
     private PendingIntent getPendingAction(Context context, String action, String losung, String title) {
@@ -161,6 +155,11 @@ public class Notifications extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        CustomLog.writeToLog(this, new CustomLog(
+                CustomLog.DEBUG,
+                CustomLog.TAG_NOTIFICATION,
+                "Started service with action: " + intent.getAction()
+        ));
 
         Context context = getApplicationContext();
 

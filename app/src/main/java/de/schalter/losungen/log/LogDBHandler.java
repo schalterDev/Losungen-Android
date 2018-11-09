@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,7 @@ class LogDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addLogEntry(long date, String tag, int level, String content) {
+    void addLogEntry(long date, String tag, int level, String content) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -63,10 +64,12 @@ class LogDBHandler extends SQLiteOpenHelper {
         cv.put(KEY_LEVEL, level);
         cv.put(KEY_CONTENT, content);
 
+        Log.d("Losungen", "insert into db-logger: " + date + ", " + tag + ", " + level + ", " + content);
+
         db.insert(TABLE_LOGGER, null, cv);
     }
 
-    public ArrayList<String[]> getAllLogs() {
+    ArrayList<CustomLog> getAllLogs() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String select = "SELECT " + KEY_DATE + "," + KEY_LEVEL + "," + KEY_TAG + "," + KEY_CONTENT + " from " +
@@ -74,14 +77,17 @@ class LogDBHandler extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery(select, null);
 
-        ArrayList<String[]> values = new ArrayList<>();
+        ArrayList<CustomLog> values = new ArrayList<>();
 
         while(c.moveToNext()) {
-            String[] array = {String.valueOf(c.getLong(0)), c.getString(1)};
+            CustomLog log = new CustomLog(
+                    c.getLong(0),
+                    c.getInt(1),
+                    c.getString(2),
+                    c.getString(3)
+            );
 
-            //Only add if it isnt empty
-            if(!(array[0].equals("") & array[1].equals("")))
-                values.add(array);
+            values.add(log);
         }
 
         c.close();
