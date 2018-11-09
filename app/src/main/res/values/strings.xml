@@ -197,4 +197,6 @@
     <string name="accept">OK</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="privacy_url" translatable="false">https://losungen.webdesign-schalter.de/privacy</string>
+    <string name="export_log">Export log</string>
+    <string name="save_log">Save log to your phone</string>
 </resources>

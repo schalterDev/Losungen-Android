@@ -7,4 +7,10 @@
         android:summary="@string/pref_debug_summary"
         android:defaultValue="false" />
 
+    <Preference
+        android:key="log_export"
+        android:title="@string/export_log"
+        android:summary="@string/save_log"
+        android:dependency="debug_log" />
+
 </PreferenceScreen>

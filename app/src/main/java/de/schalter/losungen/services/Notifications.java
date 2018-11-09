@@ -23,6 +23,7 @@ import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.files.DBHandler;
+import de.schalter.losungen.log.CustomLog;
 import de.schalter.losungen.network.Network;
 import de.schalter.losungen.settings.Tags;
 
@@ -55,6 +56,8 @@ public class Notifications extends Service {
     }
 
     public static void setNotifications(Context context, long time) {
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Set Notification with time: " + time));
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         long lastNotification = settings.getLong(Tags.TAG_LASTNOTIFICATION, 0);
 
@@ -64,6 +67,7 @@ public class Notifications extends Service {
         boolean notificationToday = (calendarNotification.get(Calendar.DAY_OF_YEAR) ==
                 Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
 
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Was this day already a notification?: " + notificationToday));
 
         Intent intent = new Intent(context, Notifications.class);
 
@@ -93,6 +97,7 @@ public class Notifications extends Service {
 
         alarmManager.cancel(pendingIntent);
 
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Notifications canceled"));
         Log.i("Losungen", "Notifications canceled");
     }
 
@@ -129,6 +134,8 @@ public class Notifications extends Service {
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Show notification"));
     }
 
     private PendingIntent getPendingAction(Context context, String action, String losung, String title) {

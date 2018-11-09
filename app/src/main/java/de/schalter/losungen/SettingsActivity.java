@@ -1,15 +1,20 @@
 package de.schalter.losungen;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -23,15 +28,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nononsenseapps.filepicker.FilePickerActivity;
+import com.nononsenseapps.filepicker.Utils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.files.Files;
+import de.schalter.losungen.log.CustomLog;
 import de.schalter.losungen.services.Notifications;
 import de.schalter.losungen.settings.Tags;
 import schalter.dev.customizelibrary.Colors;
@@ -81,6 +91,16 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
         getWindow().getDecorView().setBackgroundColor(Colors.getColor(this, Colors.WINDOWS_BACKGROUND));
     }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == MainActivity.LOG_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri = Uri.parse(data.getDataString().replace("external_files","storage"));
+            CustomLog.exportLogToFile(this, uri);
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -138,6 +158,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         });
 
         setupSimplePreferencesScreen();
+
+        Preference exportLogPreference = (Preference) findPreference(Tags.PREF_LOG_EXPORT);
+        exportLogPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                CustomLog.exportLog(SettingsActivity.this);
+                return true;
+            }
+        });
     }
 
     /**

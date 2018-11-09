@@ -58,6 +58,7 @@ public class Tags {
     public static final String PREF_SHOWNOTES = "show_notes";
 
     public static final String PREF_DEBUG_LOG = "debug_log";
+    public static final String PREF_LOG_EXPORT = "log_export";
 
     public static final int LOSUNG_NOTIFICATION = 0;
     public static final int LEHRTEXT_NOTIFICATION = 1;

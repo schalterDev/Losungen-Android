@@ -92,7 +92,7 @@ public class ShareSermon {
     }
 
     private void shareMp3(String path) {
-        Uri shareUri = FileProvider.getUriForFile(context, "de.schalter.losungen", new File(path));
+        Uri shareUri = FileProvider.getUriForFile(context, "de.schalter.losungen.provider", new File(path));
 
         Intent intentAudios = new Intent();
         intentAudios.setAction(Intent.ACTION_SEND);

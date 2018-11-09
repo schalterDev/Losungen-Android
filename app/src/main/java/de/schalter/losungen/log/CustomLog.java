@@ -43,6 +43,7 @@ public class CustomLog {
     public static boolean activated = true;
 
     public static final String TAG_DB = "dbHandler";
+    public static final String TAG_NOTIFICATION = "notfication";
 
     private static LogDBHandler dbHandler;
 
@@ -120,7 +121,7 @@ public class CustomLog {
             @Override
             public void run() {
                 LogDBHandler dbHandler = LogDBHandler.newInstance(context);
-                ArrayList<String[]> map = dbHandler.getAllLogs();
+                ArrayList<CustomLog> map = dbHandler.getAllLogs();
 
                 ArrayList<String> tags = new ArrayList<>();
                 ArrayList<String> values = new ArrayList<>();
@@ -128,32 +129,31 @@ public class CustomLog {
                 tags.add(XmlWriter.STARTTAG);
                 values.add("LosungenDebug");
                 for (int i = 0; i < map.size(); i++) {
-                    String key = String.valueOf(map.get(i)[0]);
-                    String value = String.valueOf(map.get(i)[1]);
+                    CustomLog log = map.get(i);
 
                     tags.add(XmlWriter.STARTTAG);
-                    values.add("Datumn");
+                    values.add("Datum");
                     tags.add(XmlWriter.TEXT);
-                    values.add(Losung.getDatumForXml(Long.valueOf(key)));
+                    values.add(Losung.getDatumForXml(log.date));
 
                     tags.add(XmlWriter.STARTTAG);
                     values.add("Level");
                     tags.add(XmlWriter.TEXT);
-                    values.add(value);
+                    values.add(String.valueOf(log.level));
                     tags.add(XmlWriter.ENDTAG);
                     values.add("Level");
 
                     tags.add(XmlWriter.STARTTAG);
                     values.add("Tag");
                     tags.add(XmlWriter.TEXT);
-                    values.add(value);
+                    values.add(log.tag);
                     tags.add(XmlWriter.ENDTAG);
                     values.add("Tag");
 
                     tags.add(XmlWriter.STARTTAG);
                     values.add("Content");
                     tags.add(XmlWriter.TEXT);
-                    values.add(value);
+                    values.add(log.content);
                     tags.add(XmlWriter.ENDTAG);
                     values.add("Content");
 
