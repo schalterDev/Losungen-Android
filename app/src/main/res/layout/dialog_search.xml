@@ -25,7 +25,8 @@
         android:layout_toRightOf="@+id/textView_title"
         android:layout_toEndOf="@+id/textView_title"
         android:layout_marginStart="3dp"
-        android:hint="@string/suchen_dialog_hint" />
+        android:hint="@string/suchen_dialog_hint"
+        android:layout_marginLeft="3dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -66,7 +67,8 @@
         android:layout_toRightOf="@+id/checkBox_losungsverse"
         android:layout_toEndOf="@+id/checkBox_losungsverse"
         android:layout_marginStart="5dp"
-        android:checked="true" />
+        android:checked="true"
+        android:layout_marginLeft="5dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
