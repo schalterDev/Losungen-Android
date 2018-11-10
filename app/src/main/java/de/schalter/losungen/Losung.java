@@ -142,11 +142,18 @@ public class Losung {
 
         String dateString = df.format(date);
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(dateString);
-        stringBuilder.append("T00:00:00");
+        return dateString +
+                "T00:00:00";
+    }
 
-        return stringBuilder.toString();
+    public static String getFullDateForXml(long time) {
+        //2016-01-01T00:00:00
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        Date date = calendar.getTime();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd:kk:mm:ss");
+
+        return df.format(date);
     }
 
     public static void shareLosung(Losung losung, Context context) {

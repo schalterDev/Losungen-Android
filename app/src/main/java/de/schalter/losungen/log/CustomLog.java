@@ -134,7 +134,7 @@ public class CustomLog {
                     tags.add(XmlWriter.STARTTAG);
                     values.add("Datum");
                     tags.add(XmlWriter.TEXT);
-                    values.add(Losung.getDatumForXml(log.date));
+                    values.add(Losung.getFullDateForXml(log.date));
 
                     tags.add(XmlWriter.STARTTAG);
                     values.add("Level");

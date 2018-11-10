@@ -19,6 +19,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -158,15 +159,20 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         });
 
         setupSimplePreferencesScreen();
+    }
 
-        Preference exportLogPreference = (Preference) findPreference(Tags.PREF_LOG_EXPORT);
-        exportLogPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                CustomLog.exportLog(SettingsActivity.this);
-                return true;
-            }
-        });
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+                                         Preference preference){
+        String key = preference.getKey();
+
+        if (key.equals(Tags.PREF_LOG_EXPORT)) {
+            CustomLog.exportLog(SettingsActivity.this);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
