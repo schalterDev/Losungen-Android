@@ -58,10 +58,11 @@ public class Notifications extends Service {
     public static void setNotifications(Context context, long time) {
         CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Set Notification with time: " + time));
 
-        Intent intent = new Intent(context, Notifications.class);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setAction(AlarmReceiver.SHOW_NOTIFICATION);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         int hourOfDay = (int) (time / 1000 / 60 / 60);
         int minute = (int) ((time - (1000 * 60 * 60 *hourOfDay)) / 1000 / 60);
