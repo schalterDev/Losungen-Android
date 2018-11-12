@@ -65,6 +65,7 @@
             android:enabled="true">
             <intent-filter>
                 <action android:name="de.schalter.losungen.show_notificaiton" />
+                <action android:name="de.scahlter.losungen.download_audio" />
             </intent-filter>
         </receiver>
 
@@ -84,12 +85,14 @@
         </receiver>
 
         <service
+            android:name=".services.AudioDownloadService"
+            android:enabled="true" />
+        <service
             android:name=".services.Notifications"
             android:enabled="true" />
         <service
             android:name=".services.DownloadNotificationHelper"
-            android:enabled="true"
-            />
+            android:enabled="true" />
         <service
             android:name="schalter.dev.mediaplayer_library.AudioService"
             android:enabled="true" />

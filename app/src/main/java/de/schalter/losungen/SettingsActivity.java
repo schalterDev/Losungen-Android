@@ -43,6 +43,7 @@ import java.util.Locale;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.files.Files;
 import de.schalter.losungen.log.CustomLog;
+import de.schalter.losungen.services.AudioDownloadService;
 import de.schalter.losungen.services.Notifications;
 import de.schalter.losungen.settings.Tags;
 import schalter.dev.customizelibrary.Colors;
@@ -281,17 +282,24 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         if(key.equals(Tags.PREF_NOTIFICATION)
-                || key.equals(Tags.PREF_NOTIFICATIONTIME)
-                || key.equals(Tags.PREF_AUDIO_AUTODOWNLOAD)) {
+                || key.equals(Tags.PREF_NOTIFICATIONTIME)) {
 
-            if(sharedPreferences.getBoolean(Tags.PREF_NOTIFICATION, true)
-                    || sharedPreferences.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, true)) {
+            if(sharedPreferences.getBoolean(Tags.PREF_NOTIFICATION, true)) {
 
                 //Set time for notification or sermon download
                 long time = sharedPreferences.getLong(Tags.PREF_NOTIFICATIONTIME, 60 * 7);
                 Notifications.setNotifications(this, time * 60 * 1000);
             } else
                 Notifications.removeNotifications(this);
+        }
+
+        if (key.equals(Tags.PREF_AUDIO_AUTODOWNLOAD)) {
+            boolean autoDownload = sharedPreferences.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, true);
+            if (autoDownload) {
+                AudioDownloadService.scheduleAutoDownload(this);
+            } else {
+                AudioDownloadService.cancleAutoDownload(this);
+            }
         }
 
         //Language change

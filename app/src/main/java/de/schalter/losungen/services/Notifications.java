@@ -24,7 +24,6 @@ import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.log.CustomLog;
-import de.schalter.losungen.network.Network;
 import de.schalter.losungen.settings.Tags;
 
 /**
@@ -58,11 +57,8 @@ public class Notifications extends Service {
     public static void setNotifications(Context context, long time) {
         CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Set Notification with time: " + time));
 
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.setAction(AlarmReceiver.SHOW_NOTIFICATION);
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent pendingIntent = getPendingIntentForNotification(context);
 
         int hourOfDay = (int) (time / 1000 / 60 / 60);
         int minute = (int) ((time - (1000 * 60 * 60 *hourOfDay)) / 1000 / 60);
@@ -78,15 +74,19 @@ public class Notifications extends Service {
     }
 
     public static void removeNotifications(Context context) {
-        Intent intent = new Intent(context, Notifications.class);
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        PendingIntent pendingIntent =getPendingIntentForNotification(context);
 
         alarmManager.cancel(pendingIntent);
 
         CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Notifications canceled"));
         Log.i("Losungen", "Notifications removed");
+    }
+
+    private static PendingIntent getPendingIntentForNotification(Context context) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setAction(AlarmReceiver.SHOW_NOTIFICATION);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
     private void showNotification(Context context, String titel, String msg, long datum) {
@@ -225,24 +225,6 @@ public class Notifications extends Service {
                         }
                     }
                 }
-
-                //Download AUDIO
-                boolean autoDownloadAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, false);
-                if(autoDownloadAudio) {
-                    boolean wifiConnected = Tags.isWifiConnected(getApplicationContext());
-                    boolean mobileConnected = Tags.isMobileConnected(getApplicationContext());
-
-                    int network = Integer.valueOf(settings.getString(Tags.PREF_AUDIO_AUTODOWNLOAD_NETWORK, "0"));
-                    //network: 0 (only wifi), 1 (all)
-                    if(wifiConnected) {
-                        //Wifi enabled
-                        Network.downloadSermon(context, null);
-                    } else if(mobileConnected && network == 1) {
-                        //Wifi not enabled but user allows to download with mobile internet
-                        Network.downloadSermon(context, null);
-                    }
-                }
-                break;
             }
         }
 

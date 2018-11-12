@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import de.schalter.losungen.changelog.Changelog;
 import de.schalter.losungen.dialogs.ImportLosungenDialog;
+import de.schalter.losungen.services.AudioDownloadService;
 import de.schalter.losungen.services.Notifications;
 import de.schalter.losungen.settings.Tags;
 
@@ -71,9 +72,13 @@ public class NewVersion {
     private static void v42SetupAlarmForNotification(Context context) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         boolean showNotifications = settings.getBoolean(Tags.PREF_NOTIFICATION, true);
+        boolean autoDownload = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, true);
         long timeNotifications = settings.getLong(Tags.PREF_NOTIFICATIONTIME, 60 * 7);
         if (showNotifications) {
             Notifications.setNotifications(context, timeNotifications * 60 *1000);
+        }
+        if (autoDownload) {
+            AudioDownloadService.scheduleAutoDownload(context);
         }
     }
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 public class AlarmReceiver extends BroadcastReceiver {
 
     public static String SHOW_NOTIFICATION = "de.schalter.losungen.show_notificaiton";
+    public static String DOWNLOAD_AUDIO = "de.scahlter.losungen.download_audio";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -15,6 +16,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (action != null && action.equals(SHOW_NOTIFICATION)) {
             Intent intentNotification = new Intent(context, Notifications.class);
             context.startService(intentNotification);
+        } else if (action != null && action.equals(DOWNLOAD_AUDIO)) {
+            Intent intentService = new Intent(context, AudioDownloadService.class);
+            context.startService(intentService);
         }
     }
 }

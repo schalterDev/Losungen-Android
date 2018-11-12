@@ -27,7 +27,6 @@ import de.schalter.losungen.files.XmlWriter;
  */
 
 public class CustomLog {
-
     private static final int FILE_CODE = 65;
 
     private String tag;
@@ -44,6 +43,7 @@ public class CustomLog {
 
     public static final String TAG_DB = "dbHandler";
     public static final String TAG_NOTIFICATION = "notfication";
+    public static final String TAG_AUDIO_DOWNLOAD = "audio-download";
 
     private static LogDBHandler dbHandler;
 
