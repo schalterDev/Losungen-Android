@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
+import android.os.Build;
 
 import java.util.Calendar;
 
@@ -19,7 +20,7 @@ import de.schalter.losungen.settings.Tags;
 public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String SHOW_NOTIFICATION = "de.schalter.losungen.show_notificaiton";
-    public static final String DOWNLOAD_AUDIO = "de.scahlter.losungen.download_audio";
+    public static final String DOWNLOAD_AUDIO = "de.schalter.losungen.download_audio";
 
     public static final String NOTIFICATION_SHARE = "SHARE";
     public static final String NOTIFICATION_SHARE_MESSAGE = "message";
@@ -51,13 +52,49 @@ public class AlarmReceiver extends BroadcastReceiver {
                     showNotificationInitial();
                     break;
                 case DOWNLOAD_AUDIO:
-                    Intent intentService = new Intent(context, AudioDownloadService.class);
-                    context.startService(intentService);
+                    checkForConnectivityAndDownload();
                     break;
             }
         }
     }
 
+    private void checkForConnectivityAndDownload() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+
+        //Download AUDIO
+        boolean autoDownloadAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, false);
+        if(autoDownloadAudio) {
+            boolean wifiConnected = Tags.isWifiConnected(context);
+            boolean mobileConnected = Tags.isMobileConnected(context);
+
+            int network = Integer.valueOf(settings.getString(Tags.PREF_AUDIO_AUTODOWNLOAD_NETWORK, "0"));
+            //network: 0 (only wifi), 1 (all)
+            if(wifiConnected) {
+                //Wifi enabled
+                downloadAudio();
+            } else if(mobileConnected && network == 1) {
+                //Wifi not enabled but user allows to download with mobile internet
+                downloadAudio();
+            } else {
+                AudioDownloadService.setupJobSchedulerWhenWifiConnected(context);
+            }
+        }
+    }
+
+    private void downloadAudio() {
+        Intent intentService = new Intent(context.getApplicationContext(), AudioDownloadService.class);
+        intentService.setAction(AudioDownloadService.ACTION_START_DOWNLOAD);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intentService);
+        } else {
+            context.startService(intentService);
+        }
+    }
+
+    /**
+     * Do not move this out of the broadcast receiver. Otherwise a service is needed and
+     * in Android >= O only foreground services are allowed
+     */
     private void showNotificationInitial() {
         DBHandler dbHandler = DBHandler.newInstance(context);
         Calendar calendar = Calendar.getInstance();
