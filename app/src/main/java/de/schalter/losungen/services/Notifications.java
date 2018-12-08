@@ -1,47 +1,45 @@
 package de.schalter.losungen.services;
 
 import android.app.AlarmManager;
+import android.app.IntentService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.log.CustomLog;
-import de.schalter.losungen.network.Network;
 import de.schalter.losungen.settings.Tags;
+
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_MARK;
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_MARK_DATE;
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_SHARE;
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_SHARE_MESSAGE;
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_SHARE_TITLE;
 
 /**
  * Created by marti on 31.10.2015.
  */
-public class Notifications extends Service {
+public class Notifications extends IntentService {
 
-    public static final String NOTIFICATION_CHANNEL_ID = "Losungen";
+    static final String NOTIFICATION_CHANNEL_ID = "Losungen";
     private static final String NOTIFICATION_CHANNEL_NAME = "Losungen";
     private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "Daily notifications";
     private static final int NOTIFICATION_ID = 241504;
 
-    public Notifications() {
-        super();
-    }
-
-    public static void createDailyNotificationChannel(Context context) {
+    static void createDailyNotificationChannel(Context context) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -58,10 +56,8 @@ public class Notifications extends Service {
     public static void setNotifications(Context context, long time) {
         CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Set Notification with time: " + time));
 
-        Intent intent = new Intent(context, Notifications.class);
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        PendingIntent pendingIntent = getPendingIntentForNotification(context);
 
         int hourOfDay = (int) (time / 1000 / 60 / 60);
         int minute = (int) ((time - (1000 * 60 * 60 *hourOfDay)) / 1000 / 60);
@@ -77,10 +73,8 @@ public class Notifications extends Service {
     }
 
     public static void removeNotifications(Context context) {
-        Intent intent = new Intent(context, Notifications.class);
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        PendingIntent pendingIntent =getPendingIntentForNotification(context);
 
         alarmManager.cancel(pendingIntent);
 
@@ -88,7 +82,13 @@ public class Notifications extends Service {
         Log.i("Losungen", "Notifications removed");
     }
 
-    private void showNotification(Context context, String titel, String msg, long datum) {
+    private static PendingIntent getPendingIntentForNotification(Context context) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setAction(AlarmReceiver.SHOW_NOTIFICATION);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
+    }
+
+    static void showNotification(Context context, String titel, String msg, long datum) {
         Notifications.createDailyNotificationChannel(context);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
@@ -97,27 +97,27 @@ public class Notifications extends Service {
         editor.apply();
 
         NotificationManager mNotificationManager = (NotificationManager)
-                this.getSystemService(Context.NOTIFICATION_SERVICE);
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+                new Intent(context, MainActivity.class), 0);
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setSmallIcon(R.drawable.ic_notification)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_launcher))
                         .setContentTitle(titel)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setContentText(msg)
                         .setAutoCancel(true)
                         .addAction(R.drawable.ic_action_share,
-                                getResources().getString(R.string.share),
-                                getPendingAction(this, "SHARE", msg, titel))
+                                context.getResources().getString(R.string.share),
+                                getPendingActionShare(context, msg, titel))
                         .addAction(R.drawable.ic_action_star,
-                                getResources().getString(R.string.mark_favorite),
-                                getPendingAction(this, "MARK", datum));
+                                context.getResources().getString(R.string.mark_favorite),
+                                getPendingActionMark(context, datum));
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
@@ -125,126 +125,73 @@ public class Notifications extends Service {
         CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Show notification"));
     }
 
-    private PendingIntent getPendingAction(Context context, String action, String losung, String title) {
+    private static PendingIntent getPendingActionShare(Context context, String losung, String title) {
         Intent intent = new Intent(context, Notifications.class);
-        intent.putExtra("losung", losung);
-        intent.putExtra("title", title);
-        intent.setAction(action);
+        intent.putExtra(NOTIFICATION_SHARE_MESSAGE, losung);
+        intent.putExtra(NOTIFICATION_SHARE_TITLE, title);
+        intent.setAction(NOTIFICATION_SHARE);
 
         return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private PendingIntent getPendingAction(Context context, String action,long datum) {
+    private static PendingIntent getPendingActionMark(Context context, long datum) {
         Intent intent = new Intent(context, Notifications.class);
-        intent.putExtra("datum", datum);
-        intent.setAction(action);
+        intent.putExtra(NOTIFICATION_MARK_DATE, datum);
+        intent.setAction(NOTIFICATION_MARK);
 
         return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    private Context context;
+
+    public Notifications() {
+        super(Notifications.class.getSimpleName());
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        CustomLog.writeToLog(this, new CustomLog(
-                CustomLog.DEBUG,
-                CustomLog.TAG_NOTIFICATION,
-                "Started service with action: " + intent.getAction()
-        ));
-
-        Context context = getApplicationContext();
-
+    protected void onHandleIntent(Intent intent) {
         String action = intent.getAction();
-        if(action == null)
-            action = "";
 
-        switch (action) {
-            case "SHARE":
-                String msg = intent.getStringExtra("losung");
-                String title = intent.getStringExtra("title");
+        CustomLog.writeToLog(
+                context,
+                new CustomLog(
+                        CustomLog.DEBUG,
+                        CustomLog.TAG_NOTIFICATION,
+                        "Started intent service with action: " + action
+                )
+        );
 
-                Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-                this.sendBroadcast(it);
+        if (action != null) {
+            this.context = getApplicationContext();
 
-                MainActivity.share(this, title, msg);
-                break;
-            case "MARK": {
-                long datum = intent.getLongExtra("datum", 0);
-                DBHandler dbHandler = DBHandler.newInstance(this);
-                dbHandler.setMarkiert(datum);
-
-                Intent intentClose = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-                this.sendBroadcast(intentClose);
-
-                MainActivity.toast(this, getResources().getString(R.string.add_fav), Toast.LENGTH_SHORT);
-                break;
-            }
-            default: {
-
-                DBHandler dbHandler = DBHandler.newInstance(this);
-                Calendar calendar = Calendar.getInstance();
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-                boolean showNotification = settings.getBoolean(Tags.PREF_NOTIFICATION, true);
-
-                //Show Notification
-                if(showNotification) {
-                    Losung losung = dbHandler.getLosung(calendar.getTimeInMillis());
-
-                    if (!losung.getLosungstext().equals(getResources().getString(R.string.no_date))) {
-                        switch (settings.getInt(Tags.PREF_NOTIFICATIONART, Tags.LOSUNG_UND_LEHRTEXT_NOTIFICATION)) {
-                            case Tags.LOSUNG_NOTIFICATION:
-                                showNotification(context, getResources().getString(R.string.losung),
-                                        losung.getLosungstext() + System.getProperty("line.separator") + losung.getLosungsvers(),
-                                        losung.getDate());
-                                break;
-
-                            case Tags.LEHRTEXT_NOTIFICATION:
-                                showNotification(context, getResources().getString(R.string.lehrtext),
-                                        losung.getLehrtext() + System.getProperty("line.separator") + losung.getLehrtextVers(),
-                                        losung.getDate());
-                                break;
-
-                            case Tags.LOSUNG_UND_LEHRTEXT_NOTIFICATION:
-                                showNotification(context, getResources().getString(R.string.losungen),
-                                        losung.getLosungstext() + System.getProperty("line.separator") + losung.getLosungsvers() +
-                                                System.getProperty("line.separator") + System.getProperty("line.separator") +
-                                                losung.getLehrtext() + System.getProperty("line.separator") + losung.getLehrtextVers(),
-                                        losung.getDate());
-                                break;
-                        }
-                    }
-                }
-
-                //Download AUDIO
-                boolean autoDownloadAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, false);
-                if(autoDownloadAudio) {
-                    boolean wifiConnected = Tags.isWifiConnected(getApplicationContext());
-                    boolean mobileConnected = Tags.isMobileConnected(getApplicationContext());
-
-                    int network = Integer.valueOf(settings.getString(Tags.PREF_AUDIO_AUTODOWNLOAD_NETWORK, "0"));
-                    //network: 0 (only wifi), 1 (all)
-                    if(wifiConnected) {
-                        //Wifi enabled
-                        Network.downloadSermon(context, null);
-                    } else if(mobileConnected && network == 1) {
-                        //Wifi not enabled but user allows to download with mobile internet
-                        Network.downloadSermon(context, null);
-                    }
-                }
-                break;
+            switch (action) {
+                case NOTIFICATION_MARK:
+                    markNotification(intent.getLongExtra(NOTIFICATION_MARK_DATE, System.currentTimeMillis()));
+                    break;
+                case NOTIFICATION_SHARE:
+                    shareNotification(
+                            intent.getStringExtra(NOTIFICATION_SHARE_MESSAGE),
+                            intent.getStringExtra(NOTIFICATION_SHARE_TITLE));
+                    break;
             }
         }
+    }
 
-        return START_NOT_STICKY;
+    private void shareNotification(String message, String title) {
+        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        context.sendBroadcast(it);
+
+        MainActivity.share(context, title, message);
+    }
+
+    private void markNotification(long date) {
+        DBHandler dbHandler = DBHandler.newInstance(context);
+        dbHandler.setMarkiert(date);
+
+        Intent intentClose = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        context.sendBroadcast(intentClose);
+
+        MainActivity.toast(context, context.getResources().getString(R.string.add_fav), Toast.LENGTH_SHORT);
+
     }
 }

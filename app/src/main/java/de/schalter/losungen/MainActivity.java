@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
@@ -57,6 +59,7 @@ import de.schalter.losungen.fragments.FragmentMonth;
 import de.schalter.losungen.fragments.FragmentWidgets;
 import de.schalter.losungen.intro.MyIntro;
 import de.schalter.losungen.log.CustomLog;
+import de.schalter.losungen.services.NetworkChangeReceiver;
 import de.schalter.losungen.services.WidgetBroadcast;
 import de.schalter.losungen.settings.Tags;
 import de.schalter.losungen.versionUpdates.NewVersion;
@@ -99,7 +102,18 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         }
     }
 
-    private void deleteOldAudios() {
+    private void setupDownloadedAudios() {
+        // deactivate network change broadcast receiver for android >= 5
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            PackageManager packageManager = this.getPackageManager();
+            ComponentName componentName = new ComponentName(this, NetworkChangeReceiver.class);
+            packageManager.setComponentEnabledSetting(
+                    componentName,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP);
+        }
+
+        // delete old audios
         Thread delteAudios = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -146,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements FragmentMonth.Cal
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         loadLanguage();
         NewVersion.checkForNewVersion(this);
-        deleteOldAudios();
+        setupDownloadedAudios();
 
         setContentView(R.layout.activity_main);
 

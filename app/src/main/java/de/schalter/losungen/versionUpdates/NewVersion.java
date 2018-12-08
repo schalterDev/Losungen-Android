@@ -1,20 +1,30 @@
 package de.schalter.losungen.versionUpdates;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import de.schalter.losungen.changelog.Changelog;
 import de.schalter.losungen.dialogs.ImportLosungenDialog;
+import de.schalter.losungen.services.AudioDownloadService;
+import de.schalter.losungen.services.Notifications;
 import de.schalter.losungen.settings.Tags;
 
 public class NewVersion {
 
     public static void checkForNewVersion(Context context) {
-        v27UpdateOldWrongWeeklyWords(context);
+        int oldVersion = Changelog.getOldVersion(context, Tags.PREF_VERSIONCODE);
+        if (oldVersion < 27) {
+            v27UpdateOldWrongWeeklyWords(context);
+        }
+        if (oldVersion < 42) {
+            v42SetupAlarmForNotification(context);
+        }
 
         final Changelog changelog = new Changelog(context);
 
@@ -54,12 +64,21 @@ public class NewVersion {
         }
     }
 
-    // ----------------- VERSION < 27 ---------------------
-
     private static void v27UpdateOldWrongWeeklyWords(Context context) {
-        if(Changelog.getOldVersion(context, Tags.PREF_VERSIONCODE) < 27) {
-            //update wekkly words
-            ImportLosungenDialog.reimportWeekThisYear(context);
+        //update wekkly words
+        ImportLosungenDialog.reimportWeekThisYear(context);
+    }
+
+    private static void v42SetupAlarmForNotification(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean showNotifications = settings.getBoolean(Tags.PREF_NOTIFICATION, true);
+        boolean autoDownload = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, true);
+        long timeNotifications = settings.getLong(Tags.PREF_NOTIFICATIONTIME, 60 * 7);
+        if (showNotifications) {
+            Notifications.setNotifications(context, timeNotifications * 60 *1000);
+        }
+        if (autoDownload) {
+            AudioDownloadService.scheduleAutoDownload(context);
         }
     }
 }

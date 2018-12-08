@@ -4,6 +4,12 @@
     package="de.schalter.losungen"
     android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -61,11 +67,12 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
-        <receiver
-            android:name=".services.BootBroadcast"
-            android:enabled="true" >
+        <receiver android:name=".services.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="de.schalter.losungen.show_notificaiton" />
+                <action android:name="de.scahlter.losungen.download_audio" />
             </intent-filter>
         </receiver>
 
@@ -85,21 +92,17 @@
         </receiver>
 
         <service
+            android:name=".services.AudioDownloadService"
+            android:enabled="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
             android:name=".services.Notifications"
             android:enabled="true" />
         <service
             android:name=".services.DownloadNotificationHelper"
-            android:enabled="true"
-            />
+            android:enabled="true" />
         <service
             android:name="schalter.dev.mediaplayer_library.AudioService"
             android:enabled="true" />
     </application>
-
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
 </manifest>
