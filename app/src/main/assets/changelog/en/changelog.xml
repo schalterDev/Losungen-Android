@@ -1,5 +1,5 @@
 ﻿<XML>
-    <appversion version="42" versionNice="1.2.6">
+    <appversion version="43" versionNice="1.2.6.1">
         <change important="true">Added data for 2019</change>
         <change important="true">Improved notifications</change>
     </appversion>
