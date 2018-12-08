@@ -6,6 +6,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
@@ -70,7 +71,7 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="de.schalter.losungen.show_notification" />
+                <action android:name="de.schalter.losungen.show_notificaiton" />
                 <action android:name="de.scahlter.losungen.download_audio" />
             </intent-filter>
         </receiver>
@@ -92,7 +93,8 @@
 
         <service
             android:name=".services.AudioDownloadService"
-            android:enabled="true" />
+            android:enabled="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service
             android:name=".services.Notifications"
             android:enabled="true" />

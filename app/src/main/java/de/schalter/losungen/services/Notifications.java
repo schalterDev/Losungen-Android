@@ -17,24 +17,22 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import de.schalter.losungen.Losung;
 import de.schalter.losungen.MainActivity;
 import de.schalter.losungen.R;
 import de.schalter.losungen.files.DBHandler;
 import de.schalter.losungen.log.CustomLog;
 import de.schalter.losungen.settings.Tags;
 
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_MARK;
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_MARK_DATE;
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_SHARE;
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_SHARE_MESSAGE;
+import static de.schalter.losungen.services.AlarmReceiver.NOTIFICATION_SHARE_TITLE;
+
 /**
  * Created by marti on 31.10.2015.
  */
 public class Notifications extends IntentService {
-
-    public static final String NOTIFICATION_SHOW = "NOTIFICATION_SHOW";
-    public static final String NOTIFICATION_SHARE = "SHARE";
-    public static final String NOTIFICATION_SHARE_MESSAGE = "message";
-    public static final String NOTIFICATION_SHARE_TITLE = "title";
-    public static final String NOTIFICATION_MARK = "MARK";
-    public static final String NOTIFICATION_MARK_DATE = "date";
 
     static final String NOTIFICATION_CHANNEL_ID = "Losungen";
     private static final String NOTIFICATION_CHANNEL_NAME = "Losungen";
@@ -167,9 +165,6 @@ public class Notifications extends IntentService {
             this.context = getApplicationContext();
 
             switch (action) {
-                case NOTIFICATION_SHOW:
-                    showNotification();
-                    break;
                 case NOTIFICATION_MARK:
                     markNotification(intent.getLongExtra(NOTIFICATION_MARK_DATE, System.currentTimeMillis()));
                     break;
@@ -178,43 +173,6 @@ public class Notifications extends IntentService {
                             intent.getStringExtra(NOTIFICATION_SHARE_MESSAGE),
                             intent.getStringExtra(NOTIFICATION_SHARE_TITLE));
                     break;
-            }
-        }
-    }
-
-    private void showNotification() {
-        DBHandler dbHandler = DBHandler.newInstance(context);
-        Calendar calendar = Calendar.getInstance();
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-
-        boolean showNotification = settings.getBoolean(Tags.PREF_NOTIFICATION, true);
-
-        //Show Notification
-        if (showNotification) {
-            Losung losung = dbHandler.getLosung(calendar.getTimeInMillis());
-
-            if (!losung.getLosungstext().equals(context.getResources().getString(R.string.no_date))) {
-                switch (settings.getInt(Tags.PREF_NOTIFICATIONART, Tags.LOSUNG_UND_LEHRTEXT_NOTIFICATION)) {
-                    case Tags.LOSUNG_NOTIFICATION:
-                        Notifications.showNotification(context, context.getResources().getString(R.string.losung),
-                                losung.getLosungstext() + System.getProperty("line.separator") + losung.getLosungsvers(),
-                                losung.getDate());
-                        break;
-
-                    case Tags.LEHRTEXT_NOTIFICATION:
-                        Notifications.showNotification(context, context.getResources().getString(R.string.lehrtext),
-                                losung.getLehrtext() + System.getProperty("line.separator") + losung.getLehrtextVers(),
-                                losung.getDate());
-                        break;
-
-                    case Tags.LOSUNG_UND_LEHRTEXT_NOTIFICATION:
-                        Notifications.showNotification(context, context.getResources().getString(R.string.losungen),
-                                losung.getLosungstext() + System.getProperty("line.separator") + losung.getLosungsvers() +
-                                        System.getProperty("line.separator") + System.getProperty("line.separator") +
-                                        losung.getLehrtext() + System.getProperty("line.separator") + losung.getLehrtextVers(),
-                                losung.getDate());
-                        break;
-                }
             }
         }
     }

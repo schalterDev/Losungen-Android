@@ -1,59 +1,55 @@
 package de.schalter.losungen.services;
 
 import android.app.AlarmManager;
+import android.app.IntentService;
+import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.Service;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
+import de.schalter.losungen.R;
 import de.schalter.losungen.log.CustomLog;
 import de.schalter.losungen.network.Network;
-import de.schalter.losungen.settings.Tags;
 
-public class AudioDownloadService extends Service {
+public class AudioDownloadService extends IntentService {
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public static final String ACTION_START_DOWNLOAD = "START_DOWNLOAD";
+
+    private static final int JOB_ID = 125843;
+
+    public AudioDownloadService() {
+        super(AudioDownloadService.class.getSimpleName());
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        CustomLog.writeToLog(this, new CustomLog(
-                CustomLog.DEBUG,
-                CustomLog.TAG_AUDIO_DOWNLOAD,
-                "Started service for audio download with action: " + intent.getAction()
-        ));
+    public static void setupJobSchedulerWhenWifiConnected(Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
-        Context context = getApplicationContext();
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            JobInfo.Builder jobBuilder = new JobInfo.Builder(
+                    JOB_ID,
+                    new ComponentName(context.getPackageName(), AudioDownloadService.class.getName())
+            );
+            jobBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
+            jobBuilder.setPersisted(true);
 
-        //Download AUDIO
-        boolean autoDownloadAudio = settings.getBoolean(Tags.PREF_AUDIO_AUTODOWNLOAD, false);
-        if(autoDownloadAudio) {
-            boolean wifiConnected = Tags.isWifiConnected(getApplicationContext());
-            boolean mobileConnected = Tags.isMobileConnected(getApplicationContext());
-
-            int network = Integer.valueOf(settings.getString(Tags.PREF_AUDIO_AUTODOWNLOAD_NETWORK, "0"));
-            //network: 0 (only wifi), 1 (all)
-            if(wifiConnected) {
-                //Wifi enabled
-                Network.downloadSermon(context, null);
-            } else if(mobileConnected && network == 1) {
-                //Wifi not enabled but user allows to download with mobile internet
-                Network.downloadSermon(context, null);
-            }
+            jobScheduler.schedule(jobBuilder.build());
         }
-
-        return START_NOT_STICKY;
     }
 
     public static void scheduleAutoDownload(Context context) {
+        CustomLog.writeToLog(context, new CustomLog(
+                CustomLog.DEBUG,
+                CustomLog.TAG_AUDIO_DOWNLOAD,
+                "schedule auto download"
+        ));
+
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         int hourOfDay = 5;
@@ -79,5 +75,36 @@ public class AudioDownloadService extends Service {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction(AlarmReceiver.DOWNLOAD_AUDIO);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        CustomLog.writeToLog(this, new CustomLog(
+                CustomLog.DEBUG,
+                CustomLog.TAG_AUDIO_DOWNLOAD,
+                "Started service for audio download with action: " + intent.getAction()
+        ));
+
+        if (intent.getAction() != null && intent.getAction().equals(ACTION_START_DOWNLOAD)) {
+            this.startDownloadAsForeground();
+        } else {
+            // this is for jobscheduler
+            // TODO how to add action to intent of job scheduler
+            this.startDownloadAsForeground();
+        }
+    }
+
+    private void startDownloadAsForeground() {
+        Context context = getApplicationContext();
+
+        DownloadNotificationHelper downloadNotificationHelper = new DownloadNotificationHelper(
+                context,
+                R.string.download_ticker,
+                R.string.content_title);
+
+        Notification notification = downloadNotificationHelper.createNotification();
+        this.startForeground(DownloadNotificationHelper.NOTIFICATION_ID, notification);
+
+        Network.downloadSermon(context, null);
     }
 }

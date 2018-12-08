@@ -18,7 +18,7 @@ import de.schalter.losungen.R;
 public class DownloadNotificationHelper extends Service {
 
     private Context mContext;
-    private static final int NOTIFICATION_ID = 145611124;
+    public static final int NOTIFICATION_ID = 145611124;
     private Notification mNotification;
     private NotificationManager mNotificationManager;
     private PendingIntent mContentIntent;
@@ -49,7 +49,7 @@ public class DownloadNotificationHelper extends Service {
     /**
      * Put the notification into the status bar
      */
-    public void createNotification() {
+    public Notification createNotification() {
         Notifications.createDailyNotificationChannel(mContext);
 
         //get the notification manager
@@ -91,8 +91,7 @@ public class DownloadNotificationHelper extends Service {
         //make this notification appear in the 'Ongoing events' section
         mNotification.flags = Notification.FLAG_ONGOING_EVENT;
 
-        //show the notification
-        mNotificationManager.notify(NOTIFICATION_ID, mNotification);
+        return mNotification;
     }
 
     /**
@@ -103,7 +102,7 @@ public class DownloadNotificationHelper extends Service {
         //build up the new status message
         CharSequence contentText = percentageComplete + mContext.getString(R.string.content_text);
         //publish it to the status bar
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, Notifications.NOTIFICATION_CHANNEL_ID);
         //Pending intent for cancel button
         Intent intent = new Intent(mContext, DownloadNotificationHelper.class);
         intent.setAction("CANCEL");
@@ -157,7 +156,7 @@ public class DownloadNotificationHelper extends Service {
         String contentText = mContext.getResources().getString(R.string.error) + ": " + message;
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(mContext)
+                new NotificationCompat.Builder(mContext, Notifications.NOTIFICATION_CHANNEL_ID)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setSmallIcon(icon)
                         .setContentTitle(mContext.getResources().getString(R.string.error))
