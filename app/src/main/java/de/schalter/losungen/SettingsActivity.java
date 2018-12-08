@@ -160,6 +160,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         });
 
         setupSimplePreferencesScreen();
+
+        Preference exportLogPreference = (Preference) findPreference(Tags.PREF_LOG_EXPORT);
+        exportLogPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                CustomLog.exportLog(SettingsActivity.this);
+                return true;
+            }
+        });
     }
 
     @Override
