@@ -33,7 +33,7 @@ public class Tags {
     private static final String[] IMPORT_LIST_BE = {};
     private static final String[] IMPORT_LIST_BG = {};
 
-    private static final String[] DOWNLOAD_LIST_DE = {/*"---", "---",*/ "http://www.losungen.de/fileadmin/media-losungen/download/Losung_2017_XML.zip", "https://www.losungen.de/fileadmin/media-losungen/download/Losung_2018_XML.zip", "https://www.losungen.de/fileadmin/media-losungen/download/Losung_2019_XML.zip"};
+    private static final String[] DOWNLOAD_LIST_DE = {"https://www.losungen.de/fileadmin/media-losungen/download/Losung_2018_XML.zip", "https://www.losungen.de/fileadmin/media-losungen/download/Losung_2019_XML.zip"};
 
     public static final String[] SUPPORTED_LANGUAGES = {"en", "de", "nl"}; //Das gilt für die Strings.xml
     public static final String[] CHANGELOG_LANGUAGES = {"en", "de"};
