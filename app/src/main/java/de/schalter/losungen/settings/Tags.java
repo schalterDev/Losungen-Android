@@ -15,8 +15,8 @@ import java.util.Locale;
 public class Tags {
 
     //Für Losungen, Wochen und Monatssprüche
-    private static final String[] IMPORT_LIST_DE = {"2017", "2018"};
-    private static final String[] IMPORT_LIST_EN = {"2016", "2017", "2018"};
+    private static final String[] IMPORT_LIST_DE = {"2018", "2019"};
+    private static final String[] IMPORT_LIST_EN = {"2018", "2019"};
     private static final String[] IMPORT_LIST_ES = {"2015", "2016"};
     private static final String[] IMPORT_LIST_AR = {};
     private static final String[] IMPORT_LIST_FR = {"2015", "2016"};
@@ -33,7 +33,7 @@ public class Tags {
     private static final String[] IMPORT_LIST_BE = {};
     private static final String[] IMPORT_LIST_BG = {};
 
-    private static final String[] DOWNLOAD_LIST_DE = {/*"---", "---",*/ "http://www.losungen.de/fileadmin/media-losungen/download/Losung_2017_XML.zip", "https://www.losungen.de/fileadmin/media-losungen/download/Losung_2018_XML.zip"};
+    private static final String[] DOWNLOAD_LIST_DE = {"https://www.losungen.de/fileadmin/media-losungen/download/Losung_2018_XML.zip", "https://www.losungen.de/fileadmin/media-losungen/download/Losung_2019_XML.zip"};
 
     public static final String[] SUPPORTED_LANGUAGES = {"en", "de", "nl"}; //Das gilt für die Strings.xml
     public static final String[] CHANGELOG_LANGUAGES = {"en", "de"};
