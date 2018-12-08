@@ -1,5 +1,5 @@
 <XML>
-    <appversion version="42" versionNice="1.2.6">
+    <appversion version="43" versionNice="1.2.6.1">
         <change important="true">Jahr 2019 hinzugefügt. Kann unter "Import / Sprache ändern" importiert werden</change>
         <change important="true">Verbesserungen für Benachrichtigungen</change>
     </appversion>
