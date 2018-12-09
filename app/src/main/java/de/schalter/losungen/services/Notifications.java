@@ -54,7 +54,7 @@ public class Notifications extends IntentService {
     }
 
     public static void setNotifications(Context context, long time) {
-        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Set Notification with time: " + time));
+        // CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Set Notification with time: " + time));
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = getPendingIntentForNotification(context);
@@ -78,7 +78,7 @@ public class Notifications extends IntentService {
 
         alarmManager.cancel(pendingIntent);
 
-        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Notifications canceled"));
+        // CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Notifications canceled"));
         Log.i("Losungen", "Notifications removed");
     }
 
@@ -122,7 +122,7 @@ public class Notifications extends IntentService {
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
-        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Show notification"));
+//        CustomLog.writeToLog(context, new CustomLog(CustomLog.DEBUG, CustomLog.TAG_NOTIFICATION, "Show notification"));
     }
 
     private static PendingIntent getPendingActionShare(Context context, String losung, String title) {
@@ -152,14 +152,14 @@ public class Notifications extends IntentService {
     protected void onHandleIntent(Intent intent) {
         String action = intent.getAction();
 
-        CustomLog.writeToLog(
-                context,
-                new CustomLog(
-                        CustomLog.DEBUG,
-                        CustomLog.TAG_NOTIFICATION,
-                        "Started intent service with action: " + action
-                )
-        );
+//        CustomLog.writeToLog(
+//                context,
+//                new CustomLog(
+//                        CustomLog.DEBUG,
+//                        CustomLog.TAG_NOTIFICATION,
+//                        "Started intent service with action: " + action
+//                )
+//        );
 
         if (action != null) {
             this.context = getApplicationContext();
