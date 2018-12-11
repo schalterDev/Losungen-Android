@@ -1,11 +1,13 @@
 package de.schalter.losungen.services;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -17,8 +19,12 @@ import de.schalter.losungen.R;
  */
 public class DownloadNotificationHelper extends Service {
 
-    private Context mContext;
+    static final String NOTIFICATION_CHANNEL_ID = "download-sermons";
+    private static final String NOTIFICATION_CHANNEL_NAME = "Download sermon";
+    private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "Shows progress of downloads";
     public static final int NOTIFICATION_ID = 145611124;
+
+    private Context mContext;
     private Notification mNotification;
     private NotificationManager mNotificationManager;
     private PendingIntent mContentIntent;
@@ -33,6 +39,20 @@ public class DownloadNotificationHelper extends Service {
 
     private boolean error;
 
+    static void createNotificationChannel(Context context) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+            channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     public DownloadNotificationHelper(){
         super();
     }
@@ -44,6 +64,8 @@ public class DownloadNotificationHelper extends Service {
         this.resourceSubTitle = resourceSubTitle;
 
         error = false;
+
+        createNotificationChannel(context);
     }
 
     /**
@@ -75,12 +97,12 @@ public class DownloadNotificationHelper extends Service {
         PendingIntent pendingIntent =
                 PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, Notifications.NOTIFICATION_CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
         mNotification = builder.setContentIntent(mContentIntent)
                 .setSmallIcon(icon).setTicker(tickerText).setWhen(when)
                 .setAutoCancel(true).setContentTitle(mContentTitle)
                 .setContentText(contentText)
-                .setChannelId(Notifications.NOTIFICATION_CHANNEL_ID)
+                .setChannelId(NOTIFICATION_CHANNEL_ID)
                 /*.addAction(R.drawable.ic_action_cancel,
                         mContext.getResources().getString(R.string.cancel),
                         pendingIntent)*/
@@ -102,7 +124,7 @@ public class DownloadNotificationHelper extends Service {
         //build up the new status message
         CharSequence contentText = percentageComplete + mContext.getString(R.string.content_text);
         //publish it to the status bar
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, Notifications.NOTIFICATION_CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
         //Pending intent for cancel button
         Intent intent = new Intent(mContext, DownloadNotificationHelper.class);
         intent.setAction("CANCEL");
@@ -156,7 +178,7 @@ public class DownloadNotificationHelper extends Service {
         String contentText = mContext.getResources().getString(R.string.error) + ": " + message;
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(mContext, Notifications.NOTIFICATION_CHANNEL_ID)
+                new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setSmallIcon(icon)
                         .setContentTitle(mContext.getResources().getString(R.string.error))

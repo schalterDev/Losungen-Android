@@ -1,4 +1,7 @@
 <XML>
+    <appversion version="45" versionNice="1.2.6.3">
+        <change important="false">Kein Benachrichtigungston für Downloads und media player</change>
+    </appversion>
     <appversion version="43" versionNice="1.2.6.1">
         <change important="true">Jahr 2019 hinzugefügt. Kann unter "Import / Sprache ändern" importiert werden</change>
         <change important="true">Verbesserungen für Benachrichtigungen</change>

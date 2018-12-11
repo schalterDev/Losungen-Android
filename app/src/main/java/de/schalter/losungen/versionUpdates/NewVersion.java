@@ -1,5 +1,6 @@
 package de.schalter.losungen.versionUpdates;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -24,6 +25,9 @@ public class NewVersion {
         }
         if (oldVersion < 42) {
             v42SetupAlarmForNotification(context);
+        }
+        if (oldVersion < 44) {
+            v44RemoveNotificationChannel(context);
         }
 
         final Changelog changelog = new Changelog(context);
@@ -79,6 +83,15 @@ public class NewVersion {
         }
         if (autoDownload) {
             AudioDownloadService.scheduleAutoDownload(context);
+        }
+    }
+
+    private static void v44RemoveNotificationChannel(Context context) {
+        final String oldNotificationChannel = "audio-play";
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.deleteNotificationChannel(oldNotificationChannel);
         }
     }
 }
