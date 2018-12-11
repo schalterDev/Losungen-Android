@@ -1,4 +1,7 @@
 ﻿<XML>
+    <appversion version="45" versionNice="1.2.6.3">
+        <change important="false">No notification sound for downloads and media player</change>
+    </appversion>
     <appversion version="43" versionNice="1.2.6.1">
         <change important="true">Added data for 2019</change>
         <change important="true">Improved notifications</change>
