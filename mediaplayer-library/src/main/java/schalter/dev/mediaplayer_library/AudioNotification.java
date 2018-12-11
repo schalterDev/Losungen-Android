@@ -13,9 +13,9 @@ import android.widget.RemoteViews;
  */
 public class AudioNotification {
 
-    private static final String NOTIFICATION_CHANNEL_ID = "audio-play";
-    private static final String NOTIFICATION_CHANNEL_NAME = "Playing audio";
-    private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "playing audio for sermon";
+    private static final String NOTIFICATION_CHANNEL_ID = "play-audio";
+    private static final String NOTIFICATION_CHANNEL_NAME = "Play audio";
+    private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "playing audio for sermon and show controls as notification";
     private static int NOTIFICATION_ID = 8645156;
 
     private NotificationCompat.Builder mBuilder;
@@ -47,7 +47,7 @@ public class AudioNotification {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
             channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
             // Register the channel with the system; you can't change the importance
