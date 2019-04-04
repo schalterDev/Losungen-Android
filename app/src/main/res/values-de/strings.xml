@@ -76,7 +76,7 @@
     <string name="info_unterstuetzen_title">Wie kannst du diese App unterstützen?</string>
     <string name="info_unterstuetzen_content">Du bist total begeistert von der Losungs-App? Sie läuft reibungslos, erfüllt absolut ihren Zweck und sieht dabei auch noch ziemlich gut aus. Wenn das deine Meinung ist: Freut mich zu hören! Fühl dich frei diese App zu bewerten und ein Kommentar zu hinterlassen.\n\nEines meiner nächsten Ziele ist es, diese App in noch mehr Sprachen verfügbar zu Machen. Du kannst mich beim Erreichen dieses Zieles und weiterer zukünftiger Verbesserungen unterstützen. Das geht ganz einfach: Aktiviere einfach die Werbung für diese App. Vielen Dank!</string>
     <string name="info_entwickler_title">Über den Entwickler</string>
-    <string name="info_entwickler_content">Nach erfolgreichen Schulabschluss, machte ich mich zu einem Sozialen-Jahr im Ausland auf. Das bedeutet auch, dass ich ein Hobby-Programmierer bin. Das Entwickeln von Apps ist eine absolute Leidenschaft für mich. Es gibt aber eine Sache für mich, die wichtiger ist: Gott. Und seine Liebe. Uns persönlich zugesprochen durch Gottes Wort. Die Bibel. Mein letztes Projekt vereinte diese zwei Aspekte meines Lebens: Die Losungs App</string>
+    <string name="info_entwickler_content">Nach erfolgreichem Schulabschluss, machte ich mich zu einem Sozialen-Jahr im Ausland auf. Das bedeutet auch, dass ich ein Hobby-Programmierer bin. Das Entwickeln von Apps ist eine absolute Leidenschaft für mich. Es gibt aber eine Sache für mich, die wichtiger ist: Gott. Und seine Liebe. Uns persönlich zugesprochen durch Gottes Wort. Die Bibel. Mein letztes Projekt vereinte diese zwei Aspekte meines Lebens: Die Losungs App</string>
     <string name="info_more_questions">Falls du weitere Hinweise oder Verbesserungsvorschlägen hast: Schreib mir einfach. Ich freue mich darauf von euch zu hören.</string>
 
     <!-- INTRO -->
@@ -172,7 +172,7 @@
     <string name="open_in_browser_dialog">Öffne Verse im Browser (bibleserver.com)</string>
     <string name="open_verse">Öffne Verse in Quick-Bible oder Bibleserver</string>
     <string name="pref_custom_color">Ändere Farbe</string>
-    <string name="default_open_verses">Standart Aktion - Klick auf Vers</string>
+    <string name="default_open_verses">Standard Aktion - Klick auf Vers</string>
     <string name="open_in_always_ask">Immer nachfragen</string>
     <string name="pref_which_vers_summary">Losung / Lehrtext verstecken</string>
     <string name="pref_which_vers_title">Nur Losung bzw. Lehrtext anzeigen</string>

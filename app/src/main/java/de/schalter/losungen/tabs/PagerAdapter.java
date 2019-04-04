@@ -2,7 +2,6 @@ package de.schalter.losungen.tabs;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
