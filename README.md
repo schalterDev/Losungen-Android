@@ -1,5 +1,5 @@
 # Losungen-Android
 
-[![Build Status](https://jenkins.schalter-info.de/buildStatus/icon?job=Losungen/developement)](https://jenkins.schalter-info.de/job/Losungen/job/developement/)
+This is the old version of this app. A new version written in Kotlin is available here: [https://github.com/schalterDev/Losungen-Android-2](https://github.com/schalterDev/Losungen-Android-2)
 
 This app is an app to show every day two verses from the bible. 
